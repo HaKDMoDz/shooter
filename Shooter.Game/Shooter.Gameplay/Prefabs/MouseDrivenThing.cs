@@ -25,6 +25,7 @@ namespace Shooter.Gameplay.Prefabs
         {
             this.body = BodyFactory.CreateCircle(this.Engine.World, 1f, 1f);
             this.body.BodyType = BodyType.Dynamic;
+            this.body.IsBullet = true;
             this.joint = new FixedMouseJoint(this.body, Vector2.Zero);
             this.joint.MaxForce = 1000.0f * this.body.Mass;
 

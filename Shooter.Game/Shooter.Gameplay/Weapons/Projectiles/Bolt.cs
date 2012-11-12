@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
@@ -38,18 +39,20 @@ namespace Shooter.Gameplay.Weapons.Projectiles
 
         protected override void OnInitialize(ICollection<IDisposable> disposables)
         {
-            this.body = BodyFactory.CreateRectangle(this.Engine.World, 0.5f, 0.1f, 2f);
+            this.body = BodyFactory.CreateRectangle(this.Engine.World, 1.0f, 1.0f, 2f);
             this.body.BodyType = BodyType.Dynamic;
             this.body.IsBullet = true;
             this.body.UserData = this;
-            const Category collisionCatagory = Category.Cat31;
-            this.body.CollisionCategories = collisionCatagory;
-            this.body.CollidesWith = Category.All ^ collisionCatagory;
+            this.body.Enabled = false;
+            this.body.CollisionCategories = Category.Cat31;
+            this.body.CollidesWith = Category.All ^ Category.Cat31;
             disposables.Add(this.body);
         }
 
         protected override void OnAttach(ICollection<IDisposable> attachments)
         {
+            this.body.Enabled = true;
+            attachments.Add(Disposable.Create(() => this.body.Enabled = false));
             attachments.Add(this.body.OnCollisionAsObservable()
                                 .ObserveOn(this.Engine.UpdateScheduler)
                                 .Subscribe(this.OnCollision));

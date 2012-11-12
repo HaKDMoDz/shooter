@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Input;
 using Shooter.Core;
 using Shooter.Core.Farseer.Extensions;
 using Shooter.Core.Input;
+using Shooter.Gameplay.Powerups;
 using Shooter.Gameplay.Weapons;
 
 namespace Shooter.Gameplay
@@ -16,6 +17,7 @@ namespace Shooter.Gameplay
     {
         private Body body;
         private IFireable weapon;
+        private readonly List<IPowerup> powerups = new List<IPowerup>();
         private const float MaxLinearAcceleration = 250f;
 
         public Robot(Engine engine)
@@ -74,9 +76,20 @@ namespace Shooter.Gameplay
                                 .Select(x => (IFireable) x.FixtureB.Body.UserData)
                                 .Subscribe(this.SetFireable));
 
+            attachments.Add(this.body.OnCollisionAsObservable()
+                                .ObserveOn(this.Engine.PostPhysicsScheduler)
+                                .Select(x => x.FixtureB.Body.UserData as IPowerup)
+                                .Where(x => x != null)
+                                .Subscribe(this.CollectPowerup));
+
             attachments.Add(this.Engine.Updates
                                 .ObserveOn(this.Engine.PostPhysicsScheduler)
                                 .Subscribe(this.LinkPhysics));
+        }
+
+        private void CollectPowerup(IPowerup powerup)
+        {
+            this.powerups.Add(powerup);
         }
 
         private void UpdateInput(EngineTime time)
@@ -108,7 +121,18 @@ namespace Shooter.Gameplay
                 direction.Normalize();
             }
 
-            this.body.ApplyLinearImpulse(direction * MaxLinearAcceleration * time.Elapsed * this.body.Mass);
+            var attributes = new RobotAttributes();
+
+            powerups.RemoveAll((x) => x.ShouldRemove);
+
+            foreach (var powerup in powerups)
+            {
+                powerup.Process(attributes);
+            }
+
+            direction *= attributes.AccelerationFactor;
+
+            this.body.LinearVelocity += direction * MaxLinearAcceleration * time.Elapsed;
         }
 
         private void LinkPhysics(EngineTime time)

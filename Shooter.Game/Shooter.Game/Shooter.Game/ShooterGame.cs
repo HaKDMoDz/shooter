@@ -8,6 +8,7 @@ using Shooter.Core;
 using Shooter.Core.Input;
 using Shooter.Gameplay;
 using Shooter.Gameplay.Levels;
+using Shooter.Gameplay.Powerups;
 using Shooter.Gameplay.Prefabs;
 using Shooter.Gameplay.Weapons;
 
@@ -37,6 +38,13 @@ namespace Shooter.Application
         {
             this.engine = new Engine(this);
 
+            var speedBoost = new SpeedBoost(engine);
+
+            speedBoost.Initialize().Attach();
+
+            speedBoost.Position = Vector2.One * -10;
+
+
             new MainMenu(this.engine).Initialize().Attach();
             new SampleLevel(this.engine).Initialize().Attach();
             //new MouseDrivenThing(this.engine).Initialize().Attach();
@@ -52,12 +60,12 @@ namespace Shooter.Application
 
             var random = new Random((int) (DateTime.UtcNow.Ticks % int.MaxValue));
 
-            for (var i = 0; i < 200; i++)
+            for (var i = 0; i < 100; i++)
             {
                 var brick = (FlyingBrick) new FlyingBrick(this.engine).Initialize().Attach();
 
-                float x = (float) random.NextDouble() * 30 - 15;
-                float y = (float) random.NextDouble() * 30 - 15;
+                float x = (float) random.NextDouble() * 6 - 3;
+                float y = (float) random.NextDouble() * 6 - 3;
 
                 brick.Position = new Vector2(x, y);
             }

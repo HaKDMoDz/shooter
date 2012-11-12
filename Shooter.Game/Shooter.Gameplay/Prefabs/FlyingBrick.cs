@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using FarseerPhysics.Common.PhysicsLogic;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
@@ -30,11 +31,12 @@ namespace Shooter.Gameplay.Prefabs
 
         protected override void OnInitialize(ICollection<IDisposable> disposables)
         {
-            this.body = BodyFactory.CreateRectangle(this.Engine.World, 1f, 1.618f, 0.01f);
+            this.body = BodyFactory.CreateRectangle(this.Engine.World, 0.5f, 0.5f, 0.01f);
+            //this.body = BodyFactory.CreateCircle(this.Engine.World, 0.25f, 0.01f);
             this.body.BodyType = BodyType.Dynamic;
             this.body.Enabled = false;
 
-            this.body.LinearDamping = 1f;
+            this.body.LinearDamping = 10f;
             this.body.AngularDamping = 1f;
 
             disposables.Add(this.body);
@@ -68,9 +70,11 @@ namespace Shooter.Gameplay.Prefabs
 
         private void Explode(CollisionEventArgs args)
         {
-            var explosion = new FarseerPhysics.Common.PhysicsLogic.Explosion(this.Engine.World);
+            var explosion = new Explosion(this.Engine.World);
 
-            explosion.Activate(this.Position, 3f, 1000f);
+            explosion.MaxShapes = 10000;
+
+            explosion.Activate(this.Position, 10f, 1000f);
 
             this.Dispose();
         }

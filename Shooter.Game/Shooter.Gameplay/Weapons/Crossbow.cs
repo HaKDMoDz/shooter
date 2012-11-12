@@ -68,9 +68,9 @@ namespace Shooter.Gameplay.Weapons
 
             var direction = this.body.Rotation.RadiansToDirection();
 
-            newBolt.Velocity = direction * this.projectileSpeed;
+            newBolt.Velocity = direction * this.projectileSpeed + this.owner.LinearVelocity;
             newBolt.Rotation = this.body.Rotation;
-            newBolt.Position = this.body.Position + direction * 2;
+            newBolt.Position = this.body.Position + direction * 2f;
         }
 
         protected override void OnInitialize(ICollection<IDisposable> disposables)
