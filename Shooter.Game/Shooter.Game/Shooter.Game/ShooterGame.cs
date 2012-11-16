@@ -52,11 +52,17 @@ namespace Shooter.Application
             //new MouseDrivenThing(this.engine).Initialize().Attach();
             robot = new Robot(this.engine);
             robot.Initialize().Attach();
-            var crossbow = new Crossbow(this.engine);
+            var crossbow = new  Rocketlauncher(this.engine);
 
             crossbow.Initialize().Attach();
 
-            crossbow.Position = Vector2.One*10;
+            crossbow.Position = Vector2.One*15;
+
+            var crossbow2 = new Shotgun(this.engine);
+
+            crossbow2.Initialize().Attach();
+
+            crossbow2.Position = Vector2.One * 5;
 
             this.engine.Logger.Log("Hello, World!");
 

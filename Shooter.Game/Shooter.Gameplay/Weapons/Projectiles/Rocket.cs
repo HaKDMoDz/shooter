@@ -2,23 +2,20 @@
 using System.Collections.Generic;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using FarseerPhysics.Common.PhysicsLogic;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 using Shooter.Core;
 using Shooter.Core.Farseer.Extensions;
-using Shooter.Core.Input;
-using Shooter.Gameplay.Weapons.Projectiles;
+using FarseerPhysics.Common.PhysicsLogic;
 
-namespace Shooter.Gameplay.Prefabs
+namespace Shooter.Gameplay.Weapons.Projectiles
 {
-    public class FlyingBrick : GameObject
+    public class Rocket : GameObject
     {
         private Body body;
 
-        public FlyingBrick(Engine engine)
+        public Rocket(Engine engine)
             : base(engine)
         {
         }
@@ -29,15 +26,28 @@ namespace Shooter.Gameplay.Prefabs
             set { this.body.Position = value; }
         }
 
+        public Vector2 Velocity
+        {
+            get { return this.body.LinearVelocity; }
+            set { this.body.LinearVelocity = value; }
+        }
+
+        public float Rotation
+        {
+            get { return this.body.Rotation; }
+            set { this.body.Rotation = value; }
+        }
+
         protected override void OnInitialize(ICollection<IDisposable> disposables)
         {
-            this.body = BodyFactory.CreateRectangle(this.Engine.World, 1.0f, 1.0f, 0.01f);
-            this.body.BodyType = BodyType.Dynamic;
-            this.body.Enabled = false;
+            this.body = BodyFactory.CreateRectangle(this.Engine.World, 1.0f, 0.25f, 2f);
 
-            this.body.LinearDamping = 2f;
-            this.body.AngularDamping = 1f;
-            this.body.Restitution = 0.5f;
+            this.body.BodyType = BodyType.Dynamic;
+            this.body.IsBullet = true;
+            this.body.UserData = this;
+            this.body.Enabled = false;
+            this.body.CollisionCategories = Category.Cat31;
+            this.body.CollidesWith = Category.All ^ Category.Cat31;
 
             disposables.Add(this.body);
         }
@@ -45,27 +55,14 @@ namespace Shooter.Gameplay.Prefabs
         protected override void OnAttach(ICollection<IDisposable> attachments)
         {
             this.body.Enabled = true;
-            this.body.Awake = false;
-
             attachments.Add(Disposable.Create(() => this.body.Enabled = false));
-
-            attachments.Add(this.Engine.Keyboard.PressAsObservable(Keys.OemComma)
-                                .Select(x => 1.0f)
-                                .Subscribe(this.AngularImpulse));
-
-            attachments.Add(this.Engine.Keyboard.PressAsObservable(Keys.OemPeriod)
-                                .Select(x => -1.0f)
-                                .Subscribe(this.AngularImpulse));
-
-
+            attachments.Add(this.body.OnCollisionAsObservable()
+                                .Where(x => !x.FixtureB.IsSensor)
+                                .ObserveOn(this.Engine.UpdateScheduler)
+                                .Subscribe(this.OnCollision));
         }
 
-        private void AngularImpulse(float f)
-        {
-            this.body.AngularVelocity += f * 10;
-        }
-
-        private void Explode(CollisionEventArgs args)
+        private void OnCollision(CollisionEventArgs args)
         {
             var explosion = new Explosion(this.Engine.World);
 
