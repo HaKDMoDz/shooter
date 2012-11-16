@@ -14,6 +14,8 @@ namespace Shooter.Gameplay.Weapons.Projectiles
     {
         private Body body;
 
+        private DateTime timeToDelete;
+
         public Flame(Engine engine)
             : base(engine)
         {
@@ -39,30 +41,48 @@ namespace Shooter.Gameplay.Weapons.Projectiles
 
         protected override void OnInitialize(ICollection<IDisposable> disposables)
         {
-            this.body = BodyFactory.CreateCircle(this.Engine.World, 0.01f, 0.01f, 2f);
+            this.body = BodyFactory.CreateCircle(this.Engine.World, 0.01f, 0.01f, float.Epsilon);
 
             this.body.BodyType = BodyType.Dynamic;
             this.body.IsBullet = true;
             this.body.UserData = this;
             this.body.Enabled = false;
-            //this.body.CollisionCategories = Category.Cat31;
-            //this.body.CollidesWith = Category.All ^ Category.Cat31;
+            this.body.CollisionCategories = Category.Cat31;
+            this.body.CollidesWith = Category.All ^ Category.Cat31;
             disposables.Add(this.body);
         }
 
         protected override void OnAttach(ICollection<IDisposable> attachments)
         {
             this.body.Enabled = true;
+            var birth = DateTime.UtcNow;
+            this.timeToDelete = birth + TimeSpan.FromSeconds(1);
+
+
+
             attachments.Add(Disposable.Create(() => this.body.Enabled = false));
             attachments.Add(this.body.OnCollisionAsObservable()
                                 .Where(x => !x.FixtureB.IsSensor)
                                 .ObserveOn(this.Engine.UpdateScheduler)
                                 .Subscribe(this.OnCollision));
+
+            attachments.Add(this.Engine.Updates.ObserveOn(this.Engine.UpdateScheduler)
+                                .Subscribe(this.CheckLifetime));
         }
 
         private void OnCollision(CollisionEventArgs args)
         {
             this.Dispose();
+        }
+
+        private void CheckLifetime(EngineTime time)
+        {
+            var now = DateTime.UtcNow;
+
+            if (now > this.timeToDelete)
+            {
+                this.Dispose();
+            }
         }
     }
 }

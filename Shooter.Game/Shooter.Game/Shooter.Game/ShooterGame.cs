@@ -52,6 +52,7 @@ namespace Shooter.Application
             robot.Initialize().Attach();
             var crossbow = new Crossbow(this.engine);
             var pistol = new Pistol(this.engine);
+            var flamethrower = new Flamethrower(this.engine);
 
             //Crossbow Initialization
             crossbow.Initialize().Attach();
@@ -62,6 +63,11 @@ namespace Shooter.Application
             pistol.Initialize().Attach();
 
             pistol.Position = Vector2.One * 4;
+
+            //Flamethrower Initialization
+            flamethrower.Initialize().Attach();
+
+            flamethrower.Position = Vector2.One * 13;
 
             this.engine.Logger.Log("Hello, World!");
 
