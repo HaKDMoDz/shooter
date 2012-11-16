@@ -51,10 +51,17 @@ namespace Shooter.Application
             robot = new Robot(this.engine);
             robot.Initialize().Attach();
             var crossbow = new Crossbow(this.engine);
+            var pistol = new Pistol(this.engine);
 
+            //Crossbow Initialization
             crossbow.Initialize().Attach();
 
             crossbow.Position = Vector2.One*10;
+
+            //Pistol Intialization
+            pistol.Initialize().Attach();
+
+            pistol.Position = Vector2.One * 4;
 
             this.engine.Logger.Log("Hello, World!");
 

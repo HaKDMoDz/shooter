@@ -15,28 +15,28 @@ using System.Reactive;
 
 namespace Shooter.Gameplay.Weapons
 {
-    public class Crossbow : GameObject, IFireable
+    public class Pistol : GameObject, IFireable
     {
         private Body body;
-        private float projectileSpeed = 35f;
+        private float projectileSpeed = 50f;
         private Robot owner;
         public Vector2 Position { get { return this.body.Position; } set { this.body.Position = value; } }
 
         private Subject<Unit> fireRequests = new Subject<Unit>();
         private Subject<Unit> reloadRequests = new Subject<Unit>();
 
-        public int magazineSize = 200;
-
-        public int magazineCount = 200;
+        //Sets the time of last fired projectile.
         private DateTime lastFire = DateTime.MinValue;
 
-        public Crossbow(Engine engine)
+        //Basic Constructor
+        public Pistol(Engine engine)
             : base(engine)
         {
         }
 
         public IObserver<Unit> FireRequests { get { return this.fireRequests; } }
         public IObserver<Unit> ReloadRequests { get { return this.reloadRequests; } }
+
         //public void Reload()
         //{
         //}
@@ -45,17 +45,15 @@ namespace Shooter.Gameplay.Weapons
         //{
         //    var now = DateTime.UtcNow;
 
-        //    if (now - lastFire < TimeSpan.FromMilliseconds(75))
+        //    if (now - lastFire < TimeSpan.FromMilliseconds(500))
         //    {
         //        return;
         //    }
 
         //    lastFire = now;
 
-        //    magazineCount--;
-
         //    var newBolt = new Bolt(this.Engine);
-            
+
         //    newBolt.Initialize().Attach();
 
         //    var direction = this.body.Rotation.RadiansToDirection();
@@ -63,6 +61,7 @@ namespace Shooter.Gameplay.Weapons
         //    newBolt.Velocity = direction * this.projectileSpeed + this.owner.LinearVelocity;
         //    newBolt.Rotation = this.body.Rotation;
         //    newBolt.Position = this.body.Position + direction * 2f;
+
         //}
 
         protected override void OnInitialize(ICollection<IDisposable> disposables)
@@ -90,7 +89,7 @@ namespace Shooter.Gameplay.Weapons
             attachments.Add(this.body.OnCollisionAsObservable()
                                 .ObserveOn(this.Engine.PostPhysicsScheduler)
                                 .Where(x => this.owner == null && x.FixtureB.Body.UserData is Robot)
-                                .Select(x => (Robot) x.FixtureB.Body.UserData)
+                                .Select(x => (Robot)x.FixtureB.Body.UserData)
                                 .Subscribe(this.SetOwner));
         }
 

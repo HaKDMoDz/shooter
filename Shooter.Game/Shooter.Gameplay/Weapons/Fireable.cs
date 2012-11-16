@@ -1,3 +1,6 @@
+using System;
+using System.Reactive;
+using System.Reactive.Subjects;
 namespace Shooter.Gameplay.Weapons
 {
     public class Fireable
@@ -6,13 +9,11 @@ namespace Shooter.Gameplay.Weapons
 
         private class EmptyFireable : IFireable
         {
-            public void Fire()
-            {
-            }
+            private Subject<Unit> fireRequests = new Subject<Unit>();
+            private Subject<Unit> reloadRequests = new Subject<Unit>();
 
-            public void Reload()
-            {
-            }
+            public IObserver<Unit> FireRequests { get { return this.fireRequests; } }
+            public IObserver<Unit> ReloadRequests { get { return this.reloadRequests; } }
         }
     }
 }
