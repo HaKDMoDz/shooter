@@ -31,7 +31,7 @@ namespace Shooter.Gameplay.Weapons
         {
         }
 
-        public void Reload()
+        public void Reload(Unit unit)
         {
         }
 
@@ -82,6 +82,7 @@ namespace Shooter.Gameplay.Weapons
                                 .Subscribe(this.Update));
 
             disposables.Add(this.FireRequests.Subscribe(this.Fire));
+            disposables.Add(this.ReloadRequests.Subscribe(this.Reload));
         }
 
         protected override void OnAttach(ICollection<IDisposable> attachments)

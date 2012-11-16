@@ -13,7 +13,7 @@ using Shooter.Gameplay.Weapons.Projectiles;
 
 namespace Shooter.Gameplay.Weapons
 {
-    public class Rocketlauncher : GameObject, IFireable
+    public class Rocketlauncher : Weapon
     {
         private Body body;
         private float projectileSpeed = 30f;
