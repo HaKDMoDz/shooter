@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Linq;
 using System.Text;
 using FarseerPhysics.Dynamics;
@@ -30,11 +31,7 @@ namespace Shooter.Gameplay.Weapons
         {
         }
 
-        public void Reload()
-        {
-        }
-
-        public void Fire()
+        public void Fire(Unit unit)
         {
             var now = DateTime.UtcNow;
 
@@ -48,7 +45,7 @@ namespace Shooter.Gameplay.Weapons
             magazineCount--;
             Random random = RandomNum();
 
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 5; i++)
             {
                 var newFlame = new Flame(this.Engine);
                 newFlame.Initialize().Attach();
@@ -86,6 +83,14 @@ namespace Shooter.Gameplay.Weapons
                                 .ObserveOn(this.Engine.UpdateScheduler)
                                 .Where(x => this.owner != null)
                                 .Subscribe(this.Update));
+
+            disposables.Add(
+                this.FireRequests.Take(1)
+                    .Concat(
+                        Observable.Interval(TimeSpan.FromMilliseconds(100)).Take(1).Where(x => false).Select(
+                            x => Unit.Default))
+                    .Repeat()
+                    .Subscribe(this.Fire));
         }
 
         protected override void OnAttach(ICollection<IDisposable> attachments)

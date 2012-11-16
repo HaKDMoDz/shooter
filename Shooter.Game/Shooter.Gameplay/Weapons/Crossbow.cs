@@ -69,7 +69,13 @@ namespace Shooter.Gameplay.Weapons
                                 .Where(x => this.owner != null)
                                 .Subscribe(this.Update));
 
-            disposables.Add(this.FireRequests.Sample(TimeSpan.FromMilliseconds(250)).Subscribe(this.Fire));
+            disposables.Add(
+                this.FireRequests.Take(1)
+                    .Concat(
+                        Observable.Interval(TimeSpan.FromMilliseconds(250)).Take(1).Where(x => false).Select(x => Unit.Default))
+                    .Repeat()
+                    .Subscribe(this.Fire));
+
             //disposables.Add(this.ReloadRequests.Subscribe(this.Reload));
         }
 
