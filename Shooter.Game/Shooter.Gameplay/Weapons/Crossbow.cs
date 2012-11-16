@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Linq;
 using System.Text;
 using FarseerPhysics.Dynamics;
@@ -13,7 +14,7 @@ using Shooter.Gameplay.Weapons.Projectiles;
 
 namespace Shooter.Gameplay.Weapons
 {
-    public class Crossbow : GameObject, IFireable
+    public class Crossbow : Weapon
     {
         private Body body;
         private float projectileSpeed = 35f;
@@ -34,7 +35,7 @@ namespace Shooter.Gameplay.Weapons
         {
         }
 
-        public void Fire()
+        public void Fire(Unit unit)
         {
             var now = DateTime.UtcNow;
 
@@ -56,6 +57,10 @@ namespace Shooter.Gameplay.Weapons
             newBolt.Velocity = direction * this.projectileSpeed + this.owner.LinearVelocity;
             newBolt.Rotation = this.body.Rotation;
             newBolt.Position = this.body.Position + direction * 2f;
+
+            this.Fires.OnNext(Unit.Default);
+            const float kickbackForce = -10;
+            this.Kickbacks.OnNext(this.body.Rotation.RadiansToDirection() * kickbackForce);
         }
 
         protected override void OnInitialize(ICollection<IDisposable> disposables)
@@ -75,6 +80,8 @@ namespace Shooter.Gameplay.Weapons
                                 .ObserveOn(this.Engine.UpdateScheduler)
                                 .Where(x => this.owner != null)
                                 .Subscribe(this.Update));
+
+            disposables.Add(this.FireRequests.Subscribe(this.Fire));
         }
 
         protected override void OnAttach(ICollection<IDisposable> attachments)

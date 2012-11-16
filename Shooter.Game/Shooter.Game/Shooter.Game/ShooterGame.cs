@@ -31,6 +31,8 @@ namespace Shooter.Application
 
             this.IsMouseVisible = true;
 
+            this.Window.AllowUserResizing = true;
+
             GC.Collect();
         }
 
