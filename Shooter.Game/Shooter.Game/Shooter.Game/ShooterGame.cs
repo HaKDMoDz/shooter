@@ -44,8 +44,8 @@ namespace Shooter.Application
 
             speedBoost.Position = Vector2.One * -10;
 
-
             new MainMenu(this.engine).Initialize().Attach();
+            new Tiler(this.engine).Initialize().Attach();
             new SampleLevel(this.engine).Initialize().Attach();
             //new MouseDrivenThing(this.engine).Initialize().Attach();
             robot = new Robot(this.engine);
@@ -77,6 +77,9 @@ namespace Shooter.Application
         {
             var camera1 = new Camera();
             var camera2 = new Camera();
+
+            camera1.Zoom = 0.5f;
+            camera2.Zoom = 0.5f;
 
             new KeyboardCameraController(this.engine, camera1).Initialize().Attach();
             new RobotCameraController(this.engine, this.robot, camera2).Initialize().Attach();
@@ -144,7 +147,6 @@ namespace Shooter.Application
         {
             this.robot = robot;
             this.camera = camera;
-            this.camera.Zoom = 0.75f;
         }
 
         protected override void OnAttach(System.Collections.Generic.ICollection<IDisposable> attachments)

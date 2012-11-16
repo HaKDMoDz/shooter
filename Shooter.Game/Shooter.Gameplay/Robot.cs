@@ -18,7 +18,7 @@ namespace Shooter.Gameplay
         private Body body;
         private IFireable weapon;
         private readonly List<IPowerup> powerups = new List<IPowerup>();
-        private const float MaxLinearAcceleration = 250f;
+        private const float MaxLinearAcceleration = 100f;
 
         public Robot(Engine engine)
             : base(engine)
@@ -48,7 +48,7 @@ namespace Shooter.Gameplay
         {
             this.body = BodyFactory.CreateCircle(this.Engine.World, 1f, 1);
             this.body.BodyType = BodyType.Dynamic;
-            this.body.LinearDamping = 10f;
+            this.body.LinearDamping = 5f;
             this.body.UserData = this;
             this.body.FixedRotation = true;
 
@@ -62,7 +62,7 @@ namespace Shooter.Gameplay
                                 .Subscribe(this.UpdateInput));
 
             attachments.Add(this.Engine.Updates
-                                .ObserveOn(this.Engine.InputScheduler)
+                                .ObserveOn(this.Engine.PostPhysicsScheduler)
                                 .Where(x => this.Engine.Mouse.State.LeftButton == ButtonState.Pressed)
                                 .Subscribe(this.Fire));
 
@@ -121,7 +121,7 @@ namespace Shooter.Gameplay
                 direction.Normalize();
             }
 
-            var attributes = new RobotAttributes();
+            var attributes = new RobotTraits();
 
             powerups.RemoveAll((x) => x.ShouldRemove);
 
@@ -130,7 +130,7 @@ namespace Shooter.Gameplay
                 powerup.Process(attributes);
             }
 
-            direction *= attributes.AccelerationFactor;
+            direction *= attributes.AccelerationRate;
 
             this.body.LinearVelocity += direction * MaxLinearAcceleration * time.Elapsed;
         }

@@ -96,9 +96,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Powerups\IPowerup.cs" />
-    <Compile Include="Powerups\RobotAttributes.cs" />
+    <Compile Include="Powerups\RobotTraits.cs" />
     <Compile Include="Powerups\Shield.cs" />
     <Compile Include="Powerups\SpeedBoost.cs" />
+    <Compile Include="Tiler.cs" />
     <Compile Include="Weapons\Fireable.cs" />
     <Compile Include="Weapons\IFireable.cs" />
     <Compile Include="Weapons\Crossbow.cs" />

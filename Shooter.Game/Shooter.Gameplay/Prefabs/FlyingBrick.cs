@@ -31,13 +31,14 @@ namespace Shooter.Gameplay.Prefabs
 
         protected override void OnInitialize(ICollection<IDisposable> disposables)
         {
-            this.body = BodyFactory.CreateRectangle(this.Engine.World, 0.5f, 0.5f, 0.01f);
+            this.body = BodyFactory.CreateRectangle(this.Engine.World, 1.0f, 1.0f, 0.01f);
             //this.body = BodyFactory.CreateCircle(this.Engine.World, 0.25f, 0.01f);
             this.body.BodyType = BodyType.Dynamic;
             this.body.Enabled = false;
 
-            this.body.LinearDamping = 10f;
+            this.body.LinearDamping = 2f;
             this.body.AngularDamping = 1f;
+            this.body.Restitution = 0.5f;
 
             disposables.Add(this.body);
         }

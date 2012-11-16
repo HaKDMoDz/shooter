@@ -39,7 +39,8 @@ namespace Shooter.Gameplay.Weapons.Projectiles
 
         protected override void OnInitialize(ICollection<IDisposable> disposables)
         {
-            this.body = BodyFactory.CreateRectangle(this.Engine.World, 1.0f, 1.0f, 2f);
+            this.body = BodyFactory.CreateRectangle(this.Engine.World, 0.25f, 0.25f, 2f);
+
             this.body.BodyType = BodyType.Dynamic;
             this.body.IsBullet = true;
             this.body.UserData = this;
@@ -54,6 +55,7 @@ namespace Shooter.Gameplay.Weapons.Projectiles
             this.body.Enabled = true;
             attachments.Add(Disposable.Create(() => this.body.Enabled = false));
             attachments.Add(this.body.OnCollisionAsObservable()
+                                .Where(x => !x.FixtureB.IsSensor)
                                 .ObserveOn(this.Engine.UpdateScheduler)
                                 .Subscribe(this.OnCollision));
         }

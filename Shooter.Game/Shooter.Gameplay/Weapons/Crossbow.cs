@@ -16,7 +16,7 @@ namespace Shooter.Gameplay.Weapons
     public class Crossbow : GameObject, IFireable
     {
         private Body body;
-        private float projectileSpeed = 50f;
+        private float projectileSpeed = 35f;
         private Robot owner;
         public Vector2 Position { get { return this.body.Position; } set { this.body.Position = value; } }
 
@@ -32,28 +32,13 @@ namespace Shooter.Gameplay.Weapons
 
         public void Reload()
         {
-            if (this.magazineCount >= 0)
-            {
-                this.magazineCount = -1;
-                Observable.Return(magazineSize)
-                    .Delay(TimeSpan.FromSeconds(1))
-                    .ObserveOn(this.Engine.UpdateScheduler)
-                    .Subscribe(x => this.magazineCount = x);
-            }
         }
 
         public void Fire()
         {
-            if (magazineCount <= 0)
-            {
-                this.Reload();
-
-                return;
-            }
-
             var now = DateTime.UtcNow;
 
-            if (now - lastFire < TimeSpan.FromMilliseconds(50))
+            if (now - lastFire < TimeSpan.FromMilliseconds(75))
             {
                 return;
             }

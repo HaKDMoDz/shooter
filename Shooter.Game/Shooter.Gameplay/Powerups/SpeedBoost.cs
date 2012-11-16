@@ -30,9 +30,11 @@ namespace Shooter.Gameplay.Powerups
 
         protected override void OnInitialize(ICollection<IDisposable> disposables)
         {
-            this.body = BodyFactory.CreateGear(this.Engine.World, 1f, 6, 0.15f, 0.2f, 1f);
+            this.body = BodyFactory.CreateGear(this.Engine.World, 1f, 6, 50f, 0.5f, 1f);
             this.body.Enabled = false;
             this.body.UserData = this;
+            this.body.IsSensor = true;
+            this.body.AngularVelocity = MathHelper.Pi;
 
             disposables.Add(this.body);
         }
@@ -44,23 +46,23 @@ namespace Shooter.Gameplay.Powerups
 
             attachments.Add(this.body.OnCollisionAsObservable()
                                 .ObserveOn(this.Engine.PostPhysicsScheduler)
-                                .Where(x => x.FixtureB.Body.UserData is Robot)
+                                .Select(x => x.FixtureB.Body.UserData)
+                                .OfType<Robot>()
                                 .Subscribe(this.Collision));
-
         }
 
-        private void Collision(CollisionEventArgs args)
+        private void Collision(Robot robot)
         {
-            Observable.Interval(TimeSpan.FromSeconds(3)).Take(1).Subscribe(x =>
+            Observable.Interval(TimeSpan.FromSeconds(15)).Take(1).Subscribe(x =>
                 this.shouldRemove = true
                 );
 
             this.Dispose();
         }
 
-        public void Process(RobotAttributes robot)
+        public void Process(RobotTraits robot)
         {
-            robot.AccelerationFactor *= 2f;
+            robot.AccelerationRate *= 2f;
         }
 
         public bool ShouldRemove
