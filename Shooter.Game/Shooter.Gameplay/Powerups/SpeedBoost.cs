@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Shooter.Core;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;

@@ -17,6 +17,10 @@ namespace Shooter.Gameplay
         {
         }
 
+        protected override void OnInitialize(ICollection<IDisposable> disposables)
+        {
+        }
+
         protected override void OnAttach(ICollection<IDisposable> attachments)
         {
             attachments.Add(this.Engine.Draws.Subscribe(this.Draw));
