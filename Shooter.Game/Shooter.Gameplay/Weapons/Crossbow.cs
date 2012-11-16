@@ -11,6 +11,8 @@ using Shooter.Core;
 using Shooter.Core.Farseer.Extensions;
 using Shooter.Core.Xna.Extensions;
 using Shooter.Gameplay.Weapons.Projectiles;
+using System.Reactive.Subjects;
+using System.Reactive;
 
 namespace Shooter.Gameplay.Weapons
 {
@@ -22,38 +24,24 @@ namespace Shooter.Gameplay.Weapons
         public Vector2 Position { get { return this.body.Position; } set { this.body.Position = value; } }
 
         public int magazineSize = 200;
-
         public int magazineCount = 200;
-        private DateTime lastFire = DateTime.MinValue;
 
         public Crossbow(Engine engine)
             : base(engine)
         {
         }
 
-        public void Reload()
+        public void Reload(Unit unit)
         {
         }
 
         public void Fire(Unit unit)
         {
-            var now = DateTime.UtcNow;
-
-            if (now - lastFire < TimeSpan.FromMilliseconds(75))
-            {
-                return;
-            }
-
-            lastFire = now;
-
-            magazineCount--;
-
             var newBolt = new Bolt(this.Engine);
             
             newBolt.Initialize().Attach();
 
             var direction = this.body.Rotation.RadiansToDirection();
-
             newBolt.Velocity = direction * this.projectileSpeed + this.owner.LinearVelocity;
             newBolt.Rotation = this.body.Rotation;
             newBolt.Position = this.body.Position + direction * 2f;
@@ -81,7 +69,14 @@ namespace Shooter.Gameplay.Weapons
                                 .Where(x => this.owner != null)
                                 .Subscribe(this.Update));
 
-            disposables.Add(this.FireRequests.Subscribe(this.Fire));
+            disposables.Add(
+                this.FireRequests.Take(1)
+                    .Concat(
+                        Observable.Interval(TimeSpan.FromMilliseconds(250)).Take(1).Where(x => false).Select(x => Unit.Default))
+                    .Repeat()
+                    .Subscribe(this.Fire));
+
+            //disposables.Add(this.ReloadRequests.Subscribe(this.Reload));
         }
 
         protected override void OnAttach(ICollection<IDisposable> attachments)

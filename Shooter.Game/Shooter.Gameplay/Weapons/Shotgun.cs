@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Linq;
 using System.Text;
 using FarseerPhysics.Dynamics;
@@ -13,7 +14,7 @@ using Shooter.Gameplay.Weapons.Projectiles;
 
 namespace Shooter.Gameplay.Weapons
 {
-    public class Shotgun : GameObject, IFireable
+    public class Shotgun : Weapon
     {
         private Body body;
         private float projectileSpeed = 35f;
@@ -30,11 +31,11 @@ namespace Shooter.Gameplay.Weapons
         {
         }
 
-        public void Reload()
+        public void Reload(Unit unit)
         {
         }
 
-        public void Fire()
+        public void Fire(Unit unit)
         {
             var now = DateTime.UtcNow;
 
@@ -62,7 +63,8 @@ namespace Shooter.Gameplay.Weapons
             }
 
 
-
+            const float kickback = -25;
+            this.Kickbacks.OnNext(this.body.Rotation.RadiansToDirection() * kickback);
         }
         static Random RandomNum()
         {
@@ -86,6 +88,9 @@ namespace Shooter.Gameplay.Weapons
                                 .ObserveOn(this.Engine.UpdateScheduler)
                                 .Where(x => this.owner != null)
                                 .Subscribe(this.Update));
+
+            disposables.Add(this.FireRequests.Subscribe(this.Fire));
+            disposables.Add(this.ReloadRequests.Subscribe(this.Reload));
         }
 
         protected override void OnAttach(ICollection<IDisposable> attachments)

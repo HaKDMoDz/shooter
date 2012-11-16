@@ -57,6 +57,10 @@ namespace Shooter.Gameplay.Prefabs
                                 .Select(x => -1.0f)
                                 .Subscribe(this.AngularImpulse));
 
+            attachments.Add(this.body.OnCollisionAsObservable().ObserveOn(this.Engine.PostPhysicsScheduler)
+                                .Where(x => x.FixtureB.Body.UserData is Shot)
+                                .Subscribe(this.Explode));
+
 
         }
 
@@ -67,11 +71,11 @@ namespace Shooter.Gameplay.Prefabs
 
         private void Explode(CollisionEventArgs args)
         {
-            var explosion = new Explosion(this.Engine.World);
+            //var explosion = new Explosion(this.Engine.World);
 
-            explosion.MaxShapes = 10000;
+            //explosion.MaxShapes = 10000;
 
-            explosion.Activate(this.Position, 10f, 1000f);
+            //explosion.Activate(this.Position, 10f, 1000f);
 
             this.Dispose();
         }

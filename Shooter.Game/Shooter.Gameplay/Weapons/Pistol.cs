@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive;
 using System.Reactive.Linq;
 using System.Text;
 using FarseerPhysics.Dynamics;
@@ -9,38 +8,30 @@ using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
 using Shooter.Core;
 using Shooter.Core.Farseer.Extensions;
-using Shooter.Core.Xna.Extensions;
-using Shooter.Gameplay.Weapons.Projectiles;
+using System.Reactive.Subjects;
+using System.Reactive;
 
 namespace Shooter.Gameplay.Weapons
 {
-    public class Rocketlauncher : Weapon
+    public class Pistol : Weapon
     {
         private Body body;
-        private float projectileSpeed = 30f;
+        private float projectileSpeed = 50f;
         private Robot owner;
         public Vector2 Position { get { return this.body.Position; } set { this.body.Position = value; } }
 
-        public Rocketlauncher(Engine engine)
+        //Sets the time of last fired projectile.
+        private DateTime lastFire = DateTime.MinValue;
+
+        //Basic Constructor
+        public Pistol(Engine engine)
             : base(engine)
         {
         }
 
-        public void Fire(Unit unit)
-        { 
-            var newRocket = new Rocket(this.Engine);
-            newRocket.Initialize().Attach();
-            var direction = this.body.Rotation.RadiansToDirection();
-
-            newRocket.Velocity = direction * this.projectileSpeed + this.owner.LinearVelocity;
-            newRocket.Rotation = this.body.Rotation;
-            newRocket.Position = this.body.Position + direction * 2f;
-        }
-        
-
         protected override void OnInitialize(ICollection<IDisposable> disposables)
         {
-            this.body = BodyFactory.CreateRectangle(this.Engine.World, 1f, 1f, 1f);
+            this.body = BodyFactory.CreateCircle(this.Engine.World, 0.5f, 1f);
             this.body.IsSensor = true;
             this.body.UserData = this;
 
@@ -56,13 +47,12 @@ namespace Shooter.Gameplay.Weapons
                                 .Where(x => this.owner != null)
                                 .Subscribe(this.Update));
 
-            disposables.Add(
-                this.FireRequests.Take(1)
-                    .Concat(
-                        Observable.Interval(TimeSpan.FromSeconds(1)).Take(1).Where(x => false).Select(
-                            x => Unit.Default))
-                    .Repeat()
-                    .Subscribe(this.Fire));
+            //disposables.Add(
+            //    this.FireRequests.Take(1)
+            //        .Concat(
+            //            Observable.Interval(TimeSpan.FromMilliseconds(250)).Take(1).Where(x => false).Select(x => Unit.Default))
+            //        .Repeat()
+            //        .Subscribe(this.Fire));
         }
 
         protected override void OnAttach(ICollection<IDisposable> attachments)
