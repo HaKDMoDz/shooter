@@ -2,6 +2,7 @@ using System;
 using System.Reactive;
 using System.Reactive.Linq;
 using Microsoft.Xna.Framework;
+using System.Reactive.Subjects;
 
 namespace Shooter.Gameplay.Weapons
 {

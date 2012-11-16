@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive;
 using System.Reactive.Linq;
 using System.Text;
 using FarseerPhysics.Dynamics;
@@ -9,47 +8,53 @@ using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
 using Shooter.Core;
 using Shooter.Core.Farseer.Extensions;
-using Shooter.Core.Xna.Extensions;
-using Shooter.Gameplay.Weapons.Projectiles;
 using System.Reactive.Subjects;
 using System.Reactive;
 
 namespace Shooter.Gameplay.Weapons
 {
-    public class Crossbow : Weapon
+    public class Pistol : Weapon
     {
         private Body body;
-        private float projectileSpeed = 35f;
+        private float projectileSpeed = 50f;
         private Robot owner;
         public Vector2 Position { get { return this.body.Position; } set { this.body.Position = value; } }
 
-        public int magazineSize = 200;
-        public int magazineCount = 200;
+        //Sets the time of last fired projectile.
+        private DateTime lastFire = DateTime.MinValue;
 
-        public Crossbow(Engine engine)
+        //Basic Constructor
+        public Pistol(Engine engine)
             : base(engine)
         {
         }
 
-        public void Reload(Unit unit)
-        {
-        }
+        //public void Reload()
+        //{
+        //}
 
-        public void Fire(Unit unit)
-        {
-            var newBolt = new Bolt(this.Engine);
-            
-            newBolt.Initialize().Attach();
+        //public void Fire()
+        //{
+        //    var now = DateTime.UtcNow;
 
-            var direction = this.body.Rotation.RadiansToDirection();
-            newBolt.Velocity = direction * this.projectileSpeed + this.owner.LinearVelocity;
-            newBolt.Rotation = this.body.Rotation;
-            newBolt.Position = this.body.Position + direction * 2f;
+        //    if (now - lastFire < TimeSpan.FromMilliseconds(500))
+        //    {
+        //        return;
+        //    }
 
-            this.Fires.OnNext(Unit.Default);
-            const float kickbackForce = -10;
-            this.Kickbacks.OnNext(this.body.Rotation.RadiansToDirection() * kickbackForce);
-        }
+        //    lastFire = now;
+
+        //    var newBolt = new Bolt(this.Engine);
+
+        //    newBolt.Initialize().Attach();
+
+        //    var direction = this.body.Rotation.RadiansToDirection();
+
+        //    newBolt.Velocity = direction * this.projectileSpeed + this.owner.LinearVelocity;
+        //    newBolt.Rotation = this.body.Rotation;
+        //    newBolt.Position = this.body.Position + direction * 2f;
+
+        //}
 
         protected override void OnInitialize(ICollection<IDisposable> disposables)
         {
@@ -68,9 +73,6 @@ namespace Shooter.Gameplay.Weapons
                                 .ObserveOn(this.Engine.UpdateScheduler)
                                 .Where(x => this.owner != null)
                                 .Subscribe(this.Update));
-
-            disposables.Add(this.FireRequests.Sample(TimeSpan.FromMilliseconds(250)).Subscribe(this.Fire));
-            //disposables.Add(this.ReloadRequests.Subscribe(this.Reload));
         }
 
         protected override void OnAttach(ICollection<IDisposable> attachments)
@@ -79,7 +81,7 @@ namespace Shooter.Gameplay.Weapons
             attachments.Add(this.body.OnCollisionAsObservable()
                                 .ObserveOn(this.Engine.PostPhysicsScheduler)
                                 .Where(x => this.owner == null && x.FixtureB.Body.UserData is Robot)
-                                .Select(x => (Robot) x.FixtureB.Body.UserData)
+                                .Select(x => (Robot)x.FixtureB.Body.UserData)
                                 .Subscribe(this.SetOwner));
         }
 

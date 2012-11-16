@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive;
 using System.Reactive.Linq;
 using System.Text;
 using FarseerPhysics.Dynamics;
@@ -11,12 +10,10 @@ using Shooter.Core;
 using Shooter.Core.Farseer.Extensions;
 using Shooter.Core.Xna.Extensions;
 using Shooter.Gameplay.Weapons.Projectiles;
-using System.Reactive.Subjects;
-using System.Reactive;
 
 namespace Shooter.Gameplay.Weapons
 {
-    public class Crossbow : Weapon
+    public class Flamethrower : Weapon
     {
         private Body body;
         private float projectileSpeed = 35f;
@@ -24,36 +21,57 @@ namespace Shooter.Gameplay.Weapons
         public Vector2 Position { get { return this.body.Position; } set { this.body.Position = value; } }
 
         public int magazineSize = 200;
-        public int magazineCount = 200;
 
-        public Crossbow(Engine engine)
+        public int magazineCount = 200;
+        private DateTime lastFire = DateTime.MinValue;
+
+        public Flamethrower(Engine engine)
             : base(engine)
         {
         }
 
-        public void Reload(Unit unit)
+        public void Reload()
         {
         }
 
-        public void Fire(Unit unit)
+        public void Fire()
         {
-            var newBolt = new Bolt(this.Engine);
-            
-            newBolt.Initialize().Attach();
+            var now = DateTime.UtcNow;
 
-            var direction = this.body.Rotation.RadiansToDirection();
-            newBolt.Velocity = direction * this.projectileSpeed + this.owner.LinearVelocity;
-            newBolt.Rotation = this.body.Rotation;
-            newBolt.Position = this.body.Position + direction * 2f;
+            if (now - lastFire < TimeSpan.FromMilliseconds(10))
+            {
+                return;
+            }
 
-            this.Fires.OnNext(Unit.Default);
-            const float kickbackForce = -10;
-            this.Kickbacks.OnNext(this.body.Rotation.RadiansToDirection() * kickbackForce);
+            lastFire = now;
+
+            magazineCount--;
+            Random random = RandomNum();
+
+            for (int i = 0; i < 50; i++)
+            {
+                var newFlame = new Flame(this.Engine);
+                newFlame.Initialize().Attach();
+                var direction = (this.body.Rotation + MathHelper.Pi * (float)(random.NextDouble() - .5) / 4).RadiansToDirection();
+
+                newFlame.Velocity = direction * this.projectileSpeed * (float)(random.NextDouble() + 1) + this.owner.LinearVelocity;
+                newFlame.Rotation = this.body.Rotation;
+                newFlame.Position = this.body.Position + direction * 2f;
+
+
+            }
+
+
+
         }
-
+        static Random RandomNum()
+        {
+            Random random = new Random();
+            return random;
+        }
         protected override void OnInitialize(ICollection<IDisposable> disposables)
         {
-            this.body = BodyFactory.CreateCircle(this.Engine.World, 0.5f, 1f);
+            this.body = BodyFactory.CreateRectangle(this.Engine.World, 1f, 1f, 1f);
             this.body.IsSensor = true;
             this.body.UserData = this;
 
@@ -68,9 +86,6 @@ namespace Shooter.Gameplay.Weapons
                                 .ObserveOn(this.Engine.UpdateScheduler)
                                 .Where(x => this.owner != null)
                                 .Subscribe(this.Update));
-
-            disposables.Add(this.FireRequests.Sample(TimeSpan.FromMilliseconds(250)).Subscribe(this.Fire));
-            //disposables.Add(this.ReloadRequests.Subscribe(this.Reload));
         }
 
         protected override void OnAttach(ICollection<IDisposable> attachments)
@@ -79,7 +94,7 @@ namespace Shooter.Gameplay.Weapons
             attachments.Add(this.body.OnCollisionAsObservable()
                                 .ObserveOn(this.Engine.PostPhysicsScheduler)
                                 .Where(x => this.owner == null && x.FixtureB.Body.UserData is Robot)
-                                .Select(x => (Robot) x.FixtureB.Body.UserData)
+                                .Select(x => (Robot)x.FixtureB.Body.UserData)
                                 .Subscribe(this.SetOwner));
         }
 
