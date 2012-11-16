@@ -32,7 +32,6 @@ namespace Shooter.Gameplay.Prefabs
         protected override void OnInitialize(ICollection<IDisposable> disposables)
         {
             this.body = BodyFactory.CreateRectangle(this.Engine.World, 1.0f, 1.0f, 0.01f);
-            //this.body = BodyFactory.CreateCircle(this.Engine.World, 0.25f, 0.01f);
             this.body.BodyType = BodyType.Dynamic;
             this.body.Enabled = false;
 
@@ -58,10 +57,11 @@ namespace Shooter.Gameplay.Prefabs
                                 .Select(x => -1.0f)
                                 .Subscribe(this.AngularImpulse));
 
-            attachments.Add(this.body.OnCollisionAsObservable()
-                                .ObserveOn(this.Engine.UpdateScheduler)
-                                .Where(x => x.FixtureB.Body.UserData is Bolt)
+            attachments.Add(this.body.OnCollisionAsObservable().ObserveOn(this.Engine.PostPhysicsScheduler)
+                                .Where(x => x.FixtureB.Body.UserData is Shot)
                                 .Subscribe(this.Explode));
+
+
         }
 
         private void AngularImpulse(float f)
@@ -71,11 +71,11 @@ namespace Shooter.Gameplay.Prefabs
 
         private void Explode(CollisionEventArgs args)
         {
-            var explosion = new Explosion(this.Engine.World);
+            //var explosion = new Explosion(this.Engine.World);
 
-            explosion.MaxShapes = 10000;
+            //explosion.MaxShapes = 10000;
 
-            explosion.Activate(this.Position, 10f, 1000f);
+            //explosion.Activate(this.Position, 10f, 1000f);
 
             this.Dispose();
         }

@@ -8,22 +8,17 @@ using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
 using Shooter.Core;
 using Shooter.Core.Farseer.Extensions;
-using Shooter.Core.Xna.Extensions;
-using Shooter.Gameplay.Weapons.Projectiles;
 using System.Reactive.Subjects;
 using System.Reactive;
 
 namespace Shooter.Gameplay.Weapons
 {
-    public class Pistol : GameObject, IFireable
+    public class Pistol : Weapon
     {
         private Body body;
         private float projectileSpeed = 50f;
         private Robot owner;
         public Vector2 Position { get { return this.body.Position; } set { this.body.Position = value; } }
-
-        private Subject<Unit> fireRequests = new Subject<Unit>();
-        private Subject<Unit> reloadRequests = new Subject<Unit>();
 
         //Sets the time of last fired projectile.
         private DateTime lastFire = DateTime.MinValue;
@@ -33,36 +28,6 @@ namespace Shooter.Gameplay.Weapons
             : base(engine)
         {
         }
-
-        public IObserver<Unit> FireRequests { get { return this.fireRequests; } }
-        public IObserver<Unit> ReloadRequests { get { return this.reloadRequests; } }
-
-        //public void Reload()
-        //{
-        //}
-
-        //public void Fire()
-        //{
-        //    var now = DateTime.UtcNow;
-
-        //    if (now - lastFire < TimeSpan.FromMilliseconds(500))
-        //    {
-        //        return;
-        //    }
-
-        //    lastFire = now;
-
-        //    var newBolt = new Bolt(this.Engine);
-
-        //    newBolt.Initialize().Attach();
-
-        //    var direction = this.body.Rotation.RadiansToDirection();
-
-        //    newBolt.Velocity = direction * this.projectileSpeed + this.owner.LinearVelocity;
-        //    newBolt.Rotation = this.body.Rotation;
-        //    newBolt.Position = this.body.Position + direction * 2f;
-
-        //}
 
         protected override void OnInitialize(ICollection<IDisposable> disposables)
         {
@@ -81,6 +46,13 @@ namespace Shooter.Gameplay.Weapons
                                 .ObserveOn(this.Engine.UpdateScheduler)
                                 .Where(x => this.owner != null)
                                 .Subscribe(this.Update));
+
+            //disposables.Add(
+            //    this.FireRequests.Take(1)
+            //        .Concat(
+            //            Observable.Interval(TimeSpan.FromMilliseconds(250)).Take(1).Where(x => false).Select(x => Unit.Default))
+            //        .Repeat()
+            //        .Subscribe(this.Fire));
         }
 
         protected override void OnAttach(ICollection<IDisposable> attachments)

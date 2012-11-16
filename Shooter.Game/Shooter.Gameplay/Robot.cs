@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Reactive;
 using System.Reactive.Linq;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
@@ -8,6 +9,7 @@ using Microsoft.Xna.Framework.Input;
 using Shooter.Core;
 using Shooter.Core.Farseer.Extensions;
 using Shooter.Core.Input;
+using Shooter.Core.Xna.Extensions;
 using Shooter.Gameplay.Powerups;
 using Shooter.Gameplay.Weapons;
 
@@ -18,7 +20,7 @@ namespace Shooter.Gameplay
         private Body body;
         private IFireable weapon;
         private readonly List<IPowerup> powerups = new List<IPowerup>();
-        private const float MaxLinearAcceleration = 100f;
+        private const float MaxLinearAcceleration = 200f;
 
         public Robot(Engine engine)
             : base(engine)
@@ -72,8 +74,8 @@ namespace Shooter.Gameplay
 
             attachments.Add(this.body.OnCollisionAsObservable()
                                 .ObserveOn(this.Engine.PostPhysicsScheduler)
-                                .Where(x => x.FixtureB.Body.UserData is IFireable)
-                                .Select(x => (IFireable) x.FixtureB.Body.UserData)
+                                .Select(x => x.FixtureB.Body.UserData)
+                                .OfType<IFireable>()
                                 .Subscribe(this.SetFireable));
 
             attachments.Add(this.body.OnCollisionAsObservable()
@@ -146,16 +148,17 @@ namespace Shooter.Gameplay
         private void SetFireable(IFireable fireable)
         {
             this.weapon = fireable;
+            this.weapon.Kickbacks.Subscribe(x => this.body.LinearVelocity += x);
         }
 
         private void Fire(EngineTime time)
         {
-            this.weapon.Fire();
+            this.weapon.FireRequests.OnNext(Unit.Default);
         }
 
         private void Reload(KeyAndState key)
         {
-            this.weapon.Reload();
+            this.weapon.ReloadRequests.OnNext(Unit.Default);
         }
     }
 }

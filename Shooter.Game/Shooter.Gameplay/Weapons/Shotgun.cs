@@ -14,7 +14,7 @@ using Shooter.Gameplay.Weapons.Projectiles;
 
 namespace Shooter.Gameplay.Weapons
 {
-    public class Flamethrower : Weapon
+    public class Shotgun : Weapon
     {
         private Body body;
         private float projectileSpeed = 35f;
@@ -26,8 +26,12 @@ namespace Shooter.Gameplay.Weapons
         public int magazineCount = 200;
         private DateTime lastFire = DateTime.MinValue;
 
-        public Flamethrower(Engine engine)
+        public Shotgun(Engine engine)
             : base(engine)
+        {
+        }
+
+        public void Reload(Unit unit)
         {
         }
 
@@ -35,7 +39,7 @@ namespace Shooter.Gameplay.Weapons
         {
             var now = DateTime.UtcNow;
 
-            if (now - lastFire < TimeSpan.FromMilliseconds(10))
+            if (now - lastFire < TimeSpan.FromMilliseconds(400))
             {
                 return;
             }
@@ -44,22 +48,23 @@ namespace Shooter.Gameplay.Weapons
 
             magazineCount--;
             Random random = RandomNum();
-
-            for (int i = 0; i < 5; i++)
+        
+            for (int i = 0; i < 11; i++)
             {
-                var newFlame = new Flame(this.Engine);
-                newFlame.Initialize().Attach();
-                var direction = (this.body.Rotation + MathHelper.Pi * (float)(random.NextDouble() - .5) / 4).RadiansToDirection();
+                var newShot = new Shot(this.Engine);
+                newShot.Initialize().Attach();
+                var offset = (random.NextDouble() - 0.5) * MathHelper.PiOver4;
+                var speedChange = random.NextDouble() + 1;
+                var direction = (this.body.Rotation + (float)offset).RadiansToDirection();
 
-                newFlame.Velocity = direction * this.projectileSpeed * (float)(random.NextDouble() + 1) + this.owner.LinearVelocity;
-                newFlame.Rotation = this.body.Rotation;
-                newFlame.Position = this.body.Position + direction * 2f;
-
-
+                newShot.Velocity = direction * this.projectileSpeed * (float)speedChange + this.owner.LinearVelocity;
+                newShot.Rotation = this.body.Rotation;
+                newShot.Position = this.body.Position + direction * 2f;
             }
 
 
-
+            const float kickback = -25;
+            this.Kickbacks.OnNext(this.body.Rotation.RadiansToDirection() * kickback);
         }
         static Random RandomNum()
         {
@@ -84,13 +89,8 @@ namespace Shooter.Gameplay.Weapons
                                 .Where(x => this.owner != null)
                                 .Subscribe(this.Update));
 
-            disposables.Add(
-                this.FireRequests.Take(1)
-                    .Concat(
-                        Observable.Interval(TimeSpan.FromMilliseconds(100)).Take(1).Where(x => false).Select(
-                            x => Unit.Default))
-                    .Repeat()
-                    .Subscribe(this.Fire));
+            disposables.Add(this.FireRequests.Subscribe(this.Fire));
+            disposables.Add(this.ReloadRequests.Subscribe(this.Reload));
         }
 
         protected override void OnAttach(ICollection<IDisposable> attachments)

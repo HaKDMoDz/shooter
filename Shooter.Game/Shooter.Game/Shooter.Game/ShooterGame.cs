@@ -31,6 +31,8 @@ namespace Shooter.Application
 
             this.IsMouseVisible = true;
 
+            this.Window.AllowUserResizing = true;
+
             GC.Collect();
         }
 
@@ -57,7 +59,13 @@ namespace Shooter.Application
             //Crossbow Initialization
             crossbow.Initialize().Attach();
 
-            crossbow.Position = Vector2.One*10;
+            crossbow.Position = Vector2.One*15;
+
+            var crossbow2 = new Shotgun(this.engine);
+
+            crossbow2.Initialize().Attach();
+
+            crossbow2.Position = Vector2.One * 5;
 
             //Pistol Intialization
             pistol.Initialize().Attach();

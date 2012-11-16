@@ -14,58 +14,30 @@ using Shooter.Gameplay.Weapons.Projectiles;
 
 namespace Shooter.Gameplay.Weapons
 {
-    public class Flamethrower : Weapon
+    public class Rocketlauncher : Weapon
     {
         private Body body;
-        private float projectileSpeed = 35f;
+        private float projectileSpeed = 30f;
         private Robot owner;
         public Vector2 Position { get { return this.body.Position; } set { this.body.Position = value; } }
 
-        public int magazineSize = 200;
-
-        public int magazineCount = 200;
-        private DateTime lastFire = DateTime.MinValue;
-
-        public Flamethrower(Engine engine)
+        public Rocketlauncher(Engine engine)
             : base(engine)
         {
         }
 
         public void Fire(Unit unit)
-        {
-            var now = DateTime.UtcNow;
+        { 
+            var newRocket = new Rocket(this.Engine);
+            newRocket.Initialize().Attach();
+            var direction = this.body.Rotation.RadiansToDirection();
 
-            if (now - lastFire < TimeSpan.FromMilliseconds(10))
-            {
-                return;
-            }
-
-            lastFire = now;
-
-            magazineCount--;
-            Random random = RandomNum();
-
-            for (int i = 0; i < 5; i++)
-            {
-                var newFlame = new Flame(this.Engine);
-                newFlame.Initialize().Attach();
-                var direction = (this.body.Rotation + MathHelper.Pi * (float)(random.NextDouble() - .5) / 4).RadiansToDirection();
-
-                newFlame.Velocity = direction * this.projectileSpeed * (float)(random.NextDouble() + 1) + this.owner.LinearVelocity;
-                newFlame.Rotation = this.body.Rotation;
-                newFlame.Position = this.body.Position + direction * 2f;
-
-
-            }
-
-
-
+            newRocket.Velocity = direction * this.projectileSpeed + this.owner.LinearVelocity;
+            newRocket.Rotation = this.body.Rotation;
+            newRocket.Position = this.body.Position + direction * 2f;
         }
-        static Random RandomNum()
-        {
-            Random random = new Random();
-            return random;
-        }
+        
+
         protected override void OnInitialize(ICollection<IDisposable> disposables)
         {
             this.body = BodyFactory.CreateRectangle(this.Engine.World, 1f, 1f, 1f);
@@ -87,7 +59,7 @@ namespace Shooter.Gameplay.Weapons
             disposables.Add(
                 this.FireRequests.Take(1)
                     .Concat(
-                        Observable.Interval(TimeSpan.FromMilliseconds(100)).Take(1).Where(x => false).Select(
+                        Observable.Interval(TimeSpan.FromSeconds(1)).Take(1).Where(x => false).Select(
                             x => Unit.Default))
                     .Repeat()
                     .Subscribe(this.Fire));

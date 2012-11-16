@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Linq;
 using System.Text;
 using FarseerPhysics.Dynamics;
@@ -15,55 +16,40 @@ using System.Reactive;
 
 namespace Shooter.Gameplay.Weapons
 {
-    public class Crossbow : GameObject, IFireable
+    public class Crossbow : Weapon
     {
         private Body body;
         private float projectileSpeed = 35f;
         private Robot owner;
         public Vector2 Position { get { return this.body.Position; } set { this.body.Position = value; } }
 
-        private Subject<Unit> fireRequests = new Subject<Unit>();
-        private Subject<Unit> reloadRequests = new Subject<Unit>();
-
         public int magazineSize = 200;
-
         public int magazineCount = 200;
-        private DateTime lastFire = DateTime.MinValue;
 
         public Crossbow(Engine engine)
             : base(engine)
         {
         }
 
-        public IObserver<Unit> FireRequests { get { return this.fireRequests; } }
-        public IObserver<Unit> ReloadRequests { get { return this.reloadRequests; } }
-        //public void Reload()
-        //{
-        //}
+        public void Reload(Unit unit)
+        {
+        }
 
-        //public void Fire()
-        //{
-        //    var now = DateTime.UtcNow;
-
-        //    if (now - lastFire < TimeSpan.FromMilliseconds(75))
-        //    {
-        //        return;
-        //    }
-
-        //    lastFire = now;
-
-        //    magazineCount--;
-
-        //    var newBolt = new Bolt(this.Engine);
+        public void Fire(Unit unit)
+        {
+            var newBolt = new Bolt(this.Engine);
             
-        //    newBolt.Initialize().Attach();
+            newBolt.Initialize().Attach();
 
-        //    var direction = this.body.Rotation.RadiansToDirection();
+            var direction = this.body.Rotation.RadiansToDirection();
+            newBolt.Velocity = direction * this.projectileSpeed + this.owner.LinearVelocity;
+            newBolt.Rotation = this.body.Rotation;
+            newBolt.Position = this.body.Position + direction * 2f;
 
-        //    newBolt.Velocity = direction * this.projectileSpeed + this.owner.LinearVelocity;
-        //    newBolt.Rotation = this.body.Rotation;
-        //    newBolt.Position = this.body.Position + direction * 2f;
-        //}
+            this.Fires.OnNext(Unit.Default);
+            const float kickbackForce = -10;
+            this.Kickbacks.OnNext(this.body.Rotation.RadiansToDirection() * kickbackForce);
+        }
 
         protected override void OnInitialize(ICollection<IDisposable> disposables)
         {
@@ -82,6 +68,15 @@ namespace Shooter.Gameplay.Weapons
                                 .ObserveOn(this.Engine.UpdateScheduler)
                                 .Where(x => this.owner != null)
                                 .Subscribe(this.Update));
+
+            disposables.Add(
+                this.FireRequests.Take(1)
+                    .Concat(
+                        Observable.Interval(TimeSpan.FromMilliseconds(250)).Take(1).Where(x => false).Select(x => Unit.Default))
+                    .Repeat()
+                    .Subscribe(this.Fire));
+
+            //disposables.Add(this.ReloadRequests.Subscribe(this.Reload));
         }
 
         protected override void OnAttach(ICollection<IDisposable> attachments)
