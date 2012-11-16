@@ -18,7 +18,7 @@ namespace Shooter.Gameplay
         private Body body;
         private IFireable weapon;
         private readonly List<IPowerup> powerups = new List<IPowerup>();
-        private const float MaxLinearAcceleration = 100f;
+        private const float MaxLinearAcceleration = 200f;
 
         public Robot(Engine engine)
             : base(engine)
