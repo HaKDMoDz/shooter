@@ -95,6 +95,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Levels\FlarBallField.cs" />
     <Compile Include="Levels\OhSoSymmetrical.cs" />
     <Compile Include="Powerups\IPowerup.cs" />
     <Compile Include="Powerups\RobotTraits.cs" />
