@@ -39,7 +39,7 @@ namespace Shooter.Core
         }
 
         /// <summary>
-        /// Retrieves the World View Projection matrix for a SpriteBatch the combination of this camera and the viewport.
+        /// Retrieves the World View Projection matrix for a UISpriteBatch the combination of this camera and the viewport.
         /// </summary>
         /// <returns></returns>
         public Matrix GetMatrix(Viewport viewport)

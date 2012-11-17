@@ -95,6 +95,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Menus\MainMenu.cs" />
+    <Compile Include="Menus\MenuButton.cs" />
     <Compile Include="Powerups\IPowerup.cs" />
     <Compile Include="Powerups\RobotTraits.cs" />
     <Compile Include="Powerups\Shield.cs" />
@@ -111,7 +113,7 @@
     <Compile Include="Weapons\Crossbow.cs" />
     <Compile Include="Weapons\Projectiles\Bolt.cs" />
     <Compile Include="Levels\SampleLevel.cs" />
-    <Compile Include="MainMenu.cs" />
+    <Compile Include="Menus\SplashScreen.cs" />
     <Compile Include="Prefabs\MouseDrivenThing.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Prefabs\FlyingBrick.cs" />

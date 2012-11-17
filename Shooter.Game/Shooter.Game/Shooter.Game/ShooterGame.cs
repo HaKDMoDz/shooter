@@ -8,6 +8,7 @@ using Shooter.Core;
 using Shooter.Core.Input;
 using Shooter.Gameplay;
 using Shooter.Gameplay.Levels;
+using Shooter.Gameplay.Menus;
 using Shooter.Gameplay.Powerups;
 using Shooter.Gameplay.Prefabs;
 using Shooter.Gameplay.Weapons;
@@ -28,9 +29,7 @@ namespace Shooter.Application
             this.Content.RootDirectory = "Content";
 
             this.graphics = new GraphicsDeviceManager(this);
-
             this.IsMouseVisible = true;
-
             this.Window.AllowUserResizing = true;
 
             GC.Collect();
@@ -38,109 +37,19 @@ namespace Shooter.Application
 
         protected override void Initialize()
         {
+            this.graphics.PreferredBackBufferWidth = this.GraphicsDevice.DisplayMode.Width;
+            this.graphics.PreferredBackBufferHeight = this.GraphicsDevice.DisplayMode.Height;
+            this.graphics.ToggleFullScreen();
+
             this.engine = new Engine(this);
 
-            var speedBoost = new SpeedBoost(engine);
-
-            speedBoost.Initialize().Attach();
-
-            speedBoost.Position = Vector2.One * -10;
-
-            new MainMenu(this.engine).Initialize().Attach();
-            new Tiler(this.engine).Initialize().Attach();
-            new SampleLevel(this.engine).Initialize().Attach();
-            //new MouseDrivenThing(this.engine).Initialize().Attach();
-            robot = new Robot(this.engine);
-            robot.Initialize().Attach();
-            var crossbow = new Crossbow(this.engine);
-            var pistol = new Pistol(this.engine);
-            var flamethrower = new Flamethrower(this.engine);
-
-            //Crossbow Initialization
-            crossbow.Initialize().Attach();
-
-            crossbow.Position = Vector2.One*15;
-
-            var crossbow2 = new Shotgun(this.engine);
-
-            crossbow2.Initialize().Attach();
-
-            crossbow2.Position = Vector2.One * 5;
-
-            //Pistol Intialization
-            pistol.Initialize().Attach();
-
-            pistol.Position = Vector2.One * 4;
-
-            //Flamethrower Initialization
-            flamethrower.Initialize().Attach();
-
-            flamethrower.Position = Vector2.One * 13;
-
-            this.engine.Logger.Log("Hello, World!");
-
-            var random = new Random((int) (DateTime.UtcNow.Ticks % int.MaxValue));
-
-            for (var i = 0; i < 100; i++)
-            {
-                var brick = (FlyingBrick) new FlyingBrick(this.engine).Initialize().Attach();
-
-                float x = (float) random.NextDouble() * 6 - 3;
-                float y = (float) random.NextDouble() * 6 - 3;
-
-                brick.Position = new Vector2(x, y);
-            }
-
-            this.OnDeviceReset();
-        }
-
-        private void OnDeviceReset()
-        {
-            var camera1 = new Camera();
-            var camera2 = new Camera();
-
-            camera1.Zoom = 0.5f;
-            camera2.Zoom = 0.5f;
-
-            new KeyboardCameraController(this.engine, camera1).Initialize().Attach();
-            new RobotCameraController(this.engine, this.robot, camera2).Initialize().Attach();
-
-            var w = engine.Game.GraphicsDevice.PresentationParameters.BackBufferWidth;
-            var h = engine.Game.GraphicsDevice.PresentationParameters.BackBufferHeight;
-
-            var hw = w / 2;
-            var hh = h / 2;
-
-            this.engine.PerspectiveManager.Perspectives.Add(
-                new Perspective(
-                    camera1,
-                    new Viewport(0, 0, hw, hh)
-                    )
-                );
-            this.engine.PerspectiveManager.Perspectives.Add(
-                new Perspective(
-                    camera2,
-                    new Viewport(hw, 0, hw, hh)
-                    )
-                );
-            this.engine.PerspectiveManager.Perspectives.Add(
-                new Perspective(
-                    camera1,
-                    new Viewport(0, hh, hw, hh)
-                    )
-                );
-            this.engine.PerspectiveManager.Perspectives.Add(
-                new Perspective(
-                    camera2,
-                    new Viewport(hw, hh, hw, hh)
-                    )
-                );
+            new SplashScreen(this.engine).Initialize().Attach();
         }
 
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            if (Keyboard.GetState(PlayerIndex.One).IsKeyDown(Keys.Escape))
                 this.Exit();
 
             this.engine.Update(gameTime);
@@ -150,7 +59,7 @@ namespace Shooter.Application
 
         protected override void Draw(GameTime gameTime)
         {
-            this.GraphicsDevice.Clear(ClearOptions.Target, Color.CornflowerBlue, 0, 0);
+            this.GraphicsDevice.Clear(ClearOptions.Target, Color.White, 0, 0);
 
             this.engine.Draw(gameTime);
 
