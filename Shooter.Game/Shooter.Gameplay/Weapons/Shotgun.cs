@@ -54,7 +54,7 @@ namespace Shooter.Gameplay.Weapons
                 newShot.Initialize().Attach();
                 var direction = (this.body.Rotation + MathHelper.Pi * (float)(random.NextDouble() - .5)/4).RadiansToDirection();
 
-                newShot.Velocity = direction * this.projectileSpeed + this.owner.LinearVelocity;
+                newShot.Velocity = direction * this.projectileSpeed * (float)(random.NextDouble()+1) + this.owner.LinearVelocity;
                 newShot.Rotation = this.body.Rotation;
                 newShot.Position = this.body.Position + direction * 2f;
             }
