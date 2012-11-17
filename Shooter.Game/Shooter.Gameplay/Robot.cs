@@ -48,7 +48,7 @@ namespace Shooter.Gameplay
 
         protected override void OnInitialize(ICollection<IDisposable> disposables)
         {
-            this.body = BodyFactory.CreateCircle(this.Engine.World, 1f, 1);
+            this.body = BodyFactory.CreateCircle(this.Engine.World, 0.5f, 1);
             this.body.BodyType = BodyType.Dynamic;
             this.body.LinearDamping = 5f;
             this.body.UserData = this;

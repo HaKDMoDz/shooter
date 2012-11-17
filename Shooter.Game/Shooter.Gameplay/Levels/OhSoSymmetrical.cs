@@ -27,57 +27,57 @@ namespace Shooter.Gameplay.Levels
 
             //Middle-Side Wall Coords
             var w1_1 = new Vector2(0, +20);
-            var w1_2 = new Vector2(0, +16);
-            var w2_1 = new Vector2(+16, 0);
+            var w1_2 = new Vector2(0, +15);
+            var w2_1 = new Vector2(+15, 0);
             var w2_2 = new Vector2(+20, 0);
-            var w3_1 = new Vector2(0, -16);
+            var w3_1 = new Vector2(0, -15);
             var w3_2 = new Vector2(0, -20);
             var w4_1 = new Vector2(-20, 0);
-            var w4_2 = new Vector2(-16, 0);
+            var w4_2 = new Vector2(-15, 0);
 
             //Home Base Wall Coords
-            var h1_1 = new Vector2(-12, 17);
-            var h1_2 = new Vector2(-12, 11);
-            var h1_3 = new Vector2(-17, 12);
-            var h1_4 = new Vector2(-11, 12);
+            var h1_1 = new Vector2(-11, 16);
+            var h1_2 = new Vector2(-11, 11);
+            var h1_3 = new Vector2(-16, 11);
+            var h1_4 = new Vector2(-11, 11);
 
-            var h2_1 = new Vector2(12, -17);
-            var h2_2 = new Vector2(12, -11);
-            var h2_3 = new Vector2(11, -12);
-            var h2_4 = new Vector2(17, -12);
+            var h2_1 = new Vector2(11, -16);
+            var h2_2 = new Vector2(11, -11);
+            var h2_3 = new Vector2(11, -11);
+            var h2_4 = new Vector2(16, -11);
 
-            var h3_1 = new Vector2(12, 17);
-            var h3_2 = new Vector2(12, 11);
-            var h3_3 = new Vector2(17, 12);
-            var h3_4 = new Vector2(11, 12);
+            var h3_1 = new Vector2(11, 16);
+            var h3_2 = new Vector2(11, 11);
+            var h3_3 = new Vector2(16, 11);
+            var h3_4 = new Vector2(11, 11);
 
-            var h4_1 = new Vector2(-12, -17);
-            var h4_2 = new Vector2(-12, -11);
-            var h4_3 = new Vector2(-17, -12);
-            var h4_4 = new Vector2(-11, -12);
+            var h4_1 = new Vector2(-11, -16);
+            var h4_2 = new Vector2(-11, -11);
+            var h4_3 = new Vector2(-16, -11);
+            var h4_4 = new Vector2(-11, -11);
 
             //Outer-Middle Walls
-            var o1_1 = new Vector2(-4, 11);
-            var o1_2 = new Vector2(4, 11);
-            var o2_1 = new Vector2(-4, -11);
-            var o2_2 = new Vector2(4, -11);
-            var o3_1 = new Vector2(-11, -4);
-            var o3_2 = new Vector2(-11, 4);
-            var o4_1 = new Vector2(11, -4);
-            var o4_2 = new Vector2(11, 4);
+            var o1_1 = new Vector2(-3, 11);
+            var o1_2 = new Vector2(3, 11);
+            var o2_1 = new Vector2(-3, -11);
+            var o2_2 = new Vector2(3, -11);
+            var o3_1 = new Vector2(-11, -3);
+            var o3_2 = new Vector2(-11, 3);
+            var o4_1 = new Vector2(11, -3);
+            var o4_2 = new Vector2(11, 3);
 
             //Center Walls
-            var c1_1 = new Vector2(2.5f, 7.5f);
-            var c1_2 = new Vector2(7.5f, 2.5f);
-            var c2_1 = new Vector2(7.5f, -2.5f);
-            var c2_2 = new Vector2(2.5f, -7.5f);
-            var c3_1 = new Vector2(-2.5f, -7.5f);
-            var c3_2 = new Vector2(-7.5f, -2.5f);
-            var c4_1 = new Vector2(-7.5f, 2.5f);
-            var c4_2 = new Vector2(-2.5f, 7.5f);
+            var c1_1 = new Vector2(3.5f, 6.5f);
+            var c1_2 = new Vector2(6.5f, 3.5f);
+            var c2_1 = new Vector2(6.5f, -3.5f);
+            var c2_2 = new Vector2(3.5f, -6.5f);
+            var c3_1 = new Vector2(-3.5f, -6.5f);
+            var c3_2 = new Vector2(-6.5f, -3.5f);
+            var c4_1 = new Vector2(-6.5f, 3.5f);
+            var c4_2 = new Vector2(-3.5f, 6.5f);
 
-            float border = 0.5f;
-            float cBorder = 0.25f;
+            float border = 0.75f;
+            float cBorder = 0.40f;
 
             //Make Outer Borders
             disposables.Add(this.MakeWall(b1, b2, border));

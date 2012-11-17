@@ -48,7 +48,7 @@ namespace Shooter.Application
 
             new MainMenu(this.engine).Initialize().Attach();
             new Tiler(this.engine).Initialize().Attach();
-            new SampleLevel(this.engine).Initialize().Attach();
+            new OhSoSymmetrical(this.engine).Initialize().Attach();
             //new MouseDrivenThing(this.engine).Initialize().Attach();
             robot = new Robot(this.engine);
             robot.Initialize().Attach();
@@ -108,33 +108,33 @@ namespace Shooter.Application
             var w = engine.Game.GraphicsDevice.PresentationParameters.BackBufferWidth;
             var h = engine.Game.GraphicsDevice.PresentationParameters.BackBufferHeight;
 
-            var hw = w / 2;
-            var hh = h / 2;
+            var hw = w;
+            var hh = h;
 
             this.engine.PerspectiveManager.Perspectives.Add(
                 new Perspective(
-                    camera1,
+                    camera2,
                     new Viewport(0, 0, hw, hh)
                     )
                 );
-            this.engine.PerspectiveManager.Perspectives.Add(
-                new Perspective(
-                    camera2,
-                    new Viewport(hw, 0, hw, hh)
-                    )
-                );
-            this.engine.PerspectiveManager.Perspectives.Add(
-                new Perspective(
-                    camera1,
-                    new Viewport(0, hh, hw, hh)
-                    )
-                );
-            this.engine.PerspectiveManager.Perspectives.Add(
-                new Perspective(
-                    camera2,
-                    new Viewport(hw, hh, hw, hh)
-                    )
-                );
+            //this.engine.PerspectiveManager.Perspectives.Add(
+            //    new Perspective(
+            //        camera2,
+            //        new Viewport(hw, 0, hw, hh)
+            //        )
+            //    );
+            //this.engine.PerspectiveManager.Perspectives.Add(
+            //    new Perspective(
+            //        camera1,
+            //        new Viewport(0, hh, hw, hh)
+            //        )
+            //    );
+            //this.engine.PerspectiveManager.Perspectives.Add(
+            //    new Perspective(
+            //        camera2,
+            //        new Viewport(hw, hh, hw, hh)
+            //        )
+            //    );
         }
 
         protected override void Update(GameTime gameTime)
