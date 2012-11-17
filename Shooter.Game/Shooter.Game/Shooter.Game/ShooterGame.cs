@@ -50,7 +50,7 @@ namespace Shooter.Application
             //new MouseDrivenThing(this.engine).Initialize().Attach();
             robot = new Robot(this.engine);
             robot.Initialize().Attach();
-            var crossbow = new Crossbow(this.engine);
+            var crossbow = new Shotgun(this.engine);
 
             crossbow.Initialize().Attach();
 
