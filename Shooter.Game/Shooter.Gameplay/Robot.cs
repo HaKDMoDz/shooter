@@ -8,8 +8,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Shooter.Core;
 using Shooter.Core.Farseer.Extensions;
-using Shooter.Core.Input;
-using Shooter.Core.Xna.Extensions;
 using Shooter.Gameplay.Powerups;
 using Shooter.Gameplay.Weapons;
 
@@ -48,7 +46,7 @@ namespace Shooter.Gameplay
 
         protected override void OnInitialize(ICollection<IDisposable> disposables)
         {
-            this.body = BodyFactory.CreateCircle(this.Engine.World, 1f, 1);
+            this.body = BodyFactory.CreateCircle(this.Engine.World, 0.5f, 1);
             this.body.BodyType = BodyType.Dynamic;
             this.body.LinearDamping = 5f;
             this.body.UserData = this;
@@ -68,21 +66,12 @@ namespace Shooter.Gameplay
                                 .Where(x => this.Engine.Mouse.State.LeftButton == ButtonState.Pressed)
                                 .Subscribe(this.Fire));
 
-            attachments.Add(this.Engine.Keyboard.PressAsObservable(Keys.R)
-                                .ObserveOn(this.Engine.InputScheduler)
-                                .Subscribe(this.Reload));
+            var collisions = this.body.OnCollisionAsObservable()
+                .ObserveOn(this.Engine.PostPhysicsScheduler)
+                .Select(x => x.FixtureB.Body.UserData);
 
-            attachments.Add(this.body.OnCollisionAsObservable()
-                                .ObserveOn(this.Engine.PostPhysicsScheduler)
-                                .Select(x => x.FixtureB.Body.UserData)
-                                .OfType<IFireable>()
-                                .Subscribe(this.SetFireable));
-
-            attachments.Add(this.body.OnCollisionAsObservable()
-                                .ObserveOn(this.Engine.PostPhysicsScheduler)
-                                .Select(x => x.FixtureB.Body.UserData as IPowerup)
-                                .Where(x => x != null)
-                                .Subscribe(this.CollectPowerup));
+            attachments.Add(collisions.OfType<IFireable>().Subscribe(this.CollectWeapon));
+            attachments.Add(collisions.OfType<IPowerup>().Subscribe(this.CollectPowerup));
 
             attachments.Add(this.Engine.Updates
                                 .ObserveOn(this.Engine.PostPhysicsScheduler)
@@ -145,20 +134,15 @@ namespace Shooter.Gameplay
             }
         }
 
-        private void SetFireable(IFireable fireable)
-        {
-            this.weapon = fireable;
-            this.weapon.Kickbacks.Subscribe(x => this.body.LinearVelocity += x);
-        }
-
         private void Fire(EngineTime time)
         {
             this.weapon.FireRequests.OnNext(Unit.Default);
         }
 
-        private void Reload(KeyAndState key)
+        private void CollectWeapon(IFireable fireable)
         {
-            this.weapon.ReloadRequests.OnNext(Unit.Default);
+            this.weapon = fireable;
+            this.weapon.Kickbacks.Subscribe(x => this.body.LinearVelocity += x);
         }
     }
 }
