@@ -9,6 +9,7 @@ using System.Reactive.Subjects;
 using FarseerPhysics.DebugViews;
 using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Shooter.Core.Input;
 using Shooter.Core.Xna.Extensions;
 
@@ -26,6 +27,7 @@ namespace Shooter.Core
             this.Game = game;
             this.World = new World(Vector2.Zero);
             this.PerspectiveManager = new PerspectiveManager();
+            this.UISpriteBatch = new SpriteBatch(this.Game.GraphicsDevice);
 
             this.worldView = new DebugViewXNA(this.World);
 
@@ -76,6 +78,8 @@ namespace Shooter.Core
 
         public HistoricalScheduler PostDrawScheduler { get; private set; }
 
+        public SpriteBatch UISpriteBatch { get; set; }
+
         public void Update(GameTime gt)
         {
             var now = DateTime.Now;
@@ -102,19 +106,22 @@ namespace Shooter.Core
             var now = DateTime.Now;
             var time = new EngineTime(gt, 1);
 
+            this.UISpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null);
             this.draws.OnNext(time);
+            this.UISpriteBatch.End();
 
             var oldViewport = this.Game.GraphicsDevice.Viewport;
 
             using (Disposable.Create(() => { this.Game.GraphicsDevice.Viewport = oldViewport; }))
             {
                 foreach (var perspective in this.PerspectiveManager)
-                {
+                {   
                     this.Game.GraphicsDevice.Viewport = perspective.Viewport;
                     this.PerspectiveManager.CurrentPerspective = perspective;
 
-
+                    this.UISpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null);
                     this.perspectiveDraws.OnNext(time);
+                    this.UISpriteBatch.End();
 
                     var matrix = perspective.GetMatrix();
                     this.worldView.RenderDebugData(ref matrix);
@@ -123,7 +130,11 @@ namespace Shooter.Core
 
             this.Game.GraphicsDevice.Viewport = oldViewport;
 
+            this.UISpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null);
+
             this.PostDrawScheduler.AdvanceTo(now);
+
+            this.UISpriteBatch.End();
         }
     }
 }
