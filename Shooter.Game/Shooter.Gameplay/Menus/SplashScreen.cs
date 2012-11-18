@@ -20,7 +20,7 @@ namespace Shooter.Gameplay.Menus
 
         protected override void OnInitialize(ICollection<IDisposable> disposables)
         {
-            this.splashBackground = this.Engine.Game.Content.Load<Texture2D>("SplashImage");
+            this.splashBackground = this.Engine.Game.Content.Load<Texture2D>("Menu/SplashImage");
         }
 
         protected override void OnAttach(ICollection<IDisposable> attachments)

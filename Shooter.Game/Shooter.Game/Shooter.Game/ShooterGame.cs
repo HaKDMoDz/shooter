@@ -37,9 +37,9 @@ namespace Shooter.Application
 
         protected override void Initialize()
         {
-            this.graphics.PreferredBackBufferWidth = this.GraphicsDevice.DisplayMode.Width;
-            this.graphics.PreferredBackBufferHeight = this.GraphicsDevice.DisplayMode.Height;
-            this.graphics.ToggleFullScreen();
+            //this.graphics.PreferredBackBufferWidth = this.GraphicsDevice.DisplayMode.Width;
+            //this.graphics.PreferredBackBufferHeight = this.GraphicsDevice.DisplayMode.Height;
+            //this.graphics.ToggleFullScreen();
 
             this.engine = new Engine(this);
 
