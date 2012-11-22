@@ -20,6 +20,7 @@ namespace Shooter.Core.Input
         public Vector2? WorldPosition { get; private set; }
         public Vector2 KnownWorldPosition { get; private set; }
 
+        public IObservable<MouseButtonAndState> Button { get; private set; }
         public Subject<MouseButtonAndState> LeftButton { get; private set; }
         public Subject<MouseButtonAndState> RightButton { get; private set; }
         public Subject<MouseButtonAndState> MiddleButton { get; private set; }
@@ -27,6 +28,7 @@ namespace Shooter.Core.Input
         public Subject<MouseButtonAndState> XButton2 { get; private set; }
         public Subject<MouseScroll> Scroll { get; private set; }
         public Subject<MouseMove> Move { get; private set; }
+
 
         public ReactiveMouse(Engine engine)
         {
@@ -37,6 +39,12 @@ namespace Shooter.Core.Input
             this.MiddleButton = new Subject<MouseButtonAndState>();
             this.XButton1 = new Subject<MouseButtonAndState>();
             this.XButton2 = new Subject<MouseButtonAndState>();
+            this.Button = Observable.Merge(
+                this.LeftButton,
+                this.RightButton,
+                this.MiddleButton,
+                this.XButton1,
+                this.XButton2);
 
             this.Scroll = new Subject<MouseScroll>();
 

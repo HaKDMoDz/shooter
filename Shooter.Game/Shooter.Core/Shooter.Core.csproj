@@ -125,6 +125,7 @@
     <Compile Include="Perspective.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rectangle2D.cs" />
+    <Compile Include="Xna.Extensions\PointExtensions.cs" />
     <Compile Include="Xna.Extensions\SpriteBatchExtensions.cs" />
     <Compile Include="Xna.Extensions\Texture2DExtensions.cs" />
     <Compile Include="Xna.Extensions\Vector2Extensions.cs" />

@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DebugView XNA", "DebugView 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples XNA", "Samples XNA\Samples XNA\Samples XNA.csproj", "{1681ADA2-B2F3-4157-A603-82C742379856}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shooter.Ui", "Shooter.Ui\Shooter.Ui.csproj", "{4025A44A-B67F-43E4-9171-525929BAC25B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -47,6 +49,10 @@ Global
 		{1681ADA2-B2F3-4157-A603-82C742379856}.Debug|x86.Build.0 = Debug|x86
 		{1681ADA2-B2F3-4157-A603-82C742379856}.Release|x86.ActiveCfg = Release|x86
 		{1681ADA2-B2F3-4157-A603-82C742379856}.Release|x86.Build.0 = Release|x86
+		{4025A44A-B67F-43E4-9171-525929BAC25B}.Debug|x86.ActiveCfg = Debug|x86
+		{4025A44A-B67F-43E4-9171-525929BAC25B}.Debug|x86.Build.0 = Debug|x86
+		{4025A44A-B67F-43E4-9171-525929BAC25B}.Release|x86.ActiveCfg = Release|x86
+		{4025A44A-B67F-43E4-9171-525929BAC25B}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

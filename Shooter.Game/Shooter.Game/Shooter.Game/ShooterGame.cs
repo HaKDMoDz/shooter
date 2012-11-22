@@ -1,17 +1,11 @@
 using System;
-using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Shooter.Core;
-using Shooter.Core.Input;
 using Shooter.Gameplay;
-using Shooter.Gameplay.Levels;
 using Shooter.Gameplay.Menus;
-using Shooter.Gameplay.Powerups;
-using Shooter.Gameplay.Prefabs;
-using Shooter.Gameplay.Weapons;
 
 namespace Shooter.Application
 {
@@ -37,10 +31,6 @@ namespace Shooter.Application
 
         protected override void Initialize()
         {
-            //this.graphics.PreferredBackBufferWidth = this.GraphicsDevice.DisplayMode.Width;
-            //this.graphics.PreferredBackBufferHeight = this.GraphicsDevice.DisplayMode.Height;
-            //this.graphics.ToggleFullScreen();
-
             this.engine = new Engine(this);
 
             new SplashScreen(this.engine).Initialize().Attach();
@@ -59,7 +49,7 @@ namespace Shooter.Application
 
         protected override void Draw(GameTime gameTime)
         {
-            this.GraphicsDevice.Clear(ClearOptions.Target, Color.White, 0, 0);
+            this.GraphicsDevice.Clear(ClearOptions.Target, Color.CornflowerBlue, 0, 0);
 
             this.engine.Draw(gameTime);
 
