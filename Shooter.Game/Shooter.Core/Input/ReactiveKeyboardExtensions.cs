@@ -9,12 +9,12 @@ namespace Shooter.Core.Input
     {
         public static IObservable<KeyAndState> PressAsObservable(this ReactiveKeyboard keyboard, Keys key)
         {
-            return keyboard.KeyStateDictionary[key].Where(x => x.State == KeyState.Down);
+            return keyboard.KeyStateDictionary[key].Skip(1).Where(x => x.State == KeyState.Down);
         }
 
         public static IObservable<KeyAndState> ReleaseAsObservable(this ReactiveKeyboard keyboard, Keys key)
         {
-            return keyboard.KeyStateDictionary[key].Where(x => x.State == KeyState.Up);
+            return keyboard.KeyStateDictionary[key].Skip(1).Where(x => x.State == KeyState.Up);
         }
 
         public static IObservable<KeyAndState> LongPressAsObservable(this ReactiveKeyboard keyboard, Keys key)

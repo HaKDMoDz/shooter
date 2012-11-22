@@ -77,7 +77,10 @@ namespace Shooter.Core
 
         public void Dispose()
         {
-            this.Detach();
+            if (this.Attached)
+            {
+                this.Detach();
+            }
             this.OnDispose();
             this.disposables.Dispose();
             this.Initialized = false;
