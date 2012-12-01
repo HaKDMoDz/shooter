@@ -68,6 +68,11 @@ namespace Shooter.Gameplay
                                 .Where(x => this.Engine.Mouse.State.LeftButton == ButtonState.Pressed)
                                 .Subscribe(this.Fire));
 
+            attachments.Add(this.Engine.Updates
+                                .ObserveOn(this.Engine.PostPhysicsScheduler)
+                                .Where(x => this.Engine.GamePad.State.Buttons.A == ButtonState.Pressed)
+                                .Subscribe(this.Fire));
+
             attachments.Add(this.Engine.Keyboard.PressAsObservable(Keys.R)
                                 .ObserveOn(this.Engine.InputScheduler)
                                 .Subscribe(this.Reload));
@@ -117,6 +122,9 @@ namespace Shooter.Gameplay
             {
                 direction -= Vector2.UnitY;
             }
+
+            direction += Vector2.UnitX * this.Engine.GamePad.State.ThumbSticks.Left.X;
+            direction += Vector2.UnitY * this.Engine.GamePad.State.ThumbSticks.Left.Y;
 
             if (direction != Vector2.Zero)
             {

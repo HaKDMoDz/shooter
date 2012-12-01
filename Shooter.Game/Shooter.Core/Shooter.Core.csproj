@@ -110,12 +110,15 @@
     <Compile Include="EngineTime.cs" />
     <Compile Include="Farseer\Extensions\BodyExtensions.cs" />
     <Compile Include="GameObject.cs" />
+    <Compile Include="Input\GamePadButton.cs" />
+    <Compile Include="Input\GamePadButtonAndState.cs" />
+    <Compile Include="Input\ReactiveGamePad.cs" />
     <Compile Include="Input\KeyAndState.cs" />
     <Compile Include="Input\MouseButton.cs" />
     <Compile Include="Input\MouseButtonAndState.cs" />
     <Compile Include="Input\MouseMove.cs" />
     <Compile Include="Input\MouseScroll.cs" />
-    <Compile Include="Input\ReactiveGamePad.cs" />
+    <Compile Include="Input\ReactiveGamePadButtons.cs" />
     <Compile Include="Input\ReactiveKeyboard.cs" />
     <Compile Include="Input\ReactiveKeyboardExtensions.cs" />
     <Compile Include="Input\ReactiveMouse.cs" />

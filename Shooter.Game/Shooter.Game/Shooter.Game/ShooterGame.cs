@@ -49,7 +49,7 @@ namespace Shooter.Application
             new MainMenu(this.engine).Initialize().Attach();
             new Tiler(this.engine).Initialize().Attach();
 
-            new FlarBallField(this.engine).Initialize().Attach();
+            new OhSoSymmetrical(this.engine).Initialize().Attach();
             
             //new MouseDrivenThing(this.engine).Initialize().Attach();
             robot = new Robot(this.engine);
