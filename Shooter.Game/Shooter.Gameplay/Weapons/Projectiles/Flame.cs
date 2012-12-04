@@ -56,7 +56,7 @@ namespace Shooter.Gameplay.Weapons.Projectiles
         {
             this.body.Enabled = true;
             var birth = DateTime.UtcNow;
-            this.timeToDelete = birth + TimeSpan.FromSeconds(1);
+            this.timeToDelete = birth + TimeSpan.FromMilliseconds(100);
 
 
 

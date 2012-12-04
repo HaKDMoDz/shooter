@@ -93,6 +93,10 @@ namespace Shooter.Gameplay.Weapons
         {
             var direction = this.Engine.Mouse.KnownWorldPosition - this.Position;
             this.body.Rotation = (float)Math.Atan2(direction.Y, direction.X);
+
+            var state = this.Engine.GamePad.State.ThumbSticks.Right;
+
+            this.body.Rotation = (float)Math.Atan2(state.Y, state.X);
         }
 
         private void LinkPhysics(EngineTime time)

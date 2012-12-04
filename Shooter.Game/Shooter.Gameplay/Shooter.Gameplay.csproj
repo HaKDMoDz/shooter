@@ -99,6 +99,8 @@
     <Compile Include="Menus\MainMenu.cs" />
     <Compile Include="Menus\MenuButton.cs" />
     <Compile Include="Menus\NewGameMenu.cs" />
+    <Compile Include="Levels\FlarBallField.cs" />
+    <Compile Include="Levels\OhSoSymmetrical.cs" />
     <Compile Include="Powerups\IPowerup.cs" />
     <Compile Include="Powerups\RobotTraits.cs" />
     <Compile Include="Powerups\Shield.cs" />

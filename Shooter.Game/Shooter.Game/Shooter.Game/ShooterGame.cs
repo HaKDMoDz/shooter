@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Shooter.Core;
 using Shooter.Gameplay;
-using Shooter.Gameplay.Menus;
 
 namespace Shooter.Application
 {
@@ -16,7 +15,6 @@ namespace Shooter.Application
     {
         private Engine engine;
         private GraphicsDeviceManager graphics;
-        private Robot robot;
 
         public ShooterGame()
         {
@@ -32,8 +30,6 @@ namespace Shooter.Application
         protected override void Initialize()
         {
             this.engine = new Engine(this);
-
-            new SplashScreen(this.engine).Initialize().Attach();
         }
 
         protected override void Update(GameTime gameTime)

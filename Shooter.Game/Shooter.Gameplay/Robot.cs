@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Shooter.Core;
 using Shooter.Core.Farseer.Extensions;
+using Shooter.Core.Input;
 using Shooter.Gameplay.Powerups;
 using Shooter.Gameplay.Weapons;
 
@@ -70,6 +71,11 @@ namespace Shooter.Gameplay
                 .ObserveOn(this.Engine.PostPhysicsScheduler)
                 .Select(x => x.FixtureB.Body.UserData);
 
+            attachments.Add(this.Engine.Updates
+                                .ObserveOn(this.Engine.PostPhysicsScheduler)
+                                .Where(x => this.Engine.GamePad.State.Buttons.A == ButtonState.Pressed)
+                                .Subscribe(this.Fire));
+
             attachments.Add(collisions.OfType<IFireable>().Subscribe(this.CollectWeapon));
             attachments.Add(collisions.OfType<IPowerup>().Subscribe(this.CollectPowerup));
 
@@ -106,6 +112,9 @@ namespace Shooter.Gameplay
             {
                 direction -= Vector2.UnitY;
             }
+
+            direction += Vector2.UnitX * this.Engine.GamePad.State.ThumbSticks.Left.X;
+            direction += Vector2.UnitY * this.Engine.GamePad.State.ThumbSticks.Left.Y;
 
             if (direction != Vector2.Zero)
             {
