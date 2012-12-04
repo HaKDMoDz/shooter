@@ -1,11 +1,9 @@
 using System;
-using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Shooter.Core;
-using Shooter.Core.Input;
 using Shooter.Gameplay;
 using Shooter.Gameplay.Levels;
 using Shooter.Gameplay.Powerups;
@@ -53,8 +51,8 @@ namespace Shooter.Application
             
             //new MouseDrivenThing(this.engine).Initialize().Attach();
             robot = new Robot(this.engine);
-            robot.Position = Vector2.One;
             robot.Initialize().Attach();
+            robot.Position = Vector2.One;
             var crossbow = new Crossbow(this.engine);
             var pistol = new Pistol(this.engine);
             var flamethrower = new Flamethrower(this.engine);
