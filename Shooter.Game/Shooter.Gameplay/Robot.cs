@@ -20,7 +20,7 @@ namespace Shooter.Gameplay
         private Body body;
         private IFireable weapon;
         private readonly List<IPowerup> powerups = new List<IPowerup>();
-        private const float MaxLinearAcceleration = 200f;
+        private const float MaxLinearAcceleration = 75f;
 
         public Robot(Engine engine)
             : base(engine)
@@ -48,7 +48,7 @@ namespace Shooter.Gameplay
 
         protected override void OnInitialize(ICollection<IDisposable> disposables)
         {
-            this.body = BodyFactory.CreateCircle(this.Engine.World, 0.5f, 1);
+            this.body = BodyFactory.CreateCircle(this.Engine.World, 0.25f, 1);
             this.body.BodyType = BodyType.Dynamic;
             this.body.LinearDamping = 5f;
             this.body.UserData = this;

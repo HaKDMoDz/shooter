@@ -39,7 +39,7 @@ namespace Shooter.Gameplay.Weapons
         {
             var now = DateTime.UtcNow;
 
-            if (now - lastFire < TimeSpan.FromMilliseconds(400))
+            if (now - lastFire < TimeSpan.FromMilliseconds(900))
             {
                 return;
             }
@@ -63,7 +63,7 @@ namespace Shooter.Gameplay.Weapons
             }
 
 
-            const float kickback = -25;
+            const float kickback = -15;
             this.Kickbacks.OnNext(this.body.Rotation.RadiansToDirection() * kickback);
         }
         static Random RandomNum()
@@ -73,7 +73,7 @@ namespace Shooter.Gameplay.Weapons
         }
         protected override void OnInitialize(ICollection<IDisposable> disposables)
         {
-            this.body = BodyFactory.CreateRectangle(this.Engine.World, 1f, 1f, 1f);
+            this.body = BodyFactory.CreateRectangle(this.Engine.World, .5f, .5f, .5f);
             this.body.IsSensor = true;
             this.body.UserData = this;
 

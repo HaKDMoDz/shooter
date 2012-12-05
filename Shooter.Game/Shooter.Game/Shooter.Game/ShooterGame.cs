@@ -62,11 +62,11 @@ namespace Shooter.Application
 
             crossbow.Position = Vector2.One*15;
 
-            var crossbow2 = new Shotgun(this.engine);
+            var shotgun = new Shotgun(this.engine);
 
-            crossbow2.Initialize().Attach();
+            shotgun.Initialize().Attach();
 
-            crossbow2.Position = Vector2.One * 5;
+            shotgun.Position = Vector2.Zero;
 
             //Pistol Intialization
             pistol.Initialize().Attach();
