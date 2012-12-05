@@ -55,6 +55,10 @@ namespace Shooter.Application
             var crossbow = new Crossbow(this.engine);
             var pistol = new Pistol(this.engine);
             var flamethrower = new Flamethrower(this.engine);
+            var randomWeapon = new RandomWeapon(this.engine);
+
+            //Random Weaopn Initialization
+            randomWeapon.SelectGun();
 
             //Crossbow Initialization
             crossbow.Initialize().Attach();

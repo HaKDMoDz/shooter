@@ -60,6 +60,9 @@
     <XnaCompressContent>true</XnaCompressContent>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\..\Shooter.Data\bin\Debug\EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
       <Private>False</Private>
     </Reference>
@@ -129,6 +132,10 @@
     <ProjectReference Include="..\..\Shooter.Core\Shooter.Core.csproj">
       <Project>{3EC98D4B-A109-44B7-B96B-CE412F5A8F43}</Project>
       <Name>Shooter.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shooter.Data\Shooter.Data.csproj">
+      <Project>{008B180D-658B-4366-97D1-EEC4D208F039}</Project>
+      <Name>Shooter.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Shooter.Gameplay\Shooter.Gameplay.csproj">
       <Project>{76643214-A67D-4130-B63F-537528D87331}</Project>

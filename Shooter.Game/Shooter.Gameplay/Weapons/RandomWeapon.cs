@@ -22,6 +22,8 @@ namespace Shooter.Gameplay.Weapons
         private const double Crossbow = 0.25d; //4
         private const double Pistol = .30d; //5
 
+
+
         readonly Engine engine;
         int _cachedWeapon = 0;
         string _gun = "My Gun";
@@ -41,16 +43,17 @@ namespace Shooter.Gameplay.Weapons
 
             public Weapon SelectGun()
             {
+                var VectorPostion = Vector2.UnitX * 10;
                 double n = _randomWeaponbers.NextDouble();
                 string gun;
 
-                if (n <= 1 && this._cachedWeapon != 1)
+                if (n <= RocketLauncher && this._cachedWeapon != 1)
                 {
 
                     gun = "RocketLauncher";
                     _randomWeapon = new Rocketlauncher(this.engine);
                     _randomWeapon.Initialize().Attach();
-                    ((Rocketlauncher)_randomWeapon).Position = Vector2.One * 7;
+                    ((Rocketlauncher)_randomWeapon).Position = VectorPostion;
                     this._cachedWeapon = 1;
                 }
                 else if (n <= (RocketLauncher + Flamethrower) && n > RocketLauncher && this._cachedWeapon != 2)
@@ -59,7 +62,7 @@ namespace Shooter.Gameplay.Weapons
                     gun = "Flamethrower";
                     _randomWeapon = new Flamethrower(this.engine);
                     _randomWeapon.Initialize().Attach();
-                    ((Flamethrower)_randomWeapon).Position = Vector2.One * 7;
+                    ((Flamethrower)_randomWeapon).Position = VectorPostion;
                     this._cachedWeapon = 2;
                 }
                 else if (n <= (RocketLauncher + Flamethrower + Shotgun) && n > (RocketLauncher + Flamethrower) && this._cachedWeapon != 3)
@@ -67,7 +70,7 @@ namespace Shooter.Gameplay.Weapons
                     gun = "Shotgun";
                     _randomWeapon = new Shotgun(this.engine);
                     _randomWeapon.Initialize().Attach();
-                    ((Shotgun)_randomWeapon).Position = Vector2.One * 7;
+                    ((Shotgun)_randomWeapon).Position = VectorPostion;
                     this._cachedWeapon = 3;
                 }
                 else if (n <= (RocketLauncher + Flamethrower + Shotgun + Crossbow) && n > (RocketLauncher + Flamethrower + Shotgun) && this._cachedWeapon != 4)
@@ -75,7 +78,7 @@ namespace Shooter.Gameplay.Weapons
                     gun = "Crossbow";
                     _randomWeapon = new Crossbow(this.engine);
                     _randomWeapon.Initialize().Attach();
-                    ((Crossbow)_randomWeapon).Position = Vector2.One * 7;
+                    ((Crossbow)_randomWeapon).Position = VectorPostion;
                     this._cachedWeapon = 4;
                 }
 
@@ -84,7 +87,7 @@ namespace Shooter.Gameplay.Weapons
                     gun = "Pistol";
                     _randomWeapon = new Pistol(this.engine);
                     _randomWeapon.Initialize().Attach();
-                    ((Pistol)_randomWeapon).Position = Vector2.One * 7;
+                    ((Pistol)_randomWeapon).Position = VectorPostion;
                     this._cachedWeapon = 5;
                 }
                 else

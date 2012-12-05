@@ -10,9 +10,13 @@ using Shooter.Core;
 using Shooter.Core.Farseer.Extensions;
 using System.Reactive.Subjects;
 using System.Reactive;
+using Shooter.Core.Xna.Extensions;
+using Shooter.Gameplay.Weapons.Projectiles;
 
 namespace Shooter.Gameplay.Weapons
 {
+
+
     public class Pistol : Weapon
     {
         private Body body;
@@ -27,6 +31,17 @@ namespace Shooter.Gameplay.Weapons
         public Pistol(Engine engine)
             : base(engine)
         {
+        }
+
+        public void Fire(Unit unit)
+        {
+            var newBullet = new Bolt(this.Engine);
+            newBullet.Initialize().Attach();
+            var direction = this.body.Rotation.RadiansToDirection();
+
+            newBullet.Velocity = direction * this.projectileSpeed + this.owner.LinearVelocity;
+            newBullet.Rotation = this.body.Rotation;
+            newBullet.Position = this.body.Position + direction * 2f;
         }
 
         protected override void OnInitialize(ICollection<IDisposable> disposables)
@@ -47,12 +62,12 @@ namespace Shooter.Gameplay.Weapons
                                 .Where(x => this.owner != null)
                                 .Subscribe(this.Update));
 
-            //disposables.Add(
-            //    this.FireRequests.Take(1)
-            //        .Concat(
-            //            Observable.Interval(TimeSpan.FromMilliseconds(250)).Take(1).Where(x => false).Select(x => Unit.Default))
-            //        .Repeat()
-            //        .Subscribe(this.Fire));
+            disposables.Add(
+                this.FireRequests.Take(1)
+                    .Concat(
+                        Observable.Interval(TimeSpan.FromMilliseconds(250)).Take(1).Where(x => false).Select(x => Unit.Default))
+                    .Repeat()
+                    .Subscribe(this.Fire));
         }
 
         protected override void OnAttach(ICollection<IDisposable> attachments)
