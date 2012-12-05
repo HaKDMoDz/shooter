@@ -108,7 +108,9 @@ namespace Shooter.Gameplay
         private void Draw(EngineTime engineTime)
         {
             var texture = this.Engine.Game.Content.Load<Texture2D>("BackgroundTile"); // Dont do this, Andrew. Its bad.
-            this.Engine.SpriteBatch.Draw(texture, this.body.Position, Color.Red);
+            var size = 2f;
+            this.Engine.SpriteBatch.Draw(texture, this.body.Position, null, Color.Orange, 0, texture.Size() / 2,
+                                         Vector2.One / texture.Size() * size, SpriteEffects.None, 0f);
         }
 
         private void CollectPowerup(IPowerup powerup)
