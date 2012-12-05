@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using FarseerPhysics.Common.PhysicsLogic;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Shooter.Core;
 using Shooter.Core.Farseer.Extensions;
-using Shooter.Core.Input;
-using Shooter.Core.Input.Keyboard;
 using Shooter.Gameplay.Weapons.Projectiles;
+using Shooter.Input.Keyboard;
 
 namespace Shooter.Gameplay.Prefabs
 {
@@ -50,19 +48,19 @@ namespace Shooter.Gameplay.Prefabs
 
             attachments.Add(Disposable.Create(() => this.body.Enabled = false));
 
-            attachments.Add(this.Engine.Keyboard.PressAsObservable(Keys.OemComma)
+            var keyboard = this.Engine.Input.GetKeyboard(PlayerIndex.One);
+
+            attachments.Add(keyboard.PressAsObservable(Keys.OemComma)
                                 .Select(x => 1.0f)
                                 .Subscribe(this.AngularImpulse));
 
-            attachments.Add(this.Engine.Keyboard.PressAsObservable(Keys.OemPeriod)
+            attachments.Add(keyboard.PressAsObservable(Keys.OemPeriod)
                                 .Select(x => -1.0f)
                                 .Subscribe(this.AngularImpulse));
 
             attachments.Add(this.body.OnCollisionAsObservable().ObserveOn(this.Engine.PostPhysicsScheduler)
                                 .Where(x => x.FixtureB.Body.UserData is Shot)
                                 .Subscribe(this.Explode));
-
-
         }
 
         private void AngularImpulse(float f)
@@ -76,7 +74,7 @@ namespace Shooter.Gameplay.Prefabs
 
             //explosion.MaxShapes = 10000;
 
-            //explosion.Activate(this.Position, 10f, 1000f);
+            //explosion.Active(this.Position, 10f, 1000f);
 
             this.Dispose();
         }

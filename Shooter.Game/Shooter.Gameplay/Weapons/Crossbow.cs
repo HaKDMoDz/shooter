@@ -20,11 +20,16 @@ namespace Shooter.Gameplay.Weapons
     {
         private Body body;
         private float projectileSpeed = 35f;
-        private Robot owner;
-        public Vector2 Position { get { return this.body.Position; } set { this.body.Position = value; } }
+        private RobotOld owner;
 
-        public int magazineSize = 200;
-        public int magazineCount = 200;
+        public Vector2 Position
+        {
+            get { return this.body.Position; }
+            set { this.body.Position = value; }
+        }
+
+        private int magazineSize = 200;
+        private int magazineCount = 200;
 
         public Crossbow(Engine engine)
             : base(engine)
@@ -84,17 +89,17 @@ namespace Shooter.Gameplay.Weapons
             this.owner = null;
             attachments.Add(this.body.OnCollisionAsObservable()
                                 .ObserveOn(this.Engine.PostPhysicsScheduler)
-                                .Where(x => this.owner == null && x.FixtureB.Body.UserData is Robot)
-                                .Select(x => (Robot) x.FixtureB.Body.UserData)
+                                .Where(x => this.owner == null && x.FixtureB.Body.UserData is RobotOld)
+                                .Select(x => (RobotOld) x.FixtureB.Body.UserData)
                                 .Subscribe(this.SetOwner));
         }
 
         private void Update(EngineTime time)
         {
-            var direction = this.Engine.Mouse.KnownWorldPosition - this.Position;
+            var direction = this.Engine.Input.GetMouse().KnownWorldPosition - this.Position;
             this.body.Rotation = (float)Math.Atan2(direction.Y, direction.X);
 
-            //var state = this.Engine.GamePad.State.ThumbSticks.Right;
+            //var state = this.Engine.GamePad.State.ThumbSticks.Next;
 
             //this.body.Rotation = (float)Math.Atan2(state.Y, state.X);
         }
@@ -104,7 +109,7 @@ namespace Shooter.Gameplay.Weapons
             this.body.Position = this.owner.Position;
         }
 
-        private void SetOwner(Robot robot)
+        private void SetOwner(RobotOld robot)
         {
             this.Detach();
             this.owner = robot;

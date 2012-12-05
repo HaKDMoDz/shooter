@@ -47,11 +47,11 @@ namespace Shooter.Gameplay.Powerups
             attachments.Add(this.body.OnCollisionAsObservable()
                                 .ObserveOn(this.Engine.PostPhysicsScheduler)
                                 .Select(x => x.FixtureB.Body.UserData)
-                                .OfType<Robot>()
+                                .OfType<RobotOld>()
                                 .Subscribe(this.Collision));
         }
 
-        private void Collision(Robot robot)
+        private void Collision(RobotOld robot)
         {
             Observable.Interval(TimeSpan.FromSeconds(15)).Take(1).Subscribe(x =>
                 this.shouldRemove = true

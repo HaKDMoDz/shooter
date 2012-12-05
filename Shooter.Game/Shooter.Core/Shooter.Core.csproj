@@ -110,26 +110,7 @@
     <Compile Include="EngineTime.cs" />
     <Compile Include="Farseer\Extensions\BodyExtensions.cs" />
     <Compile Include="GameObject.cs" />
-    <Compile Include="Input\Keyboard\KeyAndState.cs" />
-    <Compile Include="Input\Mouse\MouseButton.cs" />
-    <Compile Include="Input\Mouse\MouseButtonAndState.cs" />
-    <Compile Include="Input\Mouse\MouseMove.cs" />
-    <Compile Include="Input\Mouse\MouseScroll.cs" />
-    <Compile Include="Input\Keyboard\ReactiveKeyboard.cs" />
-    <Compile Include="Input\Keyboard\ReactiveKeyboardExtensions.cs" />
-    <Compile Include="Input\Mouse\ReactiveMouse.cs" />
-    <Compile Include="Input\GamePad\GamePadButton.cs" />
-    <Compile Include="Input\GamePad\GamePadButtonAndState.cs" />
-    <Compile Include="Input\GamePad\GamePadStick.cs" />
-    <Compile Include="Input\GamePad\GamePadStickAndState.cs" />
-    <Compile Include="Input\GamePad\GamePadTrigger.cs" />
-    <Compile Include="Input\GamePad\GamePadTriggerAndState.cs" />
-    <Compile Include="Input\GamePad\ReactiveGamePad.cs" />
-    <Compile Include="Input\GamePad\ReactiveGamePadButton.cs" />
-    <Compile Include="Input\GamePad\ReactiveGamePadButtons.cs" />
-    <Compile Include="Input\GamePad\ReactiveGamePadDPad.cs" />
-    <Compile Include="Input\GamePad\ReactiveGamePadThumbSticks.cs" />
-    <Compile Include="Input\GamePad\ReactiveGamePadTriggers.cs" />
+    <Compile Include="GameObjectExtensions.cs" />
     <Compile Include="KeyboardCameraController.cs" />
     <Compile Include="Xna.Extensions\MouseStateExtensions.cs" />
     <Compile Include="PersepectiveManager.cs" />
@@ -149,6 +130,10 @@
     <ProjectReference Include="..\Farseer Physics XNA\Farseer Physics XNA.csproj">
       <Project>{0A850700-1ABB-4288-A391-6726B90EBEB9}</Project>
       <Name>Farseer Physics XNA</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Shooter.Input\Shooter.Input.csproj">
+      <Project>{DD9BD37D-C2AE-43E4-B639-1E2B09696FA9}</Project>
+      <Name>Shooter.Input</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

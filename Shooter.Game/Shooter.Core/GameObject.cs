@@ -30,7 +30,7 @@ namespace Shooter.Core
             this.disposable = this.Engine.Updates.Subscribe();
         }
 
-        public GameObject Initialize()
+        internal GameObject Initialize()
         {
             this.disposables = new CompositeDisposable();
             this.OnInitialize(this.disposables);
@@ -40,9 +40,9 @@ namespace Shooter.Core
             return this;
         }
 
-        public GameObject Attach()
+        internal GameObject Attach()
         {
-            if(!this.Initialized)
+            if (!this.Initialized)
             {
                 throw new InvalidOperationException("Cannot Attach before Initializing Game Object");
             }

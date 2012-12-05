@@ -7,10 +7,11 @@ using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
 using Shooter.Core;
+using Shooter.Gameplay.Logic;
 
 namespace Shooter.Gameplay.Levels
 {
-    public class OhSoSymmetrical : GameObject
+    public class OhSoSymmetrical : GameObject, ISpawnPointProvider
     {
         public OhSoSymmetrical(Engine engine)
             : base(engine)
@@ -132,5 +133,9 @@ namespace Shooter.Gameplay.Levels
         }
 
 
+        public IEnumerable<ISpawnPoint> GetSpawnPoints()
+        {
+            yield break;
+        }
     }
 }

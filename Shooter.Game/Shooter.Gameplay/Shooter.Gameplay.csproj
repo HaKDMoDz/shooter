@@ -95,10 +95,24 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Menus\HighScoreMenu.cs" />
-    <Compile Include="Menus\MainMenu.cs" />
-    <Compile Include="Menus\MenuButton.cs" />
-    <Compile Include="Menus\NewGameMenu.cs" />
+    <Compile Include="Logic\ICollisionDamager.cs" />
+    <Compile Include="Logic\IKill.cs" />
+    <Compile Include="Logic\IPlayer.cs" />
+    <Compile Include="Logic\IPlayerFire.cs" />
+    <Compile Include="Logic\ISpawnPoint.cs" />
+    <Compile Include="Logic\ISpawnPointProvider.cs" />
+    <Compile Include="Logic\Player.cs" />
+    <Compile Include="Logic\PlayerController.cs" />
+    <Compile Include="Menus\Models\PlayerTeam.cs" />
+    <Compile Include="Menus\Models\PreGameController.cs" />
+    <Compile Include="Menus\Views\Direction.cs" />
+    <Compile Include="Menus\Views\GameTypeChangeRequest.cs" />
+    <Compile Include="Menus\Views\MapChangeRequest.cs" />
+    <Compile Include="Menus\Views\PlayerActivationRequest.cs" />
+    <Compile Include="Menus\Views\HighScoreMenu.cs" />
+    <Compile Include="Menus\Views\MainMenu.cs" />
+    <Compile Include="Menus\Views\MenuButton.cs" />
+    <Compile Include="Menus\Views\PreGameView.cs" />
     <Compile Include="Levels\FlarBallField.cs" />
     <Compile Include="Levels\OhSoSymmetrical.cs" />
     <Compile Include="Powerups\IPowerup.cs" />
@@ -117,11 +131,11 @@
     <Compile Include="Weapons\Crossbow.cs" />
     <Compile Include="Weapons\Projectiles\Bolt.cs" />
     <Compile Include="Levels\SampleLevel.cs" />
-    <Compile Include="Menus\SplashScreen.cs" />
+    <Compile Include="Menus\Views\SplashView.cs" />
     <Compile Include="Prefabs\MouseDrivenThing.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Prefabs\FlyingBrick.cs" />
-    <Compile Include="Robot.cs" />
+    <Compile Include="RobotOld.cs" />
     <Compile Include="Weapons\Projectiles\Flame.cs" />
     <Compile Include="Weapons\Weapon.cs" />
   </ItemGroup>
@@ -133,6 +147,10 @@
     <ProjectReference Include="..\Shooter.Core\Shooter.Core.csproj">
       <Project>{3EC98D4B-A109-44B7-B96B-CE412F5A8F43}</Project>
       <Name>Shooter.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Shooter.Input\Shooter.Input.csproj">
+      <Project>{DD9BD37D-C2AE-43E4-B639-1E2B09696FA9}</Project>
+      <Name>Shooter.Input</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

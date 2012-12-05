@@ -7,8 +7,7 @@ using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Shooter.Core;
-using Shooter.Core.Input;
-using Shooter.Core.Input.Mouse;
+using Shooter.Input.Mouse;
 
 namespace Shooter.Gameplay.Prefabs
 {
@@ -37,8 +36,9 @@ namespace Shooter.Gameplay.Prefabs
 
         protected override void OnAttach(ICollection<IDisposable> attachments)
         {
-            attachments.Add(this.Engine.Mouse.LeftButton.Where(x => x.State == ButtonState.Pressed).Subscribe(this.Press));
-            attachments.Add(this.Engine.Mouse.Move.Subscribe(this.Move));
+            var mouse = this.Engine.Input.GetMouse();
+            attachments.Add(mouse.LeftButton.Where(x => x.State == ButtonState.Pressed).Subscribe(this.Press));
+            attachments.Add(mouse.Move.Subscribe(this.Move));
         }
 
         private void Press(MouseButtonAndState e)

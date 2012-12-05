@@ -10,8 +10,9 @@ using FarseerPhysics.DebugViews;
 using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Shooter.Core.Input;
-using Shooter.Core.Xna.Extensions;
+using Shooter.Input;
+using Shooter.Input.Keyboard;
+using Shooter.Input.Mouse;
 
 namespace Shooter.Core
 {
@@ -39,8 +40,7 @@ namespace Shooter.Core
             this.PostPhysicsScheduler = new HistoricalScheduler(now);
             this.PostDrawScheduler = new HistoricalScheduler(now);
 
-            this.Keyboard = new ReactiveKeyboard(this.InputScheduler);
-            this.Mouse = new ReactiveMouse(this);
+            this.Input = new ReactiveInputManager(this.InputScheduler);
 
             this.Logger = new DebugLogger(this);
             this.Logger.Initialize().Attach();
@@ -48,12 +48,10 @@ namespace Shooter.Core
             this.worldView.LoadContent(this.Game.GraphicsDevice, this.Game.Content);
         }
 
-
         public Game Game { get; private set; }
         public World World { get; private set; }
         public PerspectiveManager PerspectiveManager { get; set; }
-        public ReactiveKeyboard Keyboard { get; private set; }
-        public ReactiveMouse Mouse { get; private set; }
+        public ReactiveInputManager Input { get; private set; }
         public DebugLogger Logger { get; private set; }
 
         public IObservable<EngineTime> Updates
@@ -87,8 +85,7 @@ namespace Shooter.Core
 
             this.updates.OnNext(time);
 
-            this.Keyboard.Update();
-            this.Mouse.Update();
+            this.Input.Update();
 
             this.InputScheduler.AdvanceTo(now);
 

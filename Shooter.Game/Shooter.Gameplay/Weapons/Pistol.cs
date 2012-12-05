@@ -17,7 +17,7 @@ namespace Shooter.Gameplay.Weapons
     {
         private Body body;
         private float projectileSpeed = 50f;
-        private Robot owner;
+        private RobotOld owner;
         public Vector2 Position { get { return this.body.Position; } set { this.body.Position = value; } }
 
         //Sets the time of last fired projectile.
@@ -60,14 +60,14 @@ namespace Shooter.Gameplay.Weapons
             this.owner = null;
             attachments.Add(this.body.OnCollisionAsObservable()
                                 .ObserveOn(this.Engine.PostPhysicsScheduler)
-                                .Where(x => this.owner == null && x.FixtureB.Body.UserData is Robot)
-                                .Select(x => (Robot)x.FixtureB.Body.UserData)
+                                .Where(x => this.owner == null && x.FixtureB.Body.UserData is RobotOld)
+                                .Select(x => (RobotOld)x.FixtureB.Body.UserData)
                                 .Subscribe(this.SetOwner));
         }
 
         private void Update(EngineTime time)
         {
-            var direction = this.Engine.Mouse.KnownWorldPosition - this.Position;
+            var direction = this.Engine.Input.GetMouse().KnownWorldPosition - this.Position;
             this.body.Rotation = (float)Math.Atan2(direction.Y, direction.X);
         }
 
@@ -76,7 +76,7 @@ namespace Shooter.Gameplay.Weapons
             this.body.Position = this.owner.Position;
         }
 
-        private void SetOwner(Robot robot)
+        private void SetOwner(RobotOld robot)
         {
             this.Detach();
             this.owner = robot;

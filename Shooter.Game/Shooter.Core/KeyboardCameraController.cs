@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Reactive.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using Shooter.Core.Input;
-using Shooter.Core.Input.Keyboard;
+using Shooter.Input.Keyboard;
 
 namespace Shooter.Core
 {
@@ -27,7 +26,8 @@ namespace Shooter.Core
         protected override void OnAttach(ICollection<IDisposable> attachments)
         {
             attachments.Add(this.Engine.Updates.ObserveOn(this.Engine.UpdateScheduler).Subscribe(this.UpdateInput));
-            attachments.Add(this.Engine.Keyboard.PressAsObservable(Keys.R).Subscribe(this.Beacon));
+            attachments.Add(
+                this.Engine.Input.GetKeyboard(PlayerIndex.One).PressAsObservable(Keys.R).Subscribe(this.Beacon));
         }
 
         private void Beacon(KeyAndState key)
@@ -49,37 +49,39 @@ namespace Shooter.Core
         {
             Vector2 linearVelocity = Vector2.Zero;
 
-            if (this.Engine.Keyboard.State.IsKeyDown(Keys.Up))
+            var keyboard = this.Engine.Input.GetKeyboard(PlayerIndex.One);
+
+            if (keyboard.State.IsKeyDown(Keys.Up))
             {
                 linearVelocity += Vector2.UnitY;
             }
 
-            if (this.Engine.Keyboard.State.IsKeyDown(Keys.Down))
+            if (keyboard.State.IsKeyDown(Keys.Down))
             {
                 linearVelocity -= Vector2.UnitY;
             }
 
-            if (this.Engine.Keyboard.State.IsKeyDown(Keys.Left))
+            if (keyboard.State.IsKeyDown(Keys.Left))
             {
                 linearVelocity -= Vector2.UnitX;
             }
 
-            if (this.Engine.Keyboard.State.IsKeyDown(Keys.Right))
+            if (keyboard.State.IsKeyDown(Keys.Right))
             {
                 linearVelocity += Vector2.UnitX;
             }
 
-            if (this.Engine.Keyboard.State.IsKeyDown(Keys.Z))
+            if (keyboard.State.IsKeyDown(Keys.Z))
             {
                 this.camera.Zoom += this.ZoomSpeed*time.Elapsed;
             }
 
-            if (this.Engine.Keyboard.State.IsKeyDown(Keys.X))
+            if (keyboard.State.IsKeyDown(Keys.X))
             {
                 this.camera.Zoom -= this.ZoomSpeed*time.Elapsed;
             }
 
-            if (this.Engine.Keyboard.State.IsKeyDown(Keys.C))
+            if (keyboard.State.IsKeyDown(Keys.C))
             {
                 this.Dispose();
             }

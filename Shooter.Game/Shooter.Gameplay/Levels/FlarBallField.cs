@@ -24,12 +24,12 @@ namespace Shooter.Gameplay.Levels
             var b2 = new Vector2(60, 10);
             var b3 = new Vector2(60, -10);
             var b4 = new Vector2(-60, -10);
-            //Left Flag Barriers
+            //Previous Flag Barriers
             var f1_1 = new Vector2(-54, 9);
             var f1_2 = new Vector2(-54, 7);
             var f2_1 = new Vector2(-59, 4);
             var f2_2 = new Vector2(-57, 4);
-            //Right Flag Barriers
+            //Next Flag Barriers
             var f3_1 = new Vector2(59, -4);
             var f3_2 = new Vector2(57, -4);
             var f4_1 = new Vector2(54, -9);
@@ -46,12 +46,12 @@ namespace Shooter.Gameplay.Levels
             var t2_3 = new Vector2(-4, -6);
             var t2_4 = new Vector2(-4.675f, -6.09f);
             var t2_5 = new Vector2(-24, -10);
-            //Left Space Breakers
+            //Previous Space Breakers
             var s1_1 = new Vector2(-54, -6);
             var s1_2 = new Vector2(-36, -6);
             var s1_3 = new Vector2(-36, 6);
             var s1_4 = new Vector2(-15, 6);
-            //Right Space-Breakers
+            //Next Space-Breakers
             var s2_1 = new Vector2(54, 6);
             var s2_2 = new Vector2(36, 6);
             var s2_3 = new Vector2(36, -6);
