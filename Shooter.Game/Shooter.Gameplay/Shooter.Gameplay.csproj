@@ -101,6 +101,7 @@
     <Compile Include="Powerups\SpeedBoost.cs" />
     <Compile Include="Tiler.cs" />
     <Compile Include="Weapons\Projectiles\Rocket.cs" />
+    <Compile Include="Weapons\RandomWeapon.cs" />
     <Compile Include="Weapons\Rocketlauncher.cs" />
     <Compile Include="Weapons\Projectiles\Shot.cs" />
     <Compile Include="Weapons\Shotgun.cs" />
