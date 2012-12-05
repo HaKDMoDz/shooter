@@ -12,13 +12,16 @@ using Shooter.Core.Input;
 using Shooter.Core.Xna.Extensions;
 using Shooter.Gameplay.Powerups;
 using Shooter.Gameplay.Weapons;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Shooter.Gameplay
 {
     public class Robot : GameObject
     {
         private Body body;
+        private Texture2D texture;
         private IFireable weapon;
+        //private SpriteBatch spriteBatch = new SpriteBatch();
         private readonly List<IPowerup> powerups = new List<IPowerup>();
         private const float MaxLinearAcceleration = 75f;
 
@@ -46,6 +49,11 @@ namespace Shooter.Gameplay
             set { this.body.LinearVelocity = value; }
         }
 
+        public void Draw()
+        {
+            
+        }
+
         protected override void OnInitialize(ICollection<IDisposable> disposables)
         {
             this.body = BodyFactory.CreateCircle(this.Engine.World, 0.25f, 1);
@@ -53,6 +61,7 @@ namespace Shooter.Gameplay
             this.body.LinearDamping = 5f;
             this.body.UserData = this;
             this.body.FixedRotation = true;
+
 
             disposables.Add(this.body);
         }
