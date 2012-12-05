@@ -32,17 +32,13 @@ namespace Shooter.Data
                 return this.HighScores.OrderByDescending(x => x.Kills);
             }
         }
-        public void AddEntry(string name, int kills) {
-            var highscore = new HighScore();
-            highscore.Kills = kills;
-            highscore.Name = name;
-            this.HighScores.Add(highscore);
+        public void AddEntry(HighScore highScore) {
+            this.HighScores.Add(highScore);
             this.SaveChanges();
             this.RefreshTable();
     }
-     
-    }
 
+        }
     public class ShooterDbInitializer : DropCreateDatabaseIfModelChanges<ShooterDb>
     {
         protected override void Seed(ShooterDb context)
