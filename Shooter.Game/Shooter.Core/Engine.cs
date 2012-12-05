@@ -9,6 +9,7 @@ using System.Reactive.Subjects;
 using FarseerPhysics.DebugViews;
 using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Shooter.Core.Input;
 using Shooter.Core.Xna.Extensions;
 
@@ -45,7 +46,14 @@ namespace Shooter.Core
             this.Logger.Initialize().Attach();
 
             this.worldView.LoadContent(this.Game.GraphicsDevice, this.Game.Content);
+
+            this.SpriteBatch = new SpriteBatch(this.Game.GraphicsDevice);
+            this.UISpriteBatch = new SpriteBatch(this.Game.GraphicsDevice);
         }
+
+        public SpriteBatch UISpriteBatch { get; set; }
+
+        public SpriteBatch SpriteBatch { get; set; }
 
 
         public Game Game { get; private set; }
@@ -116,11 +124,16 @@ namespace Shooter.Core
                     this.Game.GraphicsDevice.Viewport = perspective.Viewport;
                     this.PerspectiveManager.CurrentPerspective = perspective;
 
+                    var matrix = perspective.GetMatrix() * SpriteBatchExtensions.GetUndoMatrix(perspective.Viewport);
 
+                    this.SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, matrix);
+                    this.UISpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
                     this.perspectiveDraws.OnNext(time);
+                    this.SpriteBatch.End();
+                    this.UISpriteBatch.End();
 
-                    var matrix = perspective.GetMatrix();
-                    this.worldView.RenderDebugData(ref matrix);
+                    var physicsViewMatrix = perspective.GetMatrix();
+                    this.worldView.RenderDebugData(ref physicsViewMatrix);
                 }
             }
 

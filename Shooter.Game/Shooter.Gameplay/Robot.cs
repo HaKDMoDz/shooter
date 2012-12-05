@@ -101,6 +101,14 @@ namespace Shooter.Gameplay
             attachments.Add(this.Engine.Updates
                                 .ObserveOn(this.Engine.PostPhysicsScheduler)
                                 .Subscribe(this.LinkPhysics));
+
+            attachments.Add(this.Engine.PerspectiveDraws.Subscribe(this.Draw));
+        }
+
+        private void Draw(EngineTime engineTime)
+        {
+            var texture = this.Engine.Game.Content.Load<Texture2D>("BackgroundTile"); // Dont do this, Andrew. Its bad.
+            this.Engine.SpriteBatch.Draw(texture, this.body.Position, Color.Red);
         }
 
         private void CollectPowerup(IPowerup powerup)
