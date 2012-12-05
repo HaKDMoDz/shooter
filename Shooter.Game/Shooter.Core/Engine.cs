@@ -39,7 +39,6 @@ namespace Shooter.Core
             this.PostPhysicsScheduler = new HistoricalScheduler(now);
             this.PostDrawScheduler = new HistoricalScheduler(now);
 
-            this.GamePad = new ReactiveGamePad(PlayerIndex.One);
             this.Keyboard = new ReactiveKeyboard(this.InputScheduler);
             this.Mouse = new ReactiveMouse(this);
 
@@ -53,7 +52,6 @@ namespace Shooter.Core
         public Game Game { get; private set; }
         public World World { get; private set; }
         public PerspectiveManager PerspectiveManager { get; set; }
-        public ReactiveGamePad GamePad { get; set; }
         public ReactiveKeyboard Keyboard { get; private set; }
         public ReactiveMouse Mouse { get; private set; }
         public DebugLogger Logger { get; private set; }
@@ -89,7 +87,6 @@ namespace Shooter.Core
 
             this.updates.OnNext(time);
 
-            this.GamePad.Update();
             this.Keyboard.Update();
             this.Mouse.Update();
 
