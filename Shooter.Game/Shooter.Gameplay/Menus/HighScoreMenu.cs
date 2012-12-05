@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework.Input;
 using Shooter.Core;
 using Shooter.Core.Input;
+using Shooter.Core.Input.Keyboard;
 
 namespace Shooter.Gameplay.Menus
 {

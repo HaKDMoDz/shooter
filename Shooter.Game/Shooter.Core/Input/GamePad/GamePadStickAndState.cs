@@ -1,4 +1,6 @@
-namespace Microsoft.Xna.Framework.Input.Reactive.GamePad
+using Microsoft.Xna.Framework;
+
+namespace Shooter.Core.Input.GamePad
 {
     public class GamePadStickAndState
     {

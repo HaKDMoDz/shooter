@@ -1,7 +1,8 @@
 using System;
 using System.Reactive.Linq;
+using Microsoft.Xna.Framework.Input;
 
-namespace Microsoft.Xna.Framework.Input.Reactive.GamePad
+namespace Shooter.Core.Input.GamePad
 {
     public class ReactiveGamePadButton : IObservable<GamePadButtonAndState>
     {

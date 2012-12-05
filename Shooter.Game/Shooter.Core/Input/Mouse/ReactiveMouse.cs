@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-
 using Shooter.Core.Xna.Extensions;
 
-namespace Shooter.Core.Input
+namespace Shooter.Core.Input.Mouse
 {
     public class ReactiveMouse
     {
@@ -59,7 +55,7 @@ namespace Shooter.Core.Input
             var oldWorldPosition = this.WorldPosition;
 
             // Update to new state
-            this.State = Mouse.GetState();
+            this.State = Microsoft.Xna.Framework.Input.Mouse.GetState();
             this.ScreenPosition = this.State.PositionToPoint();
             this.WorldPosition = this.engine.PerspectiveManager.Unproject(this.State.X, this.State.Y);
 

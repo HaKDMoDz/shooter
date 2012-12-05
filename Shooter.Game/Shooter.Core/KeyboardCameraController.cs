@@ -4,6 +4,7 @@ using System.Reactive.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Shooter.Core.Input;
+using Shooter.Core.Input.Keyboard;
 
 namespace Shooter.Core
 {

@@ -1,4 +1,7 @@
-namespace Microsoft.Xna.Framework.Input.Reactive.GamePad
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
+
+namespace Shooter.Core.Input.GamePad
 {
     public class ReactiveGamePad
     {
@@ -25,7 +28,7 @@ namespace Microsoft.Xna.Framework.Input.Reactive.GamePad
         public void Update()
         {
             this.OldState = this.State;
-            this.State = Input.GamePad.GetState(this.playerIndex, GamePadDeadZone.Circular);
+            this.State = Microsoft.Xna.Framework.Input.GamePad.GetState(this.playerIndex, GamePadDeadZone.Circular);
 
             this.Buttons.Update();
             this.DPad.Update();

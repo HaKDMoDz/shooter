@@ -1,7 +1,7 @@
 using System;
 using System.Reactive.Subjects;
 
-namespace Microsoft.Xna.Framework.Input.Reactive.GamePad
+namespace Shooter.Core.Input.GamePad
 {
     public class ReactiveGamePadTriggers : IObservable<GamePadTriggerAndState>
     {

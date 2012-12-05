@@ -1,4 +1,6 @@
-namespace Microsoft.Xna.Framework.Input.Reactive.GamePad
+using Microsoft.Xna.Framework.Input;
+
+namespace Shooter.Core.Input.GamePad
 {
     public struct GamePadButtonAndState
     {

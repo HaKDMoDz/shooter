@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework.Input;
 
-namespace Shooter.Core.Input
+namespace Shooter.Core.Input.Mouse
 {
     public class MouseButtonAndState
     {

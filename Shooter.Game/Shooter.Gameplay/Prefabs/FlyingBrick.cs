@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Shooter.Core;
 using Shooter.Core.Farseer.Extensions;
 using Shooter.Core.Input;
+using Shooter.Core.Input.Keyboard;
 using Shooter.Gameplay.Weapons.Projectiles;
 
 namespace Shooter.Gameplay.Prefabs

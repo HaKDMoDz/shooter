@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Shooter.Core;
 using Shooter.Core.Input;
+using Shooter.Core.Input.Mouse;
 
 namespace Shooter.Gameplay.Prefabs
 {

@@ -1,4 +1,4 @@
-namespace Shooter.Core.Input
+namespace Shooter.Core.Input.Mouse
 {
     public enum MouseButton
     {

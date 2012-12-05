@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Concurrency;
-using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace Shooter.Core.Input
+namespace Shooter.Core.Input.Keyboard
 {
     public class ReactiveKeyboard
     {
@@ -36,7 +34,7 @@ namespace Shooter.Core.Input
 
             this.Scheduler = scheduler;
 
-            KeyStateDictionary = Enum
+            this.KeyStateDictionary = Enum
                 .GetValues(typeof(Keys))
                 .Cast<Keys>()
                 .ToDictionary(
@@ -46,14 +44,14 @@ namespace Shooter.Core.Input
                                )
                 );
 
-            this.keyState = KeyStateDictionary.Values.ToObservable().Merge();
+            this.keyState = this.KeyStateDictionary.Values.ToObservable().Merge();
         }
 
         public void Update()
         {
-            this.State = Keyboard.GetState(this.playerIndex);
+            this.State = Microsoft.Xna.Framework.Input.Keyboard.GetState(this.playerIndex);
 
-            var all = KeyStateDictionary
+            var all = this.KeyStateDictionary
                 .Select(x => x.Value.First())
                 .ToList();
 
@@ -78,12 +76,12 @@ namespace Shooter.Core.Input
 
             foreach(var key in justPressed)
             {
-                KeyStateDictionary[key].OnNext(new KeyAndState(key, KeyState.Down));
+                this.KeyStateDictionary[key].OnNext(new KeyAndState(key, KeyState.Down));
             }
 
             foreach(var key in justReleased)
             {
-                KeyStateDictionary[key].OnNext(new KeyAndState(key, KeyState.Up));
+                this.KeyStateDictionary[key].OnNext(new KeyAndState(key, KeyState.Up));
             }
         }
 

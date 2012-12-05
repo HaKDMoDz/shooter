@@ -1,8 +1,6 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-using Shooter.Core.Xna.Extensions;
 
-namespace Shooter.Core.Input
+namespace Shooter.Core.Input.Mouse
 {
     public class MouseMove
     {

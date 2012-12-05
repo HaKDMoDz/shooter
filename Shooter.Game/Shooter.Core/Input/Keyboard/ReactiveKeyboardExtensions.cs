@@ -3,7 +3,7 @@ using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using Microsoft.Xna.Framework.Input;
 
-namespace Shooter.Core.Input
+namespace Shooter.Core.Input.Keyboard
 {
     public static class ReactiveKeyboardExtensions
     {
