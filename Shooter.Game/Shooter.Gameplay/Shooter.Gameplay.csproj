@@ -95,6 +95,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IPosition.cs" />
+    <Compile Include="Levels\SpawnPoint.cs" />
     <Compile Include="Logic\ContactDamage.cs" />
     <Compile Include="Logic\FireRequest.cs" />
     <Compile Include="Logic\IContactDamagable.cs" />
@@ -105,8 +107,9 @@
     <Compile Include="Logic\IPlayerFire.cs" />
     <Compile Include="Logic\ISpawnPoint.cs" />
     <Compile Include="Logic\ISpawnPointProvider.cs" />
-    <Compile Include="Logic\Player.cs" />
-    <Compile Include="Logic\PlayerController.cs" />
+    <Compile Include="Logic\Kill.cs" />
+    <Compile Include="Logic\PlayerRobot.cs" />
+    <Compile Include="Logic\PlayerRobotController.cs" />
     <Compile Include="Menus\Models\PlayerTeam.cs" />
     <Compile Include="Menus\Models\PreGameController.cs" />
     <Compile Include="Menus\Views\Direction.cs" />
@@ -119,13 +122,16 @@
     <Compile Include="Menus\Views\PreGameView.cs" />
     <Compile Include="Levels\FlarBallField.cs" />
     <Compile Include="Levels\OhSoSymmetrical.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="Powerups\IPowerup.cs" />
     <Compile Include="Powerups\RobotTraits.cs" />
     <Compile Include="Powerups\Shield.cs" />
     <Compile Include="Powerups\SpeedBoost.cs" />
+    <Compile Include="SlayerGame.cs" />
     <Compile Include="Tiler.cs" />
     <Compile Include="Claims\IClaimable.cs" />
     <Compile Include="Claims\IClaimer.cs" />
+    <Compile Include="Weapons\IFireRequest.cs" />
     <Compile Include="Weapons\Projectiles\Rocket.cs" />
     <Compile Include="Weapons\Rocketlauncher.cs" />
     <Compile Include="Weapons\Projectiles\Shot.cs" />

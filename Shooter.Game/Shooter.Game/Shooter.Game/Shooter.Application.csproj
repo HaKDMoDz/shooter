@@ -113,10 +113,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FollowingCameraController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ShooterGame.cs" />
-    <Compile Include="SlayerGame.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

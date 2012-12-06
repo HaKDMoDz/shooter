@@ -4,7 +4,7 @@ namespace Shooter.Gameplay.Logic
 {
     public interface ISpawnPoint
     {
-        Vector2 GetPosition();
+        Vector2 Position { get; }
         bool SupportsPlayer(IPlayer player);
     }
 }

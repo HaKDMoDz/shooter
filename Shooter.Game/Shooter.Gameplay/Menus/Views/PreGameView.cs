@@ -26,7 +26,7 @@ namespace Shooter.Gameplay.Menus.Views
 
                 var index = playerIndex;
                 
-                // Player Activation
+                // PlayerRobot Activation
                 this.PlayerActivationRequests = this.PlayerActivationRequests.Merge(
                     gamepad.Buttons.A.Release.Select(x => new PlayerActivationRequest(index, true))
                     );

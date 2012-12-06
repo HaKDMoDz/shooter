@@ -5,36 +5,9 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Text;
 using FarseerPhysics.Dynamics;
-using FarseerPhysics.Dynamics.Contacts;
 
 namespace Shooter.Core.Farseer.Extensions
 {
-    public class CollisionEventArgs
-    {
-        public CollisionEventArgs(Fixture fixtureA, Fixture fixtureB, Contact contact)
-        {
-            this.FixtureA = fixtureA;
-            this.FixtureB = fixtureB;
-            this.Contact = contact;
-        }
-
-        public Fixture FixtureA { get; private set; }
-        public Fixture FixtureB { get; private set; }
-        public Contact Contact { get; private set; }
-    }
-
-    public class SeperationEventArgs
-    {
-        public SeperationEventArgs(Fixture fixtureA, Fixture fixtureB)
-        {
-            this.FixtureA = fixtureA;
-            this.FixtureB = fixtureB;
-        }
-
-        protected Fixture FixtureA { get; private set; }
-        protected Fixture FixtureB { get; private set; }
-    }
-
     public static class BodyExtensions
     {
         public static IObservable<CollisionEventArgs> OnCollisionAsObservable(this Body body)

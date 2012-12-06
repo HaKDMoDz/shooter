@@ -1,10 +1,11 @@
 namespace Shooter.Gameplay.Menus.Models
 {
-    internal enum PlayerTeam
+    public enum PlayerTeam
     {
+        None,
         Red,
         Blue,
         Green,
-        Orange
+        Orange,
     }
 }

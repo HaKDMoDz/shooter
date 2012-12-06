@@ -11,15 +11,16 @@ using Shooter.Input.Keyboard;
 
 namespace Shooter.Gameplay.Logic
 {
-    public class PlayerController : GameObject
+    public class PlayerRobotController : GameObject
     {
-        private readonly Player player;
+        private readonly PlayerRobot playerRobot;
         private readonly ReactiveGamePad gamepad;
-        private ReactiveKeyboard keyboard;
+        private readonly ReactiveKeyboard keyboard;
 
-        public PlayerController(Engine engine, Player player, PlayerIndex playerIndex):base(engine)
+        public PlayerRobotController(Engine engine, PlayerRobot playerRobot, PlayerIndex playerIndex)
+            : base(engine)
         {
-            this.player = player;
+            this.playerRobot = playerRobot;
             this.gamepad = this.Engine.Input.GetGamePad(playerIndex);
             this.keyboard = this.Engine.Input.GetKeyboard(playerIndex);
         }
@@ -29,7 +30,7 @@ namespace Shooter.Gameplay.Logic
             // Movement
             attachments.Add(this.gamepad.ThumbSticks.Left
                                 .Select(x => x.Position)
-                                .Subscribe(this.player.SetMovement));
+                                .Subscribe(this.playerRobot.SetMovement));
 
             attachments.Add(this.keyboard.KeyStates.Where(x => x.Key == Keys.W ||
                                                                x.Key == Keys.A ||
@@ -65,20 +66,20 @@ namespace Shooter.Gameplay.Logic
 
                                                 return movement;
 
-                                            }).Subscribe(this.player.SetMovement));
+                                            }).Subscribe(this.playerRobot.SetMovement));
 
             // Turret
             attachments.Add(this.gamepad.ThumbSticks.Right
                                 .Where(x => x.Position.LengthSquared() > 0)
                                 .Select(x => (float) Math.Atan2(x.Position.Y, x.Position.X))
-                                .Subscribe(this.player.SetTurretRotation));
+                                .Subscribe(this.playerRobot.SetTurretRotation));
 
             // Fire (Constant fire, once per update, when the right trigger is pulled at least 50%
             attachments.Add(this.gamepad.Triggers.Right
                                 .Where(x => x.Amount >= 0.5f)
                                 .SelectMany(x => this.Engine.Updates.Select(y => x.Amount)
                                                      .TakeUntil(this.gamepad.Triggers.Right))
-                                .Subscribe(this.player.Fire));
+                                .Subscribe(this.playerRobot.Fire));
         }
     }
 }

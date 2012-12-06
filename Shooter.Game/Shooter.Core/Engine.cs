@@ -27,7 +27,7 @@ namespace Shooter.Core
         {
             this.Game = game;
             this.World = new World(Vector2.Zero);
-            this.PerspectiveManager = new PerspectiveManager();
+            this.PerspectiveManager = new PerspectiveManager(this);
             this.UISpriteBatch = new SpriteBatch(this.Game.GraphicsDevice);
 
             this.worldView = new DebugViewXNA(this.World);
@@ -112,15 +112,15 @@ namespace Shooter.Core
             using (Disposable.Create(() => { this.Game.GraphicsDevice.Viewport = oldViewport; }))
             {
                 foreach (var perspective in this.PerspectiveManager)
-                {   
-                    this.Game.GraphicsDevice.Viewport = perspective.Viewport;
+                {
+                    this.Game.GraphicsDevice.Viewport = perspective.GetViewport(this.PerspectiveManager.Bounds);
                     this.PerspectiveManager.CurrentPerspective = perspective;
 
                     this.UISpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null);
                     this.perspectiveDraws.OnNext(time);
                     this.UISpriteBatch.End();
 
-                    var matrix = perspective.GetMatrix();
+                    var matrix = perspective.GetMatrix(this.PerspectiveManager.Bounds);
                     this.worldView.RenderDebugData(ref matrix);
                 }
             }

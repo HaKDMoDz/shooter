@@ -4,6 +4,6 @@ namespace Shooter.Gameplay.Logic
 {
     public interface ISpawnPointProvider
     {
-        IEnumerable<ISpawnPoint> GetSpawnPoints();
+        ISpawnPoint GetSpawnPoint(IPlayer player);
     }
 }

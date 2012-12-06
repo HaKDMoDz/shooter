@@ -33,8 +33,13 @@ namespace Shooter.Core
         }
 
         public Camera()
+            : this(10.0f)
         {
-            this.VerticalUnits = 4;
+        }
+
+        public Camera(float verticalUnits)
+        {
+            this.VerticalUnits = verticalUnits;
             this.Zoom = 1f;
         }
 

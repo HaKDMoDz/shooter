@@ -105,16 +105,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Camera.cs" />
+    <Compile Include="DebugLog.cs" />
     <Compile Include="DebugLogger.cs" />
     <Compile Include="Engine.cs" />
     <Compile Include="EngineTime.cs" />
     <Compile Include="Farseer\Extensions\BodyExtensions.cs" />
+    <Compile Include="Farseer\Extensions\CollisionEventArgs.cs" />
+    <Compile Include="Farseer\Extensions\SeperationEventArgs.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="GameObjectExtensions.cs" />
+    <Compile Include="Viewports\IPerspective.cs" />
+    <Compile Include="Viewports\IViewportProvider.cs" />
     <Compile Include="KeyboardCameraController.cs" />
+    <Compile Include="Viewports\ViewportProvider.cs" />
     <Compile Include="Xna.Extensions\MouseStateExtensions.cs" />
-    <Compile Include="PersepectiveManager.cs" />
-    <Compile Include="Perspective.cs" />
+    <Compile Include="Viewports\PerspectiveManager.cs" />
+    <Compile Include="Viewports\Perspective.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rectangle2D.cs" />
     <Compile Include="Xna.Extensions\PointExtensions.cs" />

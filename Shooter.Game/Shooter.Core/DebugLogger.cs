@@ -1,44 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
-using System.Reactive.Subjects;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Shooter.Core
 {
-    public class ReactiveWriter : TextWriter
-    {
-        private BehaviorSubject<string> currentLine;
-
-        public ReactiveWriter()
-        {
-            this.Logs = new Subject<BehaviorSubject<string>>();
-        }
-
-        public Subject<BehaviorSubject<String>> Logs { get; private set; }
-
-        public override Encoding Encoding
-        {
-            get { return Encoding.UTF8; }
-        }
-
-        public override void Write(char value)
-        {
-            if (value == '\n')
-            {
-                this.currentLine = new BehaviorSubject<string>("");
-                this.Logs.OnNext(this.currentLine);
-            }
-
-            this.currentLine.OnNext(this.currentLine.First() + value.ToString(CultureInfo.InvariantCulture));
-        }
-    }
-
     public class DebugLogger : GameObject
     {
         private readonly List<DebugLog> logs = new List<DebugLog>(); 
@@ -86,23 +55,6 @@ namespace Shooter.Core
             this.spriteBatch.DrawString(this.font, text, Vector2.One, Color.Black);
             this.spriteBatch.DrawString(this.font, text, Vector2.Zero, Color.White);
             this.spriteBatch.End();
-        }
-    }
-
-    public class DebugLog
-    {
-        public readonly string Value;
-        public readonly DateTime DeletionDate;
-
-        public DebugLog(string value)
-            : this(value, DateTime.UtcNow)
-        {
-        }
-
-        public DebugLog(string value, DateTime deletionDate)
-        {
-            this.Value = value;
-            this.DeletionDate = deletionDate;
         }
     }
 }

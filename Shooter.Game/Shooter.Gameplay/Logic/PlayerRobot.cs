@@ -9,12 +9,14 @@ using Microsoft.Xna.Framework;
 using Shooter.Core;
 using Shooter.Core.Farseer.Extensions;
 using Shooter.Gameplay.Claims;
+using Shooter.Gameplay.Menus.Models;
 using Shooter.Gameplay.Weapons;
 
 namespace Shooter.Gameplay.Logic
 {
-    public class Player : GameObject, IPlayer, IClaimer, IContactDamagable
+    public class PlayerRobot : GameObject, IClaimer, IContactDamagable, IPosition
     {
+        private readonly IPlayer player;
         private readonly Subject<IKill> deaths = new Subject<IKill>();
 
         private Body body;
@@ -22,9 +24,10 @@ namespace Shooter.Gameplay.Logic
         private Vector2 movement;
         private IFireable weapon = Fireable.Empty;
 
-        public Player(Engine engine)
+        public PlayerRobot(Engine engine, IPlayer player)
             : base(engine)
         {
+            this.player = player;
         }
 
         protected override void OnInitialize(ICollection<IDisposable> disposables)
@@ -72,8 +75,8 @@ namespace Shooter.Gameplay.Logic
             }
 
             Console.WriteLine(this.health);
-            this.deaths.OnNext(new Kill(this, damager.Player));
-            this.Dispose();
+            this.Detach();
+            this.deaths.OnNext(new Kill(this.player, damager.Player));
         }
 
         public void Update(EngineTime engineTime)
@@ -87,15 +90,9 @@ namespace Shooter.Gameplay.Logic
             get { return this.deaths; }
         }
 
-        public void Respawn(ISpawnPoint spawnPoint)
-        {
-            this.Dispose();
-            this.Initialize().Attach();
-        }
-
         public void Fire(float percent)
         {
-            this.weapon.FireRequests.OnNext(new FireRequest(this, percent));
+            this.weapon.FireRequests.OnNext(new FireRequest(this.player, percent));
         }
 
         public void TryClaimWeapon(IClaimable claimable)
@@ -141,18 +138,5 @@ namespace Shooter.Gameplay.Logic
 
         private readonly Subject<IClaimable> claims = new Subject<IClaimable>();
         private float health = 100.0f;
-    }
-
-    public class Kill: IKill
-    {
-        public Kill(IPlayer killed, IPlayer killer)
-        {
-            this.Killed = killed;
-            this.Killer = killer;
-        }
-
-        public IPlayer Killed { get; set; }
-
-        public IPlayer Killer { get; set; }
     }
 }

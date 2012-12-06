@@ -10,8 +10,8 @@ namespace Shooter.Core
     public abstract class GameObject : IObservable<GameObject>, IDisposable
     {
         private readonly Subject<GameObject> subject = new Subject<GameObject>();
-        private CompositeDisposable disposables;
-        private CompositeDisposable attachments;
+        private readonly CompositeDisposable disposables = new CompositeDisposable();
+        private readonly CompositeDisposable attachments = new CompositeDisposable();
 
         private readonly IDisposable disposable;
 
@@ -32,7 +32,6 @@ namespace Shooter.Core
 
         internal GameObject Initialize()
         {
-            this.disposables = new CompositeDisposable();
             this.OnInitialize(this.disposables);
             this.Initialized = true;
             this.subject.OnNext(this);
@@ -52,7 +51,6 @@ namespace Shooter.Core
                 throw new InvalidOperationException("Game Object already Attached");
             }
 
-            this.attachments = new CompositeDisposable();
             this.OnAttach(this.attachments);
             this.Attached = true;
             this.subject.OnNext(this);
@@ -68,7 +66,7 @@ namespace Shooter.Core
             }
 
             this.OnDetach();
-            this.attachments.Dispose();
+            this.attachments.Clear();
             this.Attached = false;
             this.subject.OnNext(this);
 
@@ -82,7 +80,7 @@ namespace Shooter.Core
                 this.Detach();
             }
             this.OnDispose();
-            this.disposables.Dispose();
+            this.disposables.Clear();
             this.Initialized = false;
             this.subject.OnCompleted();
             this.disposable.Dispose();

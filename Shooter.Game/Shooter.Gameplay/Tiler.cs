@@ -31,7 +31,7 @@ namespace Shooter.Gameplay
         {
             var perspective = this.Engine.PerspectiveManager.CurrentPerspective;
 
-            var bounds = perspective.GetBounds();
+            var bounds = perspective.GetBounds(this.Engine.PerspectiveManager.Bounds);
 
             var xmin = (int)Math.Floor(bounds.Left);
             var xmax = (int)Math.Ceiling(bounds.Right + 1);
@@ -58,7 +58,7 @@ namespace Shooter.Gameplay
             }
 
 
-            var sbMatrix = perspective.GetMatrix() * SpriteBatchExtensions.GetUndoMatrix(perspective.Viewport);
+            var sbMatrix = perspective.GetMatrix(this.Engine.PerspectiveManager.Bounds) * SpriteBatchExtensions.GetUndoMatrix(perspective.GetViewport(this.Engine.PerspectiveManager.Bounds));
 
             this.spriteBatch.Begin(
                 SpriteSortMode.Deferred,

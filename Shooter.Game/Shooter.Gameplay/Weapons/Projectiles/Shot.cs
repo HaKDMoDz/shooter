@@ -69,7 +69,7 @@ namespace Shooter.Gameplay.Weapons.Projectiles
 
         public IContactDamage GetContactDamage(IContactDamagable damagable)
         {
-            return new ContactDamage(1.0f);
+            return new ContactDamage(10.0f);
         }
 
         public IPlayer Player { get; private set; }

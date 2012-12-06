@@ -4,7 +4,6 @@ using System.Reactive.Subjects;
 using Microsoft.Xna.Framework;
 using Shooter.Core;
 using Shooter.Gameplay.Claims;
-using Shooter.Gameplay.Logic;
 
 namespace Shooter.Gameplay.Weapons
 {
@@ -57,11 +56,5 @@ namespace Shooter.Gameplay.Weapons
         {
             get { return this.Reloads; }
         }
-    }
-
-    public interface IFireRequest
-    {
-        IPlayer Player { get; }
-        float Amount { get; }
     }
 }

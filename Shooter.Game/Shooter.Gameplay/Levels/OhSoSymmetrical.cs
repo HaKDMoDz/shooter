@@ -1,21 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive.Disposables;
-using System.Text;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
 using Shooter.Core;
 using Shooter.Gameplay.Logic;
+using Shooter.Gameplay.Menus.Models;
 
 namespace Shooter.Gameplay.Levels
 {
     public class OhSoSymmetrical : GameObject, ISpawnPointProvider
     {
+        private readonly List<SpawnPoint> spawnPoints = new List<SpawnPoint>();
+
         public OhSoSymmetrical(Engine engine)
             : base(engine)
         {
+            this.spawnPoints.Add(new SpawnPoint(new Vector2(-15, 15), PlayerTeam.Red));
+            this.spawnPoints.Add(new SpawnPoint(new Vector2(15, 15), PlayerTeam.Blue));
+            this.spawnPoints.Add(new SpawnPoint(new Vector2(-15, -15), PlayerTeam.Green));
+            this.spawnPoints.Add(new SpawnPoint(new Vector2(15, -15), PlayerTeam.Orange));
         }
 
         protected override void OnInitialize(ICollection<IDisposable> disposables)
@@ -113,7 +118,6 @@ namespace Shooter.Gameplay.Levels
             disposables.Add(this.MakeWall(c2_1, c2_2, cBorder));
             disposables.Add(this.MakeWall(c3_1, c3_2, cBorder));
             disposables.Add(this.MakeWall(c4_1, c4_2, cBorder));
-
         }
 
         private Body MakeWall(Vector2 a, Vector2 b, float border)
@@ -132,10 +136,21 @@ namespace Shooter.Gameplay.Levels
             return body;
         }
 
-
-        public IEnumerable<ISpawnPoint> GetSpawnPoints()
+        public ISpawnPoint GetSpawnPoint(IPlayer player)
         {
-            yield break;
+            var spawnPoint = this.spawnPoints.FirstOrDefault(x => x.Team == player.Team);
+
+            if (spawnPoint != null)
+            {
+                this.spawnPoints.Remove(spawnPoint);
+                this.spawnPoints.Add(spawnPoint);
+            }
+            else
+            {
+                spawnPoint = new SpawnPoint(Vector2.Zero, player.Team);
+            }
+
+            return spawnPoint;
         }
     }
 }

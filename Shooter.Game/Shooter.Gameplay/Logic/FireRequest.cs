@@ -4,10 +4,10 @@ namespace Shooter.Gameplay.Logic
 {
     public struct FireRequest : IFireRequest
     {
-        private readonly Player player;
+        private readonly IPlayer player;
         private readonly float amount;
 
-        public FireRequest(Player player, float amount)
+        public FireRequest(IPlayer player, float amount)
         {
             this.player = player;
             this.amount = amount;

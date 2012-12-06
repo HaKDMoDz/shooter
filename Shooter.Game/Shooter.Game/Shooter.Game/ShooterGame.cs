@@ -1,13 +1,15 @@
 using System;
 using System.Collections;
-using System.Reactive.Linq;
+using System.Reactive.Disposables;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Shooter.Core;
 using Shooter.Gameplay;
+using Shooter.Gameplay.Claims;
 using Shooter.Gameplay.Levels;
 using Shooter.Gameplay.Logic;
+using Shooter.Gameplay.Menus.Models;
 using Shooter.Gameplay.Menus.Views;
 using Shooter.Gameplay.Weapons;
 
@@ -28,6 +30,13 @@ namespace Shooter.Application
             this.graphics = new GraphicsDeviceManager(this);
             this.IsMouseVisible = true;
             this.Window.AllowUserResizing = true;
+            this.Window.ClientSizeChanged +=
+                (x, y) =>
+                    {
+                        this.graphics.PreferredBackBufferWidth = this.Window.ClientBounds.Width;
+                        this.graphics.PreferredBackBufferHeight = this.Window.ClientBounds.Height;
+                        this.graphics.ApplyChanges();
+                    };
 
             GC.Collect();
         }
@@ -36,62 +45,17 @@ namespace Shooter.Application
         {
             this.engine = new Engine(this);
 
-            var player1 = new Player(this.engine).Initialize().Attach();
-            player1.Position = new Vector2(-15, 15);
-            var playerController1 = new PlayerController(this.engine, player1, PlayerIndex.One).Initialize().Attach();
+            var map = new OhSoSymmetrical(this.engine);
 
-            var player2 = new Player(this.engine).Initialize().Attach();
-            player2.Position = new Vector2(15, 15);
-            var playerController2 = new PlayerController(this.engine, player2, PlayerIndex.Two).Initialize().Attach();
+            var player1 = this.CreatePlayer("Player1", PlayerTeam.Red, PlayerIndex.One);
+            var player2 = this.CreatePlayer("Player2", PlayerTeam.Blue, PlayerIndex.Two);
+            var player3 = this.CreatePlayer("Player3", PlayerTeam.Green, PlayerIndex.Three);
+            var player4 = this.CreatePlayer("Player4", PlayerTeam.Orange, PlayerIndex.Four);
 
-            var player3 = new Player(this.engine).Initialize().Attach();
-            player3.Position = new Vector2(-15, -15);
-            var playerController3 = new PlayerController(this.engine, player3, PlayerIndex.Three).Initialize().Attach();
+            map.Initialize().Attach();
 
-            var player4 = new Player(this.engine).Initialize().Attach();
-            player4.Position = new Vector2(15, -15);
-            var playerController4 = new PlayerController(this.engine, player4, PlayerIndex.Four).Initialize().Attach();
-
-            var deaths =
-                Observable.Merge(
-                    player1.Deaths,
-                    player2.Deaths,
-                    player3.Deaths,
-                    player4.Deaths);
-
-            deaths.Subscribe(x => Console.WriteLine("{0} destroyed {1}", x.Killer, x.Killed));
-
-            new Shotgun(this.engine).Initialize().Attach().Position = new Vector2(-15, 15);
-            new Shotgun(this.engine).Initialize().Attach().Position = new Vector2(15, 15);
-            new Shotgun(this.engine).Initialize().Attach().Position = new Vector2(-15, -15);
-            new Shotgun(this.engine).Initialize().Attach().Position = new Vector2(15, -15);
-
-            new OhSoSymmetrical(this.engine).Initialize().Attach();
-
-            var camera1 = new Camera();
-            var camera2 = new Camera();
-            var camera3 = new Camera();
-            var camera4 = new Camera();
-
-            camera1.VerticalUnits = 20f;
-            camera2.VerticalUnits = 20f;
-            camera3.VerticalUnits = 20f;
-            camera4.VerticalUnits = 20f;
-
-            var cameraController1 = new PlayerCameraController(this.engine, camera1, player1).Initialize().Attach();
-            var cameraController2 = new PlayerCameraController(this.engine, camera2, player2).Initialize().Attach();
-            var cameraController3 = new PlayerCameraController(this.engine, camera3, player3).Initialize().Attach();
-            var cameraController4 = new PlayerCameraController(this.engine, camera4, player4).Initialize().Attach();
-
-            var viewport = this.GraphicsDevice.Viewport;
-
-            var w = viewport.Width / 2;
-            var h = viewport.Height / 2;
-
-            this.engine.PerspectiveManager.Perspectives.Add(new Perspective(camera1, new Viewport(0, 0, w, h)));
-            this.engine.PerspectiveManager.Perspectives.Add(new Perspective(camera2, new Viewport(w, 0, w, h)));
-            this.engine.PerspectiveManager.Perspectives.Add(new Perspective(camera3, new Viewport(0, h, w, h)));
-            this.engine.PerspectiveManager.Perspectives.Add(new Perspective(camera4, new Viewport(w, h, w, h)));
+            new SlayerGame(this.engine, map, new[] {player1.Player, player2.Player, player3.Player, player4.Player}, 10)
+                .Start();
         }
 
         protected override void Update(GameTime gameTime)
@@ -113,23 +77,89 @@ namespace Shooter.Application
 
             base.Draw(gameTime);
         }
+
+        private PlayerStuffs CreatePlayer(string name, PlayerTeam team, PlayerIndex playerIndex)
+        {
+            var camera = new Camera(15.0f);
+            var cameraController = new FollowingCameraController(this.engine, camera, null).Initialize().Attach();
+            var player = new Player(name, team,
+                                     (thePlayer, spawnPoint) =>
+                                     {
+                                         var playerRobot = new PlayerRobot(this.engine, thePlayer).Initialize().Attach();
+                                         playerRobot.Position = spawnPoint.Position;
+                                         cameraController.Target = playerRobot;
+
+                                         // Default Weapon
+                                         ((IClaimable) new Shotgun(this.engine).Initialize().Attach())
+                                             .ClaimRequests.OnNext(playerRobot);
+
+                                         return playerRobot;
+                                     },
+                                     playerRobot => new PlayerRobotController(this.engine, playerRobot, playerIndex).Initialize().Attach()
+                );
+
+            Perspective perspective;
+
+            switch (playerIndex)
+            {
+                case PlayerIndex.One:
+                    perspective = this.engine.PerspectiveManager
+                        .CreatePerspective(
+                            camera,
+                            (bounds) =>
+                            new Viewport(0, 0, bounds.Width / 2, bounds.Height / 2));
+                    break;
+                case PlayerIndex.Two:
+                    perspective = this.engine.PerspectiveManager
+                        .CreatePerspective(
+                            camera,
+                            (bounds) =>
+                            new Viewport(bounds.Width / 2, 0, bounds.Width / 2, bounds.Height / 2));
+                    break;
+                case PlayerIndex.Three:
+                    perspective = this.engine.PerspectiveManager
+                        .CreatePerspective(
+                            camera,
+                            (bounds) =>
+                                new Viewport(0, bounds.Height / 2, bounds.Width / 2, bounds.Height / 2));
+                    break;
+                default:
+                    perspective = this.engine.PerspectiveManager
+                        .CreatePerspective(
+                            camera,
+                            (bounds) =>
+                            new Viewport(bounds.Width / 2, bounds.Height / 2, bounds.Width / 2, bounds.Height / 2));
+                    break;
+            }
+
+            return new PlayerStuffs(player, camera, cameraController, perspective);
+        }
     }
 
-    public class PlayerCameraController : GameObject
+    public class PlayerStuffs : IDisposable
     {
-        private readonly Camera camera;
-        private readonly Player player;
+        private readonly CompositeDisposable disposable = new CompositeDisposable();
 
-        public PlayerCameraController(Engine engine, Camera camera, Player player)
-            : base(engine)
+        public Player Player { get; private set; }
+        public Camera Camera { get; private set; }
+        public FollowingCameraController CameraController { get; private set; }
+        public Perspective Perspective { get; private set; }
+
+        public PlayerStuffs(Player player, Camera camera, FollowingCameraController cameraController, Perspective perspective)
         {
-            this.camera = camera;
-            this.player = player;
+            this.Player = player;
+            this.Camera = camera;
+            this.CameraController = cameraController;
+            this.Perspective = perspective;
+
+            disposable.Add(player);
+            disposable.Add(cameraController);
+            disposable.Add(perspective);
         }
 
-        protected override void OnAttach(System.Collections.Generic.ICollection<IDisposable> attachments)
+        public void Dispose()
         {
-            attachments.Add(this.Engine.Updates.Subscribe(x => this.camera.Position = this.player.Position));
+            this.disposable.Dispose();
         }
     }
 }
