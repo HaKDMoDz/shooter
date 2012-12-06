@@ -95,6 +95,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Logic\ContactDamage.cs" />
+    <Compile Include="Logic\FireRequest.cs" />
+    <Compile Include="Logic\IContactDamagable.cs" />
+    <Compile Include="Logic\IContactDamage.cs" />
     <Compile Include="Logic\IContactDamager.cs" />
     <Compile Include="Logic\IKill.cs" />
     <Compile Include="Logic\IPlayer.cs" />

@@ -85,13 +85,13 @@ namespace Shooter.Gameplay.Weapons
                                 .Where(x => this.owner != null)
                                 .Subscribe(this.Update));
 
-            disposables.Add(
-                this.FireRequests.Take(1)
-                    .Concat(
-                        Observable.Interval(TimeSpan.FromMilliseconds(100)).Take(1).Where(x => false).Select(
-                            x => 1.0f))
-                    .Repeat()
-                    .Subscribe(this.Fire));
+            //disposables.Add(
+            //    this.FireRequests.Take(1)
+            //        .Concat(
+            //            Observable.Interval(TimeSpan.FromMilliseconds(100)).Take(1).Where(x => false).Select(
+            //                x => 1.0f))
+            //        .Repeat()
+            //        .Subscribe(this.Fire));
         }
 
         protected override void OnAttach(ICollection<IDisposable> attachments)

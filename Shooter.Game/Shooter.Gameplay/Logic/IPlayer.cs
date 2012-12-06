@@ -1,4 +1,5 @@
 using System;
+using System.Reactive.Subjects;
 
 namespace Shooter.Gameplay.Logic
 {

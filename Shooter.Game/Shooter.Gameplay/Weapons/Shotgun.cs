@@ -21,10 +21,8 @@ namespace Shooter.Gameplay.Weapons
         private float projectileSpeed = 35f;
         private IClaimer claimer;
         public Vector2 Position { get { return this.body.Position; } set { this.body.Position = value; } }
+        private static readonly Random Random = new Random();
 
-        public int magazineSize = 200;
-
-        public int magazineCount = 200;
         private DateTime lastFire = DateTime.MinValue;
 
         public Shotgun(Engine engine)
@@ -36,7 +34,7 @@ namespace Shooter.Gameplay.Weapons
         {
         }
 
-        public void Fire(float unit)
+        public void Fire(IFireRequest request)
         {
             var now = DateTime.UtcNow;
 
@@ -47,35 +45,26 @@ namespace Shooter.Gameplay.Weapons
 
             lastFire = now;
 
-            magazineCount--;
-            Random random = RandomNum();
-        
-            for (int i = 0; i < 11; i++)
+            for (int i = 0; i <= 10; i++)
             {
-                var newShot = new Shot(this.Engine);
+                var newShot = new Shot(this.Engine, request.Player);
                 newShot.Initialize().Attach();
-                var offset = (random.NextDouble() - 0.5) * MathHelper.PiOver4;
-                var speedChange = random.NextDouble() + 1;
-                var direction = (this.body.Rotation + (float)offset).RadiansToDirection();
+                var offset = (Random.NextDouble() - 0.5) * MathHelper.PiOver4;
+                var speedChange = Random.NextDouble() + 1;
+                var direction = (this.body.Rotation + (float) offset).RadiansToDirection();
 
-                newShot.Velocity = direction * this.projectileSpeed * (float)speedChange + this.claimer.LinearVelocity;
+                newShot.Velocity = direction * this.projectileSpeed * (float) speedChange + this.claimer.LinearVelocity;
                 newShot.Rotation = this.body.Rotation;
                 newShot.Position = this.body.Position + direction * 2f;
             }
 
-
             const float kickback = -25;
             this.Kickbacks.OnNext(this.body.Rotation.RadiansToDirection() * kickback);
-        }
-        static Random RandomNum()
-        {
-            Random random = new Random();
-            return random;
         }
 
         protected override void OnInitialize(ICollection<IDisposable> disposables)
         {
-            this.body = BodyFactory.CreateRectangle(this.Engine.World, 1f, 1f, 1f);
+            this.body = BodyFactory.CreateRectangle(this.Engine.World, 0.5f, 0.5f, 1f);
             this.body.IsSensor = true;
             this.body.UserData = this;
 
@@ -85,11 +74,6 @@ namespace Shooter.Gameplay.Weapons
                                 .ObserveOn(this.Engine.PostPhysicsScheduler)
                                 .Where(x => this.claimer != null)
                                 .Subscribe(this.LinkPhysics));
-
-            disposables.Add(this.Engine.Updates
-                                .ObserveOn(this.Engine.UpdateScheduler)
-                                .Where(x => this.claimer != null)
-                                .Subscribe(this.Update));
 
             disposables.Add(this.FireRequests.Subscribe(this.Fire));
             disposables.Add(this.ReloadRequests.Subscribe(this.Reload));
@@ -111,15 +95,10 @@ namespace Shooter.Gameplay.Weapons
                                 .Subscribe(this.Claim));
         }
 
-        private void Update(EngineTime time)
-        {
-            var direction = this.Engine.Input.GetMouse().KnownWorldPosition - this.Position;
-            this.body.Rotation = (float)Math.Atan2(direction.Y, direction.X);
-        }
-
         private void LinkPhysics(EngineTime time)
         {
             this.body.Position = this.claimer.Position;
+            this.body.Rotation = this.claimer.Rotation;
         }
 
         private void Claim(IClaimer owner)

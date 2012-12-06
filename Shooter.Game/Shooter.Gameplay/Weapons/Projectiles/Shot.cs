@@ -11,13 +11,14 @@ using Shooter.Gameplay.Logic;
 
 namespace Shooter.Gameplay.Weapons.Projectiles
 {
-    public class Shot : GameObject, IContactDamager
+    public class Shot : GameObject, IContactDamager, IPlayerFire
     {
         private Body body;
 
-        public Shot(Engine engine)
+        public Shot(Engine engine, IPlayer player)
             : base(engine)
         {
+            this.Player = player;
         }
 
         public Vector2 Position
@@ -70,5 +71,7 @@ namespace Shooter.Gameplay.Weapons.Projectiles
         {
             return new ContactDamage(1.0f);
         }
+
+        public IPlayer Player { get; private set; }
     }
 }

@@ -18,8 +18,6 @@ namespace Shooter.Gameplay.Logic
         private readonly Subject<IKill> deaths = new Subject<IKill>();
 
         private Body body;
-
-        private readonly BehaviorSubject<IPlayerFire> latestPlayerFire = new BehaviorSubject<IPlayerFire>(null);
         private float turretRotation;
         private Vector2 movement;
         private IFireable weapon = Fireable.Empty;
@@ -31,7 +29,7 @@ namespace Shooter.Gameplay.Logic
 
         protected override void OnInitialize(ICollection<IDisposable> disposables)
         {
-            this.body = BodyFactory.CreateCircle(this.Engine.World, 1, 1);
+            this.body = BodyFactory.CreateCircle(this.Engine.World, 0.5f, 1);
             this.body.Enabled = false;
             this.body.BodyType = BodyType.Dynamic;
             this.body.LinearDamping = 10.0f;
@@ -52,25 +50,30 @@ namespace Shooter.Gameplay.Logic
             collisions.OfType<Weapon>()
                 .Subscribe(this.TryClaimWeapon);
 
-            collisions.OfType<IPlayerFire>()
-                .Subscribe(this.latestPlayerFire);
-
             collisions.OfType<IContactDamager>()
-                .Select(x => x.GetContactDamage(this))
-                .Subscribe(this.ApplyContactDamage);
+                .Subscribe(this.ApplyDamage);
 
             this.claims.OfType<Weapon>()
                 .Subscribe(this.ClaimWeapon);
         }
 
-        public void ApplyContactDamage(IContactDamage damage)
+        public void ApplyDamage(IContactDamager damager)
         {
-            this.health -= damage.Physical;
-
             if (health <= 0)
             {
-                this.Dispose();
+                return;
             }
+
+            this.health -= damager.GetContactDamage(this).Physical;
+
+            if (health > 0)
+            {
+                return;
+            }
+
+            Console.WriteLine(this.health);
+            this.deaths.OnNext(new Kill(this, damager.Player));
+            this.Dispose();
         }
 
         public void Update(EngineTime engineTime)
@@ -92,13 +95,14 @@ namespace Shooter.Gameplay.Logic
 
         public void Fire(float percent)
         {
-            this.weapon.FireRequests.OnNext(percent);
+            this.weapon.FireRequests.OnNext(new FireRequest(this, percent));
         }
 
         public void TryClaimWeapon(IClaimable claimable)
         {
             claimable.ClaimRequests.OnNext(this);
         }
+
         public void ClaimWeapon(IFireable weapon)
         {
             this.weapon = weapon;
@@ -117,6 +121,7 @@ namespace Shooter.Gameplay.Logic
         public Vector2 Position
         {
             get { return this.body.Position; }
+            set { this.body.Position = value; }
         }
 
         public float Rotation
@@ -136,5 +141,18 @@ namespace Shooter.Gameplay.Logic
 
         private readonly Subject<IClaimable> claims = new Subject<IClaimable>();
         private float health = 100.0f;
+    }
+
+    public class Kill: IKill
+    {
+        public Kill(IPlayer killed, IPlayer killer)
+        {
+            this.Killed = killed;
+            this.Killer = killer;
+        }
+
+        public IPlayer Killed { get; set; }
+
+        public IPlayer Killer { get; set; }
     }
 }

@@ -14,17 +14,17 @@ namespace Shooter.Gameplay.Weapons
         private class EmptyFireable : IFireable
         {
             private static readonly IObserver<IClaimer> EmptyFireableDependancyProviderObservable =
-                   Observer.Create<IClaimer>((x) => { });
+                Observer.Create<IClaimer>(x => { });
             private static readonly IObserver<Unit> EmptyObserver = Observer.Create<Unit>(x => { });
-            private static readonly IObserver<float> EmptyFloatObserver = Observer.Create<float>(x => { });
+            private static readonly IObserver<IFireRequest> FireRequestObserver = Observer.Create<IFireRequest>(x => { });
             private static readonly IObservable<Unit> EmptyObservable = Observable.Never<Unit>();
             private static readonly IObservable<Vector2> EmptyVector2Observable = Observable.Never<Vector2>();
 
             
 
-            public IObserver<float> FireRequests
+            public IObserver<IFireRequest> FireRequests
             {
-                get { return EmptyFireable.EmptyFloatObserver; }
+                get { return EmptyFireable.FireRequestObserver; }
             }
 
             public IObserver<Unit> ReloadRequests

@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework;
 using Shooter.Core;
 using Shooter.Core.Farseer.Extensions;
 using Shooter.Core.Xna.Extensions;
+using Shooter.Gameplay.Logic;
 using Shooter.Gameplay.Weapons.Projectiles;
 
 namespace Shooter.Gameplay.Weapons
@@ -56,13 +57,13 @@ namespace Shooter.Gameplay.Weapons
                                 .Where(x => this.owner != null)
                                 .Subscribe(this.Update));
 
-            disposables.Add(
-                this.FireRequests.Take(1)
-                    .Concat(
-                        Observable.Interval(TimeSpan.FromSeconds(1)).Take(1).Where(x => false).Select(
-                            x => 1.0f))
-                    .Repeat()
-                    .Subscribe(this.Fire));
+            //disposables.Add(
+            //    this.FireRequests.Take(1)
+            //        .Concat(
+            //            Observable.Interval(TimeSpan.FromSeconds(1)).Take(1).Where(x => false).Select(
+            //                x => new FireRequest(null, 1.0f)))
+            //        .Repeat()
+            //        .Subscribe(this.Fire));
         }
 
         protected override void OnAttach(ICollection<IDisposable> attachments)

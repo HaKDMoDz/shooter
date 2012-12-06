@@ -4,6 +4,7 @@ using System.Reactive.Subjects;
 using Microsoft.Xna.Framework;
 using Shooter.Core;
 using Shooter.Gameplay.Claims;
+using Shooter.Gameplay.Logic;
 
 namespace Shooter.Gameplay.Weapons
 {
@@ -12,7 +13,7 @@ namespace Shooter.Gameplay.Weapons
 
         public Weapon(Engine engine) : base(engine)
         {
-            this.FireRequests   = new Subject<float>();
+            this.FireRequests = new Subject<IFireRequest>();
             this.ReloadRequests = new Subject<Unit>();
             this.Fires          = new Subject<Unit>();
             this.Reloads        = new Subject<Unit>();
@@ -20,7 +21,7 @@ namespace Shooter.Gameplay.Weapons
             this.ClaimRequests  = new Subject<IClaimer>();
         }
 
-        protected Subject<float> FireRequests { get; private set; }
+        protected Subject<IFireRequest> FireRequests { get; private set; }
         protected Subject<Unit> ReloadRequests { get; private set; }
         protected Subject<Unit> Fires { get; private set; }
         protected Subject<Unit> Reloads { get; private set; }
@@ -37,7 +38,7 @@ namespace Shooter.Gameplay.Weapons
             get { return this.Kickbacks; }
         }
 
-        IObserver<float> IFireable.FireRequests
+        IObserver<IFireRequest> IFireable.FireRequests
         {
             get { return this.FireRequests; }
         }
@@ -56,5 +57,11 @@ namespace Shooter.Gameplay.Weapons
         {
             get { return this.Reloads; }
         }
+    }
+
+    public interface IFireRequest
+    {
+        IPlayer Player { get; }
+        float Amount { get; }
     }
 }

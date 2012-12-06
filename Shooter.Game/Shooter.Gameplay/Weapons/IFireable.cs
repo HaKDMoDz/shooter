@@ -6,7 +6,7 @@ namespace Shooter.Gameplay.Weapons
 {
     public interface IFireable
     {
-        IObserver<float> FireRequests { get; }
+        IObserver<IFireRequest> FireRequests { get; }
         IObserver<Unit> ReloadRequests { get; }
 
         IObservable<Unit> Fires { get; }
