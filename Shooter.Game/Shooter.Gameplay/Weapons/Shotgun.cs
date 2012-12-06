@@ -56,7 +56,7 @@ namespace Shooter.Gameplay.Weapons
                             .Where(x => false)
                             .Select<long, IFireRequest>(x => null))
                     .Repeat()
-                    .ObserveOn(this.Engine.PostPhysicsScheduler)
+                    .ObserveOn(this.Engine.UpdateScheduler)
                     .Subscribe(this.Fire));
         }
 
