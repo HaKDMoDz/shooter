@@ -1,0 +1,393 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Shooter.Gameplay.Tiler" Collapsed="true">
+    <Position X="22.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAACAgAAAAABAAAAAAA=</HashCode>
+      <FileName>Tiler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shooter.Gameplay.Player" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="17.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAEEAAQAAEEAAAAAEIEAIAAAAAA=</HashCode>
+      <FileName>Player.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Shooter.Gameplay.SlayerGame" Collapsed="true">
+    <Position X="15.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAgAAAAAAAAAAAAAAIAIAAAAQCAAAAIAABIAAAAAA=</HashCode>
+      <FileName>SlayerGame.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shooter.Gameplay.Levels.FlarBallField" Collapsed="true">
+    <Position X="21" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAABAAAAACAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Levels\FlarBallField.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shooter.Gameplay.Levels.OhSoSymmetrical" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="15.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAQQAAAAAAAAACAAAABAAAAACAAAAAAABAAAAAAA=</HashCode>
+      <FileName>Levels\OhSoSymmetrical.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Shooter.Gameplay.Levels.SampleLevel" Collapsed="true">
+    <Position X="22.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAABAAAAACAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Levels\SampleLevel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shooter.Gameplay.Levels.SpawnPoint" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="17.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgAABAAAAAAAAAAAAAEAAAAAAAAAA=</HashCode>
+      <FileName>Levels\SpawnPoint.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Shooter.Gameplay.Logic.Kill" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="17.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Logic\Kill.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Shooter.Gameplay.Logic.Robot" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="15.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEQAEAAABAAECgAoAAAAQAAACVgGAAAhAAEBIAAgAKg=</HashCode>
+      <FileName>Robots\Robot.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Shooter.Gameplay.Logic.RobotController" Collapsed="true">
+    <Position X="17.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAAAACAAAAAAAAAAAAAAAAAAABEAAAAAA=</HashCode>
+      <FileName>Robots\RobotController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shooter.Gameplay.Menus.Models.PreGameController" Collapsed="true">
+    <Position X="21" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAgAAACAAAAIQAFAAAAAAA=</HashCode>
+      <FileName>Menus\Models\PreGameController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shooter.Gameplay.Menus.Views.GameTypeChangeRequest" Collapsed="true">
+    <Position X="24.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Menus\Views\GameTypeChangeRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shooter.Gameplay.Menus.Views.HighScoreMenu" Collapsed="true">
+    <Position X="15.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>Menus\Views\HighScoreMenu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shooter.Gameplay.Menus.Views.MainMenu" Collapsed="true">
+    <Position X="19.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAACAIAAAAAAAAAAaAoAACAABAAAAAAA=</HashCode>
+      <FileName>Menus\Views\MainMenu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shooter.Gameplay.Menus.Views.MapChangeRequest" Collapsed="true">
+    <Position X="21" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Menus\Views\MapChangeRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shooter.Gameplay.Menus.Views.MenuButton" Collapsed="true">
+    <Position X="22.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAgAgAAAAAAAAAAACAAAAAAABiAAAAAQ=</HashCode>
+      <FileName>Menus\Views\MenuButton.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shooter.Gameplay.Menus.Views.PlayerActivationRequest" Collapsed="true">
+    <Position X="19.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>Menus\Views\PlayerActivationRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shooter.Gameplay.Menus.Views.PreGameView" Collapsed="true">
+    <Position X="22.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAApAQAAAAAAAAAAAAAAAIQA=</HashCode>
+      <FileName>Menus\Views\PreGameView.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shooter.Gameplay.Menus.Views.SplashView" Collapsed="true">
+    <Position X="21" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAACAABAACABAAAAAAA=</HashCode>
+      <FileName>Menus\Views\SplashView.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shooter.Gameplay.Powerups.RobotTraits" Collapsed="true">
+    <Position X="19.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAAACAIAAAAAAAAAAAAAAAACAAAAAAAA=</HashCode>
+      <FileName>Powerups\RobotTraits.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shooter.Gameplay.Powerups.SpeedBoost" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="19.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAgAgEAAAAAAQACAAAAAAEBAAAAAAA=</HashCode>
+      <FileName>Powerups\SpeedBoost.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Shooter.Gameplay.Prefabs.FlyingBrick" Collapsed="true">
+    <Position X="22.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAgAAAAAAgAAQACAAAAAAABAAAAAAA=</HashCode>
+      <FileName>Prefabs\FlyingBrick.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shooter.Gameplay.Prefabs.MouseDrivenThing" Collapsed="true">
+    <Position X="24.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAAAACAQACAAAAQAABAAAAAAA=</HashCode>
+      <FileName>Prefabs\MouseDrivenThing.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shooter.Gameplay.Prefabs.Wall" Collapsed="true">
+    <Position X="24.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAABAAAACAgAgAQABAAAAAAA=</HashCode>
+      <FileName>Prefabs\Wall.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shooter.Gameplay.Weapons.Crossbow" Collapsed="true">
+    <Position X="4.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAIAAAAgBAgAAAAABAAAQAGAAAACAAJAAAAAAA=</HashCode>
+      <FileName>Weapons\Crossbow.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shooter.Gameplay.Weapons.Fireable" Collapsed="true">
+    <Position X="17.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Weapons\Fireable.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shooter.Gameplay.Weapons.Flamethrower" Collapsed="true">
+    <Position X="8.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAIACAAAAAAhAgAAAAABAAAQAGBgAAAAABAAAAAAA=</HashCode>
+      <FileName>Weapons\Flamethrower.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shooter.Gameplay.Weapons.Pistol" Collapsed="true">
+    <Position X="11" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIACAAEAAAAAgAAAAABAAAQAGAAAAAAABAAAAAAA=</HashCode>
+      <FileName>Weapons\Pistol.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shooter.Gameplay.Weapons.RandomWeaponSpawner" Collapsed="true">
+    <Position X="24.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAIAgAAAAAAAAAAAABAAAAAABAACAAAA=</HashCode>
+      <FileName>Weapons\RandomWeaponSpawner.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shooter.Gameplay.Weapons.Rocketlauncher" Collapsed="true">
+    <Position X="13.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAIAAAAgBAgAAAAABAAAQAGAAAAAAABAAAAAAA=</HashCode>
+      <FileName>Weapons\Rocketlauncher.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shooter.Gameplay.Weapons.Shotgun" Collapsed="true">
+    <Position X="6.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIACAAAAAAhAgAAAAABAAAQAGBgQAAAABAAAAAAA=</HashCode>
+      <FileName>Weapons\Shotgun.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shooter.Gameplay.Weapons.Weapon" Collapsed="true">
+    <Position X="8.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAQBGAIAAIgEAAAACAAAEAAAQAAAAAAIA=</HashCode>
+      <FileName>Weapons\Weapon.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Shooter.Gameplay.Weapons.Projectiles.Bolt" Collapsed="true">
+    <Position X="15.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAgAAAAAAAAAQACAAAAIAABAAAEAAA=</HashCode>
+      <FileName>Weapons\Projectiles\Bolt.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shooter.Gameplay.Weapons.Projectiles.Flame" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="19.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAEAAAAAAoAgAAAAQACAAQAOAgAAIAABAAAEAAA=</HashCode>
+      <FileName>Weapons\Projectiles\Flame.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Shooter.Gameplay.Weapons.Projectiles.Rocket" Collapsed="true">
+    <Position X="21" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAgAAAAAAAAAQACAAAAIAABAAAEAAA=</HashCode>
+      <FileName>Weapons\Projectiles\Rocket.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shooter.Gameplay.Weapons.Projectiles.Shot" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="24.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAAAoAgAAAAAACAAQACAgAAIAABAQAEAAA=</HashCode>
+      <FileName>Weapons\Projectiles\Shot.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Struct Name="Shooter.Gameplay.Logic.ContactDamage" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="15.75" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAACAAAAAAA=</HashCode>
+      <FileName>Logic\ContactDamage.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Struct>
+  <Struct Name="Shooter.Gameplay.Logic.FireRequest" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="17.5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABAACAAQAAgAABAAAAAQAAAAA=</HashCode>
+      <FileName>Logic\FireRequest.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Struct>
+  <Interface Name="Shooter.Gameplay.Claims.IClaimable" Collapsed="true">
+    <Position X="15.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAEAAAACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Claims\IClaimable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Shooter.Gameplay.Claims.IClaimer" Collapsed="true">
+    <Position X="17.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAIAgAAAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Claims\IClaimer.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Shooter.Gameplay.IPosition" Collapsed="true">
+    <Position X="22.75" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IPosition.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Shooter.Gameplay.Logic.IContactDamagable" Collapsed="true">
+    <Position X="19.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Logic\IContactDamagable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Shooter.Gameplay.Logic.IContactDamage" Collapsed="true">
+    <Position X="21" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Logic\IContactDamage.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Shooter.Gameplay.Logic.IContactDamager" Collapsed="true">
+    <Position X="22.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>Logic\IContactDamager.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Shooter.Gameplay.Logic.IKill" Collapsed="true">
+    <Position X="17.5" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Logic\IKill.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Shooter.Gameplay.Logic.IPlayer" Collapsed="true">
+    <Position X="19.25" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAQAAAAAAAAgEAAAAAAAAAA=</HashCode>
+      <FileName>Logic\IPlayer.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Shooter.Gameplay.Logic.IPlayerFire" Collapsed="true">
+    <Position X="21" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>Logic\IPlayerFire.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Shooter.Gameplay.Logic.ISpawnPoint" Collapsed="true">
+    <Position X="15.75" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgAABAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Logic\ISpawnPoint.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Shooter.Gameplay.Logic.ISpawnPointProvider" Collapsed="true">
+    <Position X="17.5" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Logic\ISpawnPointProvider.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Shooter.Gameplay.Powerups.IPowerup" Collapsed="true">
+    <Position X="24.5" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Powerups\IPowerup.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Shooter.Gameplay.Weapons.IFireable" Collapsed="true">
+    <Position X="24.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAIAAAgAAAAAAAAAEAAAAAAAAAAIA=</HashCode>
+      <FileName>Weapons\IFireable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Shooter.Gameplay.Weapons.IFireRequest" Collapsed="true">
+    <Position X="15.75" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABAACAAAAAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>Weapons\IFireRequest.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="Shooter.Gameplay.Menus.Models.PlayerTeam" Collapsed="true">
+    <Position X="17.5" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAhAAAAAAAAAAAAAAAAAAAAAAABEAAAA=</HashCode>
+      <FileName>Menus\Models\PlayerTeam.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Shooter.Gameplay.Menus.Views.Direction" Collapsed="true">
+    <Position X="15.75" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Menus\Views\Direction.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

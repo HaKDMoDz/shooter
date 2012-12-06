@@ -24,12 +24,7 @@ namespace Shooter.Gameplay.Weapons
                 weapon.Position = this.Position;
                 return weapon;
             });
-            this.factories.Add(() =>
-            {
-                var weapon = new Rocketlauncher(this.Engine).Initialize();
-                weapon.Position = this.Position;
-                return weapon;
-            });
+
             this.factories.Add(() =>
             {
                 var weapon = new Flamethrower(this.Engine).Initialize();
@@ -50,12 +45,12 @@ namespace Shooter.Gameplay.Weapons
 
         private void SpawnWeapon(Unit unit)
         {
-            if (this.currentWeapon != null && this.currentWeapon.IsClaimed)
+            if (this.currentWeapon != null && !this.currentWeapon.IsClaimed)
             {
-
+                // this.currentWeapon.Dispose();
             }
 
-            this.currentWeapon = this.factories[Random.Next(0, this.factories.Count - 1)]();
+            this.currentWeapon = this.factories[Random.Next(0, this.factories.Count)]();
 
             currentWeapon.Attach();
         }

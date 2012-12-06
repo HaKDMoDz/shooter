@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Shooter.Core.Farseer.Extensions.BodyExtensions" Collapsed="true">
+    <Position X="10.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Farseer\Extensions\BodyExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shooter.Core.Farseer.Extensions.CollisionEventArgs" Collapsed="true">
+    <Position X="14.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>Farseer\Extensions\CollisionEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shooter.Core.Farseer.Extensions.SeperationEventArgs" Collapsed="true">
+    <Position X="16" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>Farseer\Extensions\SeperationEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shooter.Core.Perspective" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="10.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAABAQCgAAAAAAAAECAAEAAAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Viewports\Perspective.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Shooter.Core.PerspectiveManager" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="12.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAAABAAAAQAAAAAAgEAAAAAAQBAgA=</HashCode>
+      <FileName>Viewports\PerspectiveManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Shooter.Core.ViewportProvider" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="16" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Viewports\ViewportProvider.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Shooter.Core.Camera" Collapsed="true">
+    <Position X="12.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAgEAAACBAAgAAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Camera.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shooter.Core.DebugLog" Collapsed="true">
+    <Position X="16" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>DebugLog.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shooter.Core.DebugLogger" Collapsed="true">
+    <Position X="6" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAEAAAAAAEgAAAAAAAAAAAAgCAAAAAAABAAAAAAA=</HashCode>
+      <FileName>DebugLogger.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shooter.Core.Engine" Collapsed="true">
+    <Position X="10.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAREAAAAQBIAAgEAQAAAQAAIEAgAAQAAQAAAAgBABAI=</HashCode>
+      <FileName>Engine.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shooter.Core.EngineTime" Collapsed="true">
+    <Position X="12.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAABAAAAAAIAAAAAAAAQAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EngineTime.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shooter.Core.GameObject" Collapsed="true">
+    <Position X="7.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAASAAAQIACAAEBACAAIACgAAABAABAAAAAAA=</HashCode>
+      <FileName>GameObject.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Shooter.Core.GameObjectExtensions" Collapsed="true">
+    <Position X="14.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAIAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameObjectExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shooter.Core.KeyboardCameraController" Collapsed="true">
+    <Position X="8.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAABIAAAAQAAAAAAAIAAAAAAABAAAAAAA=</HashCode>
+      <FileName>KeyboardCameraController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shooter.Core.Xna.Extensions.MouseStateExtensions" Collapsed="true">
+    <Position X="16" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAIACAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xna.Extensions\MouseStateExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shooter.Core.Xna.Extensions.PointExtensions" Collapsed="true">
+    <Position X="14.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xna.Extensions\PointExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shooter.Core.Xna.Extensions.SpriteBatchExtensions" Collapsed="true">
+    <Position X="10.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xna.Extensions\SpriteBatchExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shooter.Core.Xna.Extensions.Texture2DExtensions" Collapsed="true">
+    <Position X="12.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Xna.Extensions\Texture2DExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shooter.Core.Xna.Extensions.Vector2Extensions" Collapsed="true">
+    <Position X="14.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAQAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Xna.Extensions\Vector2Extensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="Shooter.Core.Rectangle2D" Collapsed="true">
+    <Position X="10.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAQAAAAAAAIAAAACACAAAAAAIA=</HashCode>
+      <FileName>Rectangle2D.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Interface Name="Shooter.Core.IPerspective" Collapsed="true">
+    <Position X="6" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAQAgAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Viewports\IPerspective.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Shooter.Core.IViewportProvider" Collapsed="true">
+    <Position X="6" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Viewports\IViewportProvider.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

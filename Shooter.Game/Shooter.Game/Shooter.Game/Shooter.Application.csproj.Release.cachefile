@@ -12,7 +12,8 @@ Content\Textures\Robot-Blue.xnb
 Content\Textures\Wall.xnb
 Content\Textures\Floor.xnb
 Content\Textures\Weapons\Pistol.xnb
-Content\Textures\Weapons\FrameThrower.xnb
 Content\Textures\Weapons\RocketLauncher.xnb
 Content\Textures\Weapons\Shotgun.xnb
 Content\Textures\Weapons\Bullet.xnb
+Content\Textures\Weapons\Flame.xnb
+Content\Textures\Weapons\FlameThrower.xnb

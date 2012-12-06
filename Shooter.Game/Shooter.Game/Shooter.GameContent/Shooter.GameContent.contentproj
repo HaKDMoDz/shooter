@@ -132,8 +132,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Textures\Weapons\FrameThrower.png">
-      <Name>FrameThrower</Name>
+    <Compile Include="Textures\Weapons\FlameThrower.png">
+      <Name>FlameThrower</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -151,6 +151,13 @@
   <ItemGroup>
     <Compile Include="Textures\Weapons\Bullet.png">
       <Name>Bullet</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\Weapons\Flame.png">
+      <Name>Flame</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
