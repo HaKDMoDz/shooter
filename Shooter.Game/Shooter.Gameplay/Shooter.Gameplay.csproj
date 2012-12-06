@@ -95,7 +95,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Logic\ICollisionDamager.cs" />
+    <Compile Include="Logic\IContactDamager.cs" />
     <Compile Include="Logic\IKill.cs" />
     <Compile Include="Logic\IPlayer.cs" />
     <Compile Include="Logic\IPlayerFire.cs" />
@@ -120,6 +120,8 @@
     <Compile Include="Powerups\Shield.cs" />
     <Compile Include="Powerups\SpeedBoost.cs" />
     <Compile Include="Tiler.cs" />
+    <Compile Include="Claims\IClaimable.cs" />
+    <Compile Include="Claims\IClaimer.cs" />
     <Compile Include="Weapons\Projectiles\Rocket.cs" />
     <Compile Include="Weapons\Rocketlauncher.cs" />
     <Compile Include="Weapons\Projectiles\Shot.cs" />

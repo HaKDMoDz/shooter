@@ -147,7 +147,7 @@ namespace Shooter.Gameplay
 
         private void Fire(EngineTime time)
         {
-            this.weapon.FireRequests.OnNext(Unit.Default);
+            this.weapon.FireRequests.OnNext(1.0f);
         }
 
         private void CollectWeapon(IFireable fireable)

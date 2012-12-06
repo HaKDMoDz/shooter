@@ -40,7 +40,7 @@ namespace Shooter.Gameplay.Weapons
         {
         }
 
-        public void Fire(Unit unit)
+        public void Fire(float unit)
         {
             var newBolt = new Bolt(this.Engine);
             
@@ -77,7 +77,7 @@ namespace Shooter.Gameplay.Weapons
             disposables.Add(
                 this.FireRequests.Take(1)
                     .Concat(
-                        Observable.Interval(TimeSpan.FromMilliseconds(250)).Take(1).Where(x => false).Select(x => Unit.Default))
+                        Observable.Interval(TimeSpan.FromMilliseconds(250)).Take(1).Where(x => false).Select(x => 1.0f))
                     .Repeat()
                     .Subscribe(this.Fire));
 

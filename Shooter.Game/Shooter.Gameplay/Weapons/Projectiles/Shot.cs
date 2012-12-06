@@ -7,10 +7,11 @@ using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
 using Shooter.Core;
 using Shooter.Core.Farseer.Extensions;
+using Shooter.Gameplay.Logic;
 
 namespace Shooter.Gameplay.Weapons.Projectiles
 {
-    public class Shot : GameObject
+    public class Shot : GameObject, IContactDamager
     {
         private Body body;
 
@@ -63,6 +64,11 @@ namespace Shooter.Gameplay.Weapons.Projectiles
         private void OnCollision(CollisionEventArgs args)
         {
             this.Dispose();
+        }
+
+        public IContactDamage GetContactDamage(IContactDamagable damagable)
+        {
+            return new ContactDamage(1.0f);
         }
     }
 }

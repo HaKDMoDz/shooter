@@ -135,6 +135,10 @@
       <Project>{76643214-A67D-4130-B63F-537528D87331}</Project>
       <Name>Shooter.Gameplay</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Shooter.Input\Shooter.Input.csproj">
+      <Project>{DD9BD37D-C2AE-43E4-B639-1E2B09696FA9}</Project>
+      <Name>Shooter.Input</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Shooter.GameContent\Shooter.GameContent.contentproj">
       <Name>Shooter.GameContent %28Content%29</Name>
       <XnaReferenceType>Content</XnaReferenceType>

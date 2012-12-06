@@ -19,9 +19,9 @@ namespace Shooter.Input.GamePad
         public ReactiveGamePadTriggers Triggers { get; private set; }
 
         public ReactiveGamePad(PlayerIndex playerIndex)
-            :this(playerIndex, ReactiveInputManager.DefaultScheduler)
+            : this(playerIndex, ReactiveInputManager.DefaultScheduler)
         {
-            
+
         }
 
         public ReactiveGamePad(PlayerIndex playerIndex, IScheduler scheduler)

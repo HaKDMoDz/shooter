@@ -47,6 +47,8 @@ namespace Shooter.Application
             var player4 = new Player(this.engine).Initialize().Attach();
             var playerController4 = new PlayerController(this.engine, player4, PlayerIndex.Four).Initialize().Attach();
 
+            var weapon = new Shotgun(this.engine).Initialize().Attach().Position = Vector2.UnitX * -5;
+
             var camera = new Camera();
 
             camera.VerticalUnits = 20f;

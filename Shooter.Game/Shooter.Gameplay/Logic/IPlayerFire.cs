@@ -1,6 +1,4 @@
-using Shooter.Gameplay.Logic;
-
-namespace Shooter.Application
+namespace Shooter.Gameplay.Logic
 {
     public interface IPlayerFire
     {

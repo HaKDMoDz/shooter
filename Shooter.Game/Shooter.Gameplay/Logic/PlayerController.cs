@@ -5,7 +5,6 @@ using System.Reactive.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using Shooter.Application;
 using Shooter.Core;
 using Shooter.Input.GamePad;
 using Shooter.Input.Keyboard;
@@ -32,10 +31,10 @@ namespace Shooter.Gameplay.Logic
                                 .Select(x => x.Position)
                                 .Subscribe(this.player.SetMovement));
 
-            attachments.Add(Observable.Merge(this.keyboard.PressAsObservable(Keys.W),
-                                             this.keyboard.PressAsObservable(Keys.A),
-                                             this.keyboard.PressAsObservable(Keys.S),
-                                             this.keyboard.PressAsObservable(Keys.D))
+            attachments.Add(this.keyboard.KeyStates.Where(x => x.Key == Keys.W ||
+                                                               x.Key == Keys.A ||
+                                                               x.Key == Keys.S ||
+                                                               x.Key == Keys.D)
                                 .Select(x =>
                                             {
                                                 var movement = Vector2.Zero;
@@ -59,8 +58,13 @@ namespace Shooter.Gameplay.Logic
                                                 {
                                                     movement += Vector2.UnitX;
                                                 }
+                                                if (movement.LengthSquared() > 0)
+                                                {
+                                                    movement.Normalize();
+                                                }
 
-                                                return Vector2.Normalize(movement);
+                                                return movement;
+
                                             }).Subscribe(this.player.SetMovement));
 
             // Turret

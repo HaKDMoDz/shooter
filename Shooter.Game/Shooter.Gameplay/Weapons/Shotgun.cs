@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework;
 using Shooter.Core;
 using Shooter.Core.Farseer.Extensions;
 using Shooter.Core.Xna.Extensions;
+using Shooter.Gameplay.Claims;
 using Shooter.Gameplay.Weapons.Projectiles;
 
 namespace Shooter.Gameplay.Weapons
@@ -18,7 +19,7 @@ namespace Shooter.Gameplay.Weapons
     {
         private Body body;
         private float projectileSpeed = 35f;
-        private RobotOld owner;
+        private IClaimer claimer;
         public Vector2 Position { get { return this.body.Position; } set { this.body.Position = value; } }
 
         public int magazineSize = 200;
@@ -35,7 +36,7 @@ namespace Shooter.Gameplay.Weapons
         {
         }
 
-        public void Fire(Unit unit)
+        public void Fire(float unit)
         {
             var now = DateTime.UtcNow;
 
@@ -57,7 +58,7 @@ namespace Shooter.Gameplay.Weapons
                 var speedChange = random.NextDouble() + 1;
                 var direction = (this.body.Rotation + (float)offset).RadiansToDirection();
 
-                newShot.Velocity = direction * this.projectileSpeed * (float)speedChange + this.owner.LinearVelocity;
+                newShot.Velocity = direction * this.projectileSpeed * (float)speedChange + this.claimer.LinearVelocity;
                 newShot.Rotation = this.body.Rotation;
                 newShot.Position = this.body.Position + direction * 2f;
             }
@@ -71,6 +72,7 @@ namespace Shooter.Gameplay.Weapons
             Random random = new Random();
             return random;
         }
+
         protected override void OnInitialize(ICollection<IDisposable> disposables)
         {
             this.body = BodyFactory.CreateRectangle(this.Engine.World, 1f, 1f, 1f);
@@ -81,12 +83,12 @@ namespace Shooter.Gameplay.Weapons
 
             disposables.Add(this.Engine.Updates
                                 .ObserveOn(this.Engine.PostPhysicsScheduler)
-                                .Where(x => this.owner != null)
+                                .Where(x => this.claimer != null)
                                 .Subscribe(this.LinkPhysics));
 
             disposables.Add(this.Engine.Updates
                                 .ObserveOn(this.Engine.UpdateScheduler)
-                                .Where(x => this.owner != null)
+                                .Where(x => this.claimer != null)
                                 .Subscribe(this.Update));
 
             disposables.Add(this.FireRequests.Subscribe(this.Fire));
@@ -95,12 +97,18 @@ namespace Shooter.Gameplay.Weapons
 
         protected override void OnAttach(ICollection<IDisposable> attachments)
         {
-            this.owner = null;
+            this.claimer = null;
             attachments.Add(this.body.OnCollisionAsObservable()
                                 .ObserveOn(this.Engine.PostPhysicsScheduler)
-                                .Where(x => this.owner == null && x.FixtureB.Body.UserData is RobotOld)
-                                .Select(x => (RobotOld)x.FixtureB.Body.UserData)
-                                .Subscribe(this.SetOwner));
+                                .Where(x => this.claimer == null)
+                                .Select(x => x.FixtureB.Body.UserData)
+                                .OfType<IClaimer>()
+                                .Subscribe(this.Claim));
+
+
+            attachments.Add(this.ClaimRequests
+                                .Where(x => this.claimer == null)
+                                .Subscribe(this.Claim));
         }
 
         private void Update(EngineTime time)
@@ -111,13 +119,14 @@ namespace Shooter.Gameplay.Weapons
 
         private void LinkPhysics(EngineTime time)
         {
-            this.body.Position = this.owner.Position;
+            this.body.Position = this.claimer.Position;
         }
 
-        private void SetOwner(RobotOld robot)
+        private void Claim(IClaimer owner)
         {
             this.Detach();
-            this.owner = robot;
+            this.claimer = owner;
+            this.claimer.Claims.OnNext(this);
         }
     }
 }
