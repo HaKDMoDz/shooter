@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Reactive.Subjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Shooter.Core.Xna.Extensions;
@@ -13,6 +14,10 @@ namespace Shooter.Core
 
         public Camera Camera { get; private set; }
 
+        IObservable<EngineTime> IPerspective.Draws { get { return this.Draws; } }
+
+        public ISubject<EngineTime> Draws { get; private set; }
+
         public Perspective(PerspectiveManager manager, Camera camera, Func<Rectangle, Viewport> viewportFactory)
             : this(manager, camera, new ViewportProvider(viewportFactory))
         {
@@ -23,6 +28,7 @@ namespace Shooter.Core
             this.manager = manager;
             this.Camera = camera;
             this.viewportProvider = viewportProvider;
+            this.Draws = new Subject<EngineTime>();
         }
 
         public Matrix GetMatrix(Rectangle rectangle)

@@ -7,10 +7,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Shooter.Core
 {
-    public class PerspectiveManager : IEnumerable<IPerspective>
+    public class PerspectiveManager : IEnumerable<Perspective>
     {
         private readonly Engine engine;
-        public List<IPerspective> Perspectives { get; private set; }
+        public List<Perspective> Perspectives { get; private set; }
 
         public IPerspective CurrentPerspective { get; set; }
 
@@ -19,14 +19,14 @@ namespace Shooter.Core
         public PerspectiveManager(Engine engine)
         {
             this.engine = engine;
-            this.Perspectives = new List<IPerspective>();
+            this.Perspectives = new List<Perspective>();
             this.Bounds = this.engine.Game.Window.ClientBounds;
 
             // BUG: This is a memory leak ->
             this.engine.Game.GraphicsDevice.DeviceReset += (a, b) => this.Bounds = this.engine.Game.Window.ClientBounds;
         }
 
-        public IEnumerator<IPerspective> GetEnumerator()
+        public IEnumerator<Perspective> GetEnumerator()
         {
             return this.Perspectives.GetEnumerator();
         }

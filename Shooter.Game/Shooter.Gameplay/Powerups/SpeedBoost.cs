@@ -9,6 +9,7 @@ using Shooter.Core;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using Shooter.Core.Farseer.Extensions;
+using Shooter.Gameplay.Claims;
 
 namespace Shooter.Gameplay.Powerups
 {
@@ -47,11 +48,11 @@ namespace Shooter.Gameplay.Powerups
             attachments.Add(this.body.OnCollisionAsObservable()
                                 .ObserveOn(this.Engine.PostPhysicsScheduler)
                                 .Select(x => x.FixtureB.Body.UserData)
-                                .OfType<RobotOld>()
+                                .OfType<IClaimer>()
                                 .Subscribe(this.Collision));
         }
 
-        private void Collision(RobotOld robot)
+        private void Collision(IClaimer robot)
         {
             Observable.Interval(TimeSpan.FromSeconds(15)).Take(1).Subscribe(x =>
                 this.shouldRemove = true

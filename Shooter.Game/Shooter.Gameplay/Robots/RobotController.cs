@@ -11,13 +11,13 @@ using Shooter.Input.Keyboard;
 
 namespace Shooter.Gameplay.Logic
 {
-    public class PlayerRobotController : GameObject
+    public class RobotController : GameObject
     {
-        private readonly PlayerRobot playerRobot;
+        private readonly Robot playerRobot;
         private readonly ReactiveGamePad gamepad;
         private readonly ReactiveKeyboard keyboard;
 
-        public PlayerRobotController(Engine engine, PlayerRobot playerRobot, PlayerIndex playerIndex)
+        public RobotController(Engine engine, Robot playerRobot, PlayerIndex playerIndex)
             : base(engine)
         {
             this.playerRobot = playerRobot;

@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework;
 using Shooter.Core;
 using Shooter.Core.Farseer.Extensions;
 using Shooter.Core.Xna.Extensions;
+using Shooter.Gameplay.Claims;
 using Shooter.Gameplay.Logic;
 using Shooter.Gameplay.Weapons.Projectiles;
 
@@ -19,7 +20,7 @@ namespace Shooter.Gameplay.Weapons
     {
         private Body body;
         private float projectileSpeed = 30f;
-        private RobotOld owner;
+        private IClaimer owner;
         public Vector2 Position { get { return this.body.Position; } set { this.body.Position = value; } }
 
         public Rocketlauncher(Engine engine)
@@ -71,8 +72,8 @@ namespace Shooter.Gameplay.Weapons
             this.owner = null;
             attachments.Add(this.body.OnCollisionAsObservable()
                                 .ObserveOn(this.Engine.PostPhysicsScheduler)
-                                .Where(x => this.owner == null && x.FixtureB.Body.UserData is RobotOld)
-                                .Select(x => (RobotOld)x.FixtureB.Body.UserData)
+                                .Where(x => this.owner == null && x.FixtureB.Body.UserData is IClaimer)
+                                .Select(x => (IClaimer)x.FixtureB.Body.UserData)
                                 .Subscribe(this.SetOwner));
         }
 
@@ -87,7 +88,7 @@ namespace Shooter.Gameplay.Weapons
             this.body.Position = this.owner.Position;
         }
 
-        private void SetOwner(RobotOld robot)
+        private void SetOwner(IClaimer robot)
         {
             this.Detach();
             this.owner = robot;

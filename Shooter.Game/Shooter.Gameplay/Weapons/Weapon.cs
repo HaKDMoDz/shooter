@@ -17,14 +17,20 @@ namespace Shooter.Gameplay.Weapons
             this.Fires          = new Subject<Unit>();
             this.Reloads        = new Subject<Unit>();
             this.Kickbacks      = new Subject<Vector2>();
-            this.ClaimRequests  = new Subject<IClaimer>();
+            this.ClaimRequests = new Subject<IClaimer>();
         }
 
-        protected Subject<IFireRequest> FireRequests { get; private set; }
+        public Subject<IFireRequest> FireRequests { get; private set; }
         protected Subject<Unit> ReloadRequests { get; private set; }
         protected Subject<Unit> Fires { get; private set; }
         protected Subject<Unit> Reloads { get; private set; }
         protected Subject<Vector2> Kickbacks { get; private set; }
+
+        public bool IsClaimed
+        {
+            get { return false; }
+        }
+
         protected Subject<IClaimer> ClaimRequests { get; private set; }
 
         IObserver<IClaimer> IClaimable.ClaimRequests

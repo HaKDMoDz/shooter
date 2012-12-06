@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Text;
 using FarseerPhysics.Dynamics;
@@ -10,20 +11,24 @@ using Shooter.Core;
 using Shooter.Core.Farseer.Extensions;
 using System.Reactive.Subjects;
 using System.Reactive;
+using Shooter.Core.Xna.Extensions;
+using Shooter.Gameplay.Claims;
+using Shooter.Gameplay.Weapons.Projectiles;
 
 namespace Shooter.Gameplay.Weapons
 {
     public class Pistol : Weapon
     {
         private Body body;
-        private float projectileSpeed = 50f;
-        private RobotOld owner;
-        public Vector2 Position { get { return this.body.Position; } set { this.body.Position = value; } }
+        private IClaimer claimer;
+        private const float BulletSpeed = 15;
 
-        //Sets the time of last fired projectile.
-        private DateTime lastFire = DateTime.MinValue;
+        public Vector2 Position
+        {
+            get { return this.body.Position; }
+            set { this.body.Position = value; }
+        }
 
-        //Basic Constructor
         public Pistol(Engine engine)
             : base(engine)
         {
@@ -32,54 +37,59 @@ namespace Shooter.Gameplay.Weapons
         protected override void OnInitialize(ICollection<IDisposable> disposables)
         {
             this.body = BodyFactory.CreateCircle(this.Engine.World, 0.5f, 1f);
+            this.body.Enabled = false;
             this.body.IsSensor = true;
             this.body.UserData = this;
 
             disposables.Add(this.body);
 
+            disposables.Add(
+                this.FireRequests.Take(1)
+                    .Concat(
+                        Observable.Interval(TimeSpan.FromMilliseconds(100)).Take(1)
+                            .Where(x => false)
+                            .Select<long, IFireRequest>(x => null))
+                    .Repeat()
+                    .ObserveOn(this.Engine.PostPhysicsScheduler)
+                    .Subscribe(this.Fire));
+
             disposables.Add(this.Engine.Updates
                                 .ObserveOn(this.Engine.PostPhysicsScheduler)
-                                .Where(x => this.owner != null)
+                                .Where(x => this.claimer != null)
                                 .Subscribe(this.LinkPhysics));
-
-            disposables.Add(this.Engine.Updates
-                                .ObserveOn(this.Engine.UpdateScheduler)
-                                .Where(x => this.owner != null)
-                                .Subscribe(this.Update));
-
-            //disposables.Add(
-            //    this.FireRequests.Take(1)
-            //        .Concat(
-            //            Observable.Interval(TimeSpan.FromMilliseconds(250)).Take(1).Where(x => false).Select(x => Unit.Default))
-            //        .Repeat()
-            //        .Subscribe(this.Fire));
         }
 
         protected override void OnAttach(ICollection<IDisposable> attachments)
         {
-            this.owner = null;
-            attachments.Add(this.body.OnCollisionAsObservable()
-                                .ObserveOn(this.Engine.PostPhysicsScheduler)
-                                .Where(x => this.owner == null && x.FixtureB.Body.UserData is RobotOld)
-                                .Select(x => (RobotOld)x.FixtureB.Body.UserData)
-                                .Subscribe(this.SetOwner));
+            this.claimer = null;
+            this.body.Enabled = true;
+
+            attachments.Add(Disposable.Create(() => this.body.Enabled = false));
+
+            attachments.Add(this.ClaimRequests
+                                .Where(x => this.claimer == null)
+                                .Subscribe(this.Claim));
         }
 
-        private void Update(EngineTime time)
+        public void Fire(IFireRequest request)
         {
-            var direction = this.Engine.Input.GetMouse().KnownWorldPosition - this.Position;
-            this.body.Rotation = (float)Math.Atan2(direction.Y, direction.X);
+            var shot = new Shot(this.Engine, request).Initialize().Attach();
+
+            shot.Position = this.body.Position;
+            shot.Velocity = this.claimer.LinearVelocity + this.body.Rotation.RadiansToDirection() * BulletSpeed;
         }
 
         private void LinkPhysics(EngineTime time)
         {
-            this.body.Position = this.owner.Position;
+            this.body.Position = this.claimer.Position;
+            this.body.Rotation = this.claimer.Rotation;
         }
 
-        private void SetOwner(RobotOld robot)
+        private void Claim(IClaimer claimer)
         {
             this.Detach();
-            this.owner = robot;
+            this.claimer = claimer;
+            this.claimer.Claims.OnNext(this);
         }
     }
 }

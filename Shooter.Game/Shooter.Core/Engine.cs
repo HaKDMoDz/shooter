@@ -10,6 +10,7 @@ using FarseerPhysics.DebugViews;
 using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Shooter.Core.Xna.Extensions;
 using Shooter.Input;
 using Shooter.Input.Keyboard;
 using Shooter.Input.Mouse;
@@ -28,6 +29,7 @@ namespace Shooter.Core
             this.Game = game;
             this.World = new World(Vector2.Zero);
             this.PerspectiveManager = new PerspectiveManager(this);
+            this.SpriteBatch = new SpriteBatch(this.Game.GraphicsDevice);
             this.UISpriteBatch = new SpriteBatch(this.Game.GraphicsDevice);
 
             this.worldView = new DebugViewXNA(this.World);
@@ -76,7 +78,8 @@ namespace Shooter.Core
 
         public HistoricalScheduler PostDrawScheduler { get; private set; }
 
-        public SpriteBatch UISpriteBatch { get; set; }
+        public SpriteBatch SpriteBatch { get; private set; }
+        public SpriteBatch UISpriteBatch { get; private set; }
 
         public void Update(GameTime gt)
         {
@@ -113,15 +116,26 @@ namespace Shooter.Core
             {
                 foreach (var perspective in this.PerspectiveManager)
                 {
-                    this.Game.GraphicsDevice.Viewport = perspective.GetViewport(this.PerspectiveManager.Bounds);
+                    var viewport = perspective.GetViewport(this.PerspectiveManager.Bounds);
+
+                    this.Game.GraphicsDevice.Viewport = viewport;
                     this.PerspectiveManager.CurrentPerspective = perspective;
 
-                    this.UISpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null);
-                    this.perspectiveDraws.OnNext(time);
-                    this.UISpriteBatch.End();
 
-                    var matrix = perspective.GetMatrix(this.PerspectiveManager.Bounds);
-                    this.worldView.RenderDebugData(ref matrix);
+                    var matrix = perspective.GetMatrix(this.PerspectiveManager.Bounds) *
+                                 SpriteBatchExtensions.GetUndoMatrix(viewport);
+
+                    var physicsViewMatrix = perspective.GetMatrix(this.PerspectiveManager.Bounds);
+                    this.worldView.RenderDebugData(ref physicsViewMatrix);
+
+                    this.SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, matrix);
+                    this.UISpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+                    this.perspectiveDraws.OnNext(time);
+                    perspective.Draws.OnNext(time);
+                    //this.PerspectiveScheduler.AdvanceTo(now);
+                    //this.PerspectiveHudScheduler.AdvanceTo(now);
+                    this.SpriteBatch.End();
+                    this.UISpriteBatch.End();
                 }
             }
 

@@ -17,5 +17,10 @@ namespace Shooter.Core.Xna.Extensions
         {
             return MathHelper.ToRadians(degrees).RadiansToDirection();
         }
+
+        public static float ToAngle(this Vector2 vector)
+        {
+            return (float)Math.Atan2(vector.Y, vector.X);
+        }
     }
 }

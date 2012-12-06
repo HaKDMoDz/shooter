@@ -45,6 +45,13 @@ namespace Shooter.Gameplay
             disposables.Add(this.deaths.Subscribe(this.OnDeath));
         }
 
+        protected override void OnAttach(ICollection<IDisposable> attachments)
+        {
+            //attachments.Add(this.Engine.Draws
+            //                    .ObserveOn(this.Engine.PostDrawScheduler)
+            //                    .Subscribe(this.Draw));
+        }
+
         public void OnDeath(IKill kill)
         {
             this.scores[kill.Killer]++;
@@ -58,13 +65,5 @@ namespace Shooter.Gameplay
         }
 
         protected Subject<Unit> GameOver { get; private set; }
-
-        public void Start()
-        {
-            foreach (var player in players)
-            {
-                player.Spawn(this.spawnPointProvider.GetSpawnPoint(player));
-            }
-        }
     }
 }

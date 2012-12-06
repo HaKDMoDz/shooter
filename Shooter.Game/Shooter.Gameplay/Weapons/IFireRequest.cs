@@ -1,3 +1,4 @@
+using FarseerPhysics.Dynamics;
 using Shooter.Gameplay.Logic;
 
 namespace Shooter.Gameplay.Weapons
@@ -6,5 +7,6 @@ namespace Shooter.Gameplay.Weapons
     {
         IPlayer Player { get; }
         float Amount { get; }
+        Body Body { get; }
     }
 }

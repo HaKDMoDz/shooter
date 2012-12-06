@@ -46,6 +46,7 @@ namespace Shooter.Application
             this.engine = new Engine(this);
 
             var map = new OhSoSymmetrical(this.engine);
+            var tiler = new Tiler(this.engine).Initialize().Attach();
 
             var player1 = this.CreatePlayer("Player1", PlayerTeam.Red, PlayerIndex.One);
             var player2 = this.CreatePlayer("Player2", PlayerTeam.Blue, PlayerIndex.Two);
@@ -54,8 +55,9 @@ namespace Shooter.Application
 
             map.Initialize().Attach();
 
-            new SlayerGame(this.engine, map, new[] {player1.Player, player2.Player, player3.Player, player4.Player}, 10)
-                .Start();
+            new SlayerGame(this.engine, map, new[] {player1.Player, player2.Player, player3.Player, player4.Player}, 1)
+                .Initialize()
+                .Attach();
         }
 
         protected override void Update(GameTime gameTime)
@@ -80,23 +82,8 @@ namespace Shooter.Application
 
         private PlayerStuffs CreatePlayer(string name, PlayerTeam team, PlayerIndex playerIndex)
         {
-            var camera = new Camera(15.0f);
+            var camera = new Camera(12.0f);
             var cameraController = new FollowingCameraController(this.engine, camera, null).Initialize().Attach();
-            var player = new Player(name, team,
-                                     (thePlayer, spawnPoint) =>
-                                     {
-                                         var playerRobot = new PlayerRobot(this.engine, thePlayer).Initialize().Attach();
-                                         playerRobot.Position = spawnPoint.Position;
-                                         cameraController.Target = playerRobot;
-
-                                         // Default Weapon
-                                         ((IClaimable) new Shotgun(this.engine).Initialize().Attach())
-                                             .ClaimRequests.OnNext(playerRobot);
-
-                                         return playerRobot;
-                                     },
-                                     playerRobot => new PlayerRobotController(this.engine, playerRobot, playerIndex).Initialize().Attach()
-                );
 
             Perspective perspective;
 
@@ -131,6 +118,23 @@ namespace Shooter.Application
                             new Viewport(bounds.Width / 2, bounds.Height / 2, bounds.Width / 2, bounds.Height / 2));
                     break;
             }
+
+            var player = new Player(name, team, perspective,
+                                     (thePlayer, spawnPoint) =>
+                                         {
+                                             var playerRobot =
+                                                 new Robot(this.engine, thePlayer, perspective).Initialize().Attach();
+
+                                         // Default Weapon
+                                         ((IClaimable)new Pistol(this.engine).Initialize().Attach())
+                                             .ClaimRequests.OnNext(playerRobot);
+                                         playerRobot.Position = spawnPoint.Position;
+                                         cameraController.Target = playerRobot;
+
+                                         return playerRobot;
+                                     },
+                                     playerRobot => new RobotController(this.engine, playerRobot, playerIndex).Initialize().Attach()
+                );
 
             return new PlayerStuffs(player, camera, cameraController, perspective);
         }
